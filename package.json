@@ -5,11 +5,39 @@
   "description": "An online store.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "https://royalpinto@bitbucket.org/royalpinto/aswat-store.git"
   },
-  "author": "Royal Pinto <royalpinto@gmail.com>"
+  "author": "Royal Pinto <royalpinto@gmail.com>",
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-config-google": "^0.5.0"
+  },
+  "eslintConfig": {
+    "extends": "google",
+    "rules": {
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "no-multiple-empty-lines": [
+        2,
+        {
+          "max": 2,
+          "maxEOF": 1
+        }
+      ],
+      "indent": [
+        2,
+        4,
+        {
+          "SwitchCase": 1
+        }
+      ]
+    }
+  }
 }
