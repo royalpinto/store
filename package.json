@@ -1,0 +1,15 @@
+{
+  "name": "aswat-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An online store.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://royalpinto@bitbucket.org/royalpinto/aswat-store.git"
+  },
+  "author": "Royal Pinto <royalpinto@gmail.com>"
+}
