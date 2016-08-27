@@ -11,6 +11,7 @@ var passport = require('passport');
 var passportLocal = require('passport-local');
 var mongoose = require('mongoose');
 
+var routes = require('./routes/');
 var users = require('./routes/users');
 var products = require('./routes/products');
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // to avoid security/performance issues with using large limit (?limit=10000)
 app.use(paginate.middleware(10, 50));
 
+app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
 
