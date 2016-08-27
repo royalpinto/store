@@ -20,4 +20,14 @@ var UserSchema = new mongoose.Schema({
 UserSchema.plugin(passportLocalMongoose);
 
 
+// Hide internal password specific fields.
+UserSchema.method('toJSON', function() {
+    var user = this.toObject();
+    delete user.salt;
+    delete user.hash;
+    delete user.__v;
+    return user;
+});
+
+
 module.exports = mongoose.model('User', UserSchema);
