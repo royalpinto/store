@@ -5,9 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var paginate = require('express-paginate');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var passport = require('passport');
+var passportLocal = require('passport-local');
+var mongoose = require('mongoose');
 
 var users = require('./routes/users');
 var products = require('./routes/products');
+
+var User = require('./models/user');
 
 var app = express();
 
@@ -17,6 +24,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(session({
+    secret: 'foo',
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+    }),
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // The default limit and max limit to be used.
@@ -26,6 +43,10 @@ app.use(paginate.middleware(10, 50));
 
 app.use('/users', users);
 app.use('/products', products);
+
+passport.use(new passportLocal.Strategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
