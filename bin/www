@@ -10,6 +10,10 @@ var config = require('config');
 var app = require('../app');
 var server = http.createServer(app);
 
+// mpromise (mongoose's default promise library) is deprecated
+// Use the default Promise from node.
+mongoose.Promise = global.Promise;
+
 /**
  * Event listener for HTTP server "listening" event.
  */
