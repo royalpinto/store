@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var paginate = require('express-paginate');
 
 var users = require('./routes/users');
 
@@ -16,6 +17,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// The default limit and max limit to be used.
+// This is to parse limit and page number passed and
+// to avoid security/performance issues with using large limit (?limit=10000)
+app.use(paginate.middleware(10, 50));
 
 app.use('/users', users);
 
