@@ -1,0 +1,8 @@
+{
+    "db": {
+        "uri": "mongodb://localhost/store_test"
+    },
+    "server": {
+        "port": 3000
+    }
+}
