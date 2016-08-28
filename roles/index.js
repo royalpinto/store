@@ -14,6 +14,9 @@ roles.allow([{
     allows: [{
         resources: 'products',
         permissions: ['read'],
+    }, {
+        resources: 'cart',
+        permissions: '*',
     }],
 }, {
     roles: ['admin'],
