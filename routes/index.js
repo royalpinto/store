@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var router = new express.Router();
+var roles = require('./../roles');
 var User = require('./../models/user');
 
 
@@ -10,6 +11,9 @@ router.post('/register', function(req, res, next) {
         if (err) {
             return next(err);
         }
+
+        // The user will be assinged with a default role: `member`.
+        roles.addUserRoles(user.username, ['member']);
 
         passport.authenticate('local')(req, res, function() {
             res.json(user);
