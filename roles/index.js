@@ -27,7 +27,6 @@ roles.allow([{
 roles.authorize = function(resource, permissions) {
     return function(req, res, next) {
         if (req.isAuthenticated()) {
-            roles.areAnyRolesAllowed('member', resource, permissions,
             roles.isAllowed(req.user.username, resource, permissions,
                 function(err, allowed) {
                     if (err) {
