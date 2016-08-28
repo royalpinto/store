@@ -9,17 +9,19 @@ var roles = new acl(
 /* eslint-enable */
 
 
-roles.allow([
-    {
-        roles: ['guest', 'member'],
-        allows: [
-            {
-                resources: 'products',
-                permissions: ['get'],
-            },
-        ],
-    },
-]);
+roles.allow([{
+    roles: ['member'],
+    allows: [{
+        resources: 'products',
+        permissions: ['read'],
+    }],
+}, {
+    roles: ['admin'],
+    allows: [{
+        resources: 'products',
+        permissions: '*',
+    }],
+}]);
 
 
 roles.authorize = function(resource, permissions) {
