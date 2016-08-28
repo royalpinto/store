@@ -1,10 +1,13 @@
 var express = require('express');
 var router = new express.Router();
 var Product = require('./../models/product');
+var roles = require('./../roles');
+
+var authorize = roles.authorize;
 
 
 /* POST method create a product. */
-router.post('/', function(req, res, next) {
+router.post('/', authorize('products', 'create'), function(req, res, next) {
     var product = new Product(req.body);
 
     // save the product and check for errors
@@ -57,7 +60,7 @@ router.get('/:id/', function(req, res, next) {
 });
 
 /* PUT method to update a product. */
-router.put('/:id/', function(req, res, next) {
+router.put('/:id/', authorize('products', 'edit'), function(req, res, next) {
     Product.findByIdAndUpdate(req.params.id, req.body, function(err, product) {
         if (err) {
             return next(err);
@@ -72,7 +75,7 @@ router.put('/:id/', function(req, res, next) {
 });
 
 /* DELETE method to delete a product. */
-router.delete('/:id/', function(req, res, next) {
+router.delete('/:id/', authorize('products', 'delete'), function(req, res, next) {
     Product.findByIdAndRemove(req.params.id, function(err, product) {
         if (err) {
             return next(err);
