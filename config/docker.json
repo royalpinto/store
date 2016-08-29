@@ -1,0 +1,8 @@
+{
+    "db": {
+        "uri": "mongodb://db:27017/store"
+    },
+    "server": {
+        "port": 3000
+    }
+}
