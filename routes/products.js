@@ -22,10 +22,13 @@ router.post('/', authorize('products', 'create'), function(req, res, next) {
 
 /* GET method to fetch products. */
 router.get('/', function(req, res, next) {
+    var filter = {};
     var search = req.query.search;
-    Product.find({
-        name: search ? new RegExp(search, 'i') : null,
-    }, null, {
+    if (search) {
+        filter.name = new RegExp(search, 'i');
+    }
+
+    Product.find(filter, null, {
         skip: req.skip,
         limit: req.query.limit,
     }, function(err, products) {
