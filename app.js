@@ -15,6 +15,7 @@ var routes = require('./routes/');
 var users = require('./routes/users');
 var products = require('./routes/products');
 var categories = require('./routes/categories');
+var cart = require('./routes/cart');
 
 var User = require('./models/user');
 
@@ -47,6 +48,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
 app.use('/categories', categories);
+app.use('/cart/', cart);
 
 passport.use(new passportLocal.Strategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
