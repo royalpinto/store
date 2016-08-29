@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 var routes = require('./routes/');
 var users = require('./routes/users');
 var products = require('./routes/products');
+var categories = require('./routes/categories');
 
 var User = require('./models/user');
 
@@ -45,6 +46,7 @@ app.use(paginate.middleware(10, 50));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
+app.use('/categories', categories);
 
 passport.use(new passportLocal.Strategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
