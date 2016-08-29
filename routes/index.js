@@ -3,6 +3,7 @@ var passport = require('passport');
 var router = new express.Router();
 var roles = require('./../roles');
 var User = require('./../models/user');
+var Cart = require('./../models/cart');
 
 
 router.post('/register', function(req, res, next) {
@@ -12,11 +13,19 @@ router.post('/register', function(req, res, next) {
             return next(err);
         }
 
-        // The user will be assinged with a default role: `member`.
-        roles.addUserRoles(user.username, ['member']);
-
-        passport.authenticate('local')(req, res, function() {
-            res.json(user);
+        // Initialize user documents and roles.
+        Promise.all([
+            // Assign user with a default role: member.
+            roles.addUserRoles(user.username, ['member']),
+            // Create a cart for user.
+            // Rather than checking everytime if cart is available
+            // while adding a product.
+            Cart.create({userId: user._id}),
+        ])
+        .then(function() {
+            passport.authenticate('local')(req, res, function() {
+                res.json(user);
+            });
         });
     });
 });
