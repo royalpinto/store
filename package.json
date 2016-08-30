@@ -1,8 +1,8 @@
 {
-  "name": "aswat-store",
+  "name": "store",
   "version": "1.0.0",
   "private": true,
-  "description": "An online store.",
+  "description": "A simple shopping experience.",
   "main": "app.js",
   "scripts": {
     "test": "mocha test",
