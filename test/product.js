@@ -76,7 +76,7 @@ describe('Products', function() {
     describe('/GET products', function() {
         it('It should GET the products', function(done) {
             chai.request(server)
-            .get('/products/')
+            .get('/api/products/')
             .end(function(err, res) {
                 chai.assert.equal(err, null);
                 res.should.have.status(200);
