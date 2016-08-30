@@ -9,6 +9,7 @@ var config = require('config');
 var mongoose = require('mongoose');
 var server = require('../app');
 var Product = require('../models/product');
+var User = require('../models/user');
 
 chai.should();
 
@@ -23,7 +24,11 @@ chai.use(chaiHttp);
 
 describe('Products', function() {
     beforeEach(function(done) {
-        Product.remove({}, function() {
+        Product.remove({})
+        .then(function() {
+            return User.remove({});
+        })
+        .then(function() {
             done();
         });
     });
