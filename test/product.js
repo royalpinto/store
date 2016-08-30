@@ -38,25 +38,37 @@ describe('Products', function() {
         price: 90,
     };
 
+    // Test to check Product creation is allowed only with login.
     describe('/POST product', function() {
-        it('It should POST a product', function(done) {
+        it('It should fail to POST a product without login.', function(done) {
             chai.request(server)
-            .post('/products/')
+            .post('/api/products/')
             .send(productdata)
-            .end(function(err, res) {
-                chai.assert.equal(err, null);
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-                res.body.should.have.property('_id');
-                res.body.should.have.property('name');
-                res.body.should.have.property('price');
-                // Check if it is really created in the database.
-                Product.findById(res.body._id, function(err, insertedProduct) {
-                    chai.assert.equal(err, null);
-                    chai.assert.equal(productdata.name, insertedProduct.name);
-                    chai.assert.equal(productdata.price, insertedProduct.price);
-                    done();
-                });
+            .end(function(err) {
+                err.should.have.status(401);
+                done();
+            });
+        });
+    });
+
+    // Test to check Product creation is not allowed for a regular user.
+    describe('/POST product', function() {
+        it("Regular user is allowed to POST a product.", function(done) {
+            var agent = chai.request.agent(server);
+            agent
+            .post('/api/register/')
+            .send({
+                username: "royalpinto",
+                email: "royalpinto@gmail.com",
+                name: "Lohith Royal Pinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent.post('/api/products/').send(productdata);
+            })
+            .catch(function(err) {
+                chai.expect(err).to.have.status(403);
+                done();
             });
         });
     });
