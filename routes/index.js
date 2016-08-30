@@ -37,7 +37,7 @@ router.post('/register', function(req, res, next) {
         .then(function() {
             passport.authenticate('local')(req, res, function() {
                 res.location('/api/login/');
-                res.send(201);
+                res.status(201).json({});
             });
         });
     });
