@@ -31,6 +31,7 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
+    "apidoc": "^0.16.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "eslint": "^2.9.0",
