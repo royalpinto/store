@@ -9,22 +9,26 @@ var roles = new acl(
 /* eslint-enable */
 
 
-roles.allow([{
-    roles: ['member'],
-    allows: [{
-        resources: 'products',
-        permissions: ['read'],
+// Initialize roles once db connection has been established.
+mongoose.connection.on('connected', function() {
+    roles.backend.db = mongoose.connection.db;
+    roles.allow([{
+        roles: ['member'],
+        allows: [{
+            resources: 'products',
+            permissions: ['read'],
+        }, {
+            resources: 'cart',
+            permissions: '*',
+        }],
     }, {
-        resources: 'cart',
-        permissions: '*',
-    }],
-}, {
-    roles: ['admin'],
-    allows: [{
-        resources: 'products',
-        permissions: '*',
-    }],
-}]);
+        roles: ['admin'],
+        allows: [{
+            resources: 'products',
+            permissions: '*',
+        }],
+    }]);
+});
 
 
 roles.authorize = function(resource, permissions) {
