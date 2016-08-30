@@ -36,7 +36,7 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.json(req.user);
+    res.status(204).send();
 });
 
 router.get('/logout', function(req, res) {
