@@ -44,11 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // to avoid security/performance issues with using large limit (?limit=10000)
 app.use(paginate.middleware(10, 50));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/products', products);
-app.use('/categories', categories);
-app.use('/cart/', cart);
+app.use('/api/', routes);
+app.use('/api/users', users);
+app.use('/api/products', products);
+app.use('/api/categories', categories);
+app.use('/api/cart/', cart);
 
 passport.use(new passportLocal.Strategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
