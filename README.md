@@ -7,9 +7,11 @@ Simple shopping experience.
 A project developed using `node` to provide simple shopping experience.
 
 #### Features:
- * Quick setup using `docker`.
- * Authentication and Authorizations.
- * REST APIs.
+ * REST APIs with complete documentation using `apidoc`.
+ * Session Authentication using `passport` (mongo backend).
+ * Access control using `acl`.
+ * Quick setup using `docker` and `npm`.
+ * Test cases using `mocha` and `chai`.
 
 #### Installation
 
