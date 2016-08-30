@@ -142,19 +142,21 @@ router.put('/:id/', authorize('products', 'edit'), function(req, res, next) {
  *
  * @apiSuccess (Success 204) {Header} 204 No Content
  */
-router.delete('/:id/', authorize('products', 'delete'), function(req, res, next) {
-    Product.findByIdAndRemove(req.params.id, function(err, product) {
-        if (err) {
-            return next(err);
-        }
+router.delete('/:id/', authorize('products', 'delete'),
+    function(req, res, next) {
+        Product.findByIdAndRemove(req.params.id, function(err, product) {
+            if (err) {
+                return next(err);
+            }
 
-        if (!product) {
-            return res.status(404).send("Not found");
-        }
+            if (!product) {
+                return res.status(404).send("Not found");
+            }
 
-        res.status(204).send();
-    });
-});
+            res.status(204).send();
+        });
+    }
+);
 
 
 module.exports = router;
