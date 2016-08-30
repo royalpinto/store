@@ -86,21 +86,4 @@ describe('Products', function() {
             });
         });
     });
-
-    describe('/GET/:id/ product', function() {
-        it('It should GET a product by the given id', function(done) {
-            var product = new Product(productdata);
-            product.save()
-            .then(function(product) {
-                chai.assert.equal(null);
-                chai.request(server)
-                .get('/products/' + product._id + '/')
-                .end(function(err, res) {
-                    chai.assert.equal(err, null);
-                    res.should.have.status(200);
-                    done();
-                });
-            });
-        });
-    });
 });
