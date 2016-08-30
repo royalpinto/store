@@ -23,7 +23,6 @@ var ProductSchema = new mongoose.Schema({
     },
     thumbnail: {
         type: String,
-        required: true,
     },
     category: {
         type: String,
