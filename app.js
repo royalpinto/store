@@ -38,6 +38,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',
+    express.static(path.join(__dirname, '/bower_components')));
 
 // The default limit and max limit to be used.
 // This is to parse limit and page number passed and
