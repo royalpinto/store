@@ -1,0 +1,8 @@
+{
+  "name": "store",
+  "description": "A simple shopping experience.",
+  "authors": [
+    "Royal Pinto <royalpinto@gmail.com>"
+  ],
+  "private": true
+}
