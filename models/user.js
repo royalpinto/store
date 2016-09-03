@@ -28,17 +28,17 @@ var schema = {
             },
         }],
     },
-    password: {
-        type: String,
-        validations: [{
-            fn: validators.string(5, 255),
-        }],
-    },
     group: {
         type: String,
         validations: [{
             fn: validators.string(5, 255),
         }],
+    },
+    salt: {
+        type: String,
+    },
+    hash: {
+        type: String,
     },
 };
 
