@@ -10,6 +10,7 @@ var models = require('./../models');
 
 var approuter = new router.Router();
 
+var auth = require('./../routes/auth');
 var users = require('./../routes/user');
 
 approuter.use(function(req, res, next) {
@@ -29,6 +30,7 @@ approuter.use(session({
 }));
 
 approuter.use(/^\/users\//, users);
+approuter.use(auth);
 approuter.use(/^\/users\//, users);
 
 var server = http.createServer(function(req, res) {
