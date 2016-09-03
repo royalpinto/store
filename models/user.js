@@ -30,7 +30,6 @@ var schema = {
     },
     password: {
         type: String,
-        unique: true,
         validations: [{
             fn: validators.string(5, 255),
         }],
