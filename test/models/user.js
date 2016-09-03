@@ -85,6 +85,9 @@ describe('User(Model):', function() {
             chai.assert.fail(0, 1, 'Validation should have passed.');
             done();
         })
+        .catch(function(e) {
+            done(e);
+        })
         ;
     });
 
