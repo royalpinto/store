@@ -41,6 +41,7 @@ describe('User(Model):', function() {
         email: "royalpinto@gmail.com",
         username: "royalpinto",
         password: "password",
+        group: "member",
     };
 
     it('It should have all model attributes', function(done) {
