@@ -191,4 +191,38 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should fetch users', function(done) {
+        var users = [];
+        var i;
+        for (i = 0; i < 10; i++) {
+            var user = new models.User(payload);
+            // This is required as username is unique.
+            user.username += i;
+            users.push(user.save());
+        }
+
+        Promise.all(users)
+        .then(function() {
+            return models.User.find();
+        })
+        .then(function(cursor) {
+            chai.assert.instanceOf(cursor, mongodb.Cursor);
+            return cursor.limit(2).skip(4);
+        })
+        .then(function(cursor) {
+            return Promise.all([
+                cursor.toArray(),
+                cursor.count(),
+            ]);
+        })
+        .then(function(result) {
+            chai.assert.strictEqual(result[1], 10);
+            chai.assert.strictEqual(result[0].length, 2);
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
 });
