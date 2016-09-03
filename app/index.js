@@ -7,12 +7,14 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var router = require('./router');
 var models = require('./../models');
+var middlewares = require('./middlewares');
 
 var approuter = new router.Router();
 
 var auth = require('./../routes/auth');
 var users = require('./../routes/user');
 
+approuter.use(middlewares.easyResponse);
 approuter.use(function(req, res, next) {
     req.query = querystring.parse(url.parse(req.url).query);
     next();
