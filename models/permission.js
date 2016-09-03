@@ -24,6 +24,46 @@ var Permission = function Permission(properties) {
 util.inherits(Permission, Model);
 Object.assign(Permission, Model);
 
+Permission.add = function(group, noun, verb) {
+    var payload = {group: group, noun: noun, verb: verb};
+    return Permission
+    .findOne(payload)
+    .then(function(permission) {
+        // If permission is already set, do nothing.
+        if (permission) {
+            return;
+        }
+
+        permission = new Permission(payload);
+        return permission.save();
+    })
+    ;
+};
+
+Permission.remove = function(group, noun, verb) {
+    var payload = {group: group, noun: noun, verb: verb};
+    return Permission
+    .findOne(payload)
+    .then(function(permission) {
+        // If permission is not set, do nothing.
+        if (!permission) {
+            return;
+        }
+        return permission.remove();
+    })
+    ;
+};
+
+Permission.check = function(group, noun, verb) {
+    var payload = {group: group, noun: noun, verb: verb};
+    return Permission
+    .findOne(payload)
+    .then(function(permission) {
+        return permission !== null;
+    })
+    ;
+};
+
 Permission.setSchema(schema);
 
 
