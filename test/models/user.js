@@ -111,4 +111,20 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should remove a User', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return user.remove();
+        })
+        .then(function() {
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
 });
