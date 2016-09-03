@@ -55,5 +55,12 @@ User.prototype.hasPermission = function(noun, verb) {
     return Permission.check(this.group, noun, verb);
 };
 
+User.prototype.toJSON = function() {
+    var user = this.toObject();
+    delete user.salt;
+    delete user.hash;
+    return user;
+};
+
 
 module.exports = User;
