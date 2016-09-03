@@ -1,6 +1,4 @@
 var http = require('http');
-var url = require('url');
-var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -15,10 +13,7 @@ var auth = require('./../routes/auth');
 var users = require('./../routes/user');
 
 approuter.use(middlewares.easyResponse);
-approuter.use(function(req, res, next) {
-    req.query = querystring.parse(url.parse(req.url).query);
-    next();
-});
+approuter.use(middlewares.querystringParser);
 approuter.use(bodyParser.json());
 approuter.use(bodyParser.urlencoded({extended: false}));
 approuter.use(cookieParser());
