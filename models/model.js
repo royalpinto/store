@@ -56,6 +56,9 @@ Model.init = function(db) {
 
 Model.findById = function(_id) {
     var ModelClass = this;
+    if (!(_id instanceof mongodb.ObjectID)) {
+        _id = new mongodb.ObjectID(_id);
+    }
     return ModelClass.collection
     .findOne({_id: _id})
     .then(function(response) {
