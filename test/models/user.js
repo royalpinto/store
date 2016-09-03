@@ -127,4 +127,68 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should not have user permission', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return user.hasPermission('projects', 'create');
+        })
+        .then(function(has) {
+            chai.assert.isNotOk(has, "Expected hasPermission to be false.");
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
+    it('It should set the user permission', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return user.setPermission('projects', 'create');
+        })
+        .then(function() {
+            return user.hasPermission('projects', 'create');
+        })
+        .then(function(has) {
+            chai.assert.isOk(has, "Expected hasPermission to be true.");
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
+    it('It should unset the user permission', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return user.setPermission('projects', 'create');
+        })
+        .then(function() {
+            return user.hasPermission('projects', 'create');
+        })
+        .then(function(has) {
+            chai.assert.isOk(has, "Expected hasPermission to be true.");
+            return user.unsetPermission('projects', 'create');
+        })
+        .then(function() {
+            return user.hasPermission('projects', 'create');
+        })
+        .then(function(has) {
+            chai.assert.isNotOk(has, "Expected hasPermission to be false.");
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
 });
