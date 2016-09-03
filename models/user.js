@@ -34,6 +34,12 @@ var schema = {
             fn: validators.string(5, 255),
         }],
     },
+    group: {
+        type: String,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
+    },
 };
 
 var User = function User(properties) {
