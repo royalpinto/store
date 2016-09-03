@@ -29,9 +29,8 @@ approuter.use(session({
     }),
 }));
 
-approuter.use(/^\/users\//, users);
 approuter.use(auth);
-approuter.use(/^\/users\//, users);
+approuter.use(users);
 
 var server = http.createServer(function(req, res) {
     approuter.dispatch(req, res, function() {
