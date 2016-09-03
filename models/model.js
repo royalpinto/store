@@ -45,7 +45,6 @@ Model.init = function(db) {
 
     return new Promise(function(resolve, reject) {
         if (indexes.length > 0) {
-            console.log(indexes);
             ModelClass.collection.createIndexes(indexes)
             .then(resolve)
             .catch(reject);
