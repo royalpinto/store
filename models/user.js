@@ -1,33 +1,92 @@
-var mongoose = require('mongoose');
-var passportLocalMongoose = require('passport-local-mongoose');
+var util = require('util');
+var Model = require('./model');
+var Permission = require('./permission');
+var validators = require('./validators');
 
-
-var UserSchema = new mongoose.Schema({
+var schema = {
     name: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
     },
     email: {
         type: String,
-        required: true,
-        index: {
-            unique: true,
-        },
+        validations: [{
+            fn: validators.email,
+        }],
     },
-});
+    username: {
+        type: String,
+        unique: true,
+        validators: [{
+            fn: function(value, key) {
+                if (/^[a-zA-Z0-9]+$/.test(key)) {
+                    return;
+                }
+                return "Invalid username.";
+            },
+        }],
+    },
+    password: {
+        type: String,
+        unique: true,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
+    },
+};
+
+var User = function User(properties) {
+    Model.call(this, properties);
+};
+
+util.inherits(User, Model);
+Object.assign(User, Model);
+
+User.setSchema(schema);
+
+User.prototype.setPermission = function(noun, verb) {
+    var payload = {userid: this._id, noun: noun, verb: verb};
+    return Permission
+    .findOne(payload)
+    .then(function(permission) {
+        // If permission is already set, do nothing.
+        if (permission) {
+            return;
+        }
+
+        permission = new Permission(payload);
+        return permission.save();
+    })
+    ;
+};
+
+User.prototype.unsetPermission = function(noun, verb) {
+    var payload = {userid: this._id, noun: noun, verb: verb};
+    return Permission
+    .findOne(payload)
+    .then(function(permission) {
+        // If permission is not set, do nothing.
+        if (!permission) {
+            return;
+        }
+        return permission.remove();
+    })
+    ;
+};
+
+User.prototype.hasPermission = function(noun, verb) {
+    return Permission
+    .findOne({userid: this._id, noun: noun, verb: verb})
+    .then(function(permission) {
+        return permission !== null;
+    })
+    .catch(function() {
+        return false;
+    })
+    ;
+};
 
 
-UserSchema.plugin(passportLocalMongoose);
-
-
-// Hide internal password specific fields.
-UserSchema.method('toJSON', function() {
-    var user = this.toObject();
-    delete user.salt;
-    delete user.hash;
-    delete user.__v;
-    return user;
-});
-
-
-module.exports = mongoose.model('User', UserSchema);
+module.exports = User;
