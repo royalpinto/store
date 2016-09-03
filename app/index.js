@@ -10,7 +10,7 @@ var models = require('./../models');
 
 var approuter = new router.Router();
 
-// var users = require('./../routes/users');
+var users = require('./../views/users');
 
 approuter.use(function(req, res, next) {
     req.query = querystring.parse(url.parse(req.url).query);
@@ -28,8 +28,8 @@ approuter.use(session({
     }),
 }));
 
-// approuter.use(/^\/users\//, users);
-// approuter.use(/^\/users\//, users);
+approuter.use(/^\/users\//, users);
+approuter.use(/^\/users\//, users);
 
 var server = http.createServer(function(req, res) {
     approuter.dispatch(req, res, function() {
