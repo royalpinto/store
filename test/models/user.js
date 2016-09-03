@@ -43,6 +43,23 @@ describe('User(Model):', function() {
         password: "password",
     };
 
+    it('It should have all model attributes', function(done) {
+        chai.assert.equal(models.User.collectionName, 'user');
+        done();
+    });
+
+    it('It should instantiate a User model', function(done) {
+        var user = new models.User(payload);
+
+        // Check if fields are assigned.
+        for (var key in payload) {
+            if (key === undefined) {
+                continue;
+            }
+            chai.assert.equal(user[key], payload[key]);
+        }
+        done();
+    });
 
     it('It should fail the validation.', function(done) {
         var user = new models.User();
