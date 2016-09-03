@@ -40,7 +40,6 @@ describe('User(Model):', function() {
         name: "Lohith Royal Pinto",
         email: "royalpinto@gmail.com",
         username: "royalpinto",
-        password: "password",
         group: "member",
     };
 
