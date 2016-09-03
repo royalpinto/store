@@ -56,7 +56,7 @@ if (cluster.isMaster) {
         return models.init(db);
     })
     .then(function() {
-        var server = require('../main');
+        var server = require('../app');
 
         var close = function() {
             // Worker recieved a SIG KILL/TERM/INT signal.
@@ -72,5 +72,6 @@ if (cluster.isMaster) {
         server.on('listening', onListening);
         server.listen(config.server.port, config.server.interface);
     })
+    .catch(console.error)
     ;
 }
