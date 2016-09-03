@@ -44,6 +44,33 @@ describe('User(Model):', function() {
     };
 
 
+    it('It should fail the validation.', function(done) {
+        var user = new models.User();
+        user.validate()
+        .then(function() {
+            chai.assert.fail(0, 1, 'Validation should have failed.');
+            done();
+        })
+        .catch(function(errors) {
+            chai.assert.isArray(errors, "Validation should return an array.");
+            done();
+        })
+        ;
+    });
+
+    it('It should pass the validation.', function(done) {
+        var user = new models.User(payload);
+        user.validate()
+        .then(function() {
+            done();
+        })
+        .catch(function() {
+            chai.assert.fail(0, 1, 'Validation should have passed.');
+            done();
+        })
+        ;
+    });
+
     it('It should create a User', function(done) {
         var user = new models.User(payload);
 
