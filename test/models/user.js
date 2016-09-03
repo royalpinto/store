@@ -197,7 +197,7 @@ describe('User(Model):', function() {
 
         user.save()
         .then(function() {
-            return user.setPermission('projects', 'create');
+            return models.Permission.add('member', 'projects', 'create');
         })
         .then(function() {
             return user.hasPermission('projects', 'create');
@@ -217,14 +217,14 @@ describe('User(Model):', function() {
 
         user.save()
         .then(function() {
-            return user.setPermission('projects', 'create');
+            return models.Permission.add('member', 'projects', 'create');
         })
         .then(function() {
             return user.hasPermission('projects', 'create');
         })
         .then(function(has) {
             chai.assert.isOk(has, "Expected hasPermission to be true.");
-            return user.unsetPermission('projects', 'create');
+            return models.Permission.remove('member', 'projects', 'create');
         })
         .then(function() {
             return user.hasPermission('projects', 'create');
