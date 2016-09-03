@@ -78,4 +78,21 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should fetch a User by username', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return models.User.findByKey('username', user.username);
+        })
+        .then(function() {
+            chai.assert.isOk(user, "User find by id retrived null.");
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
 });
