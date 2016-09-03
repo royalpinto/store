@@ -2,7 +2,7 @@ var util = require('util');
 var Model = require('./model');
 
 var schema = {
-    userid: {
+    group: {
         type: String,
         required: true,
     },
