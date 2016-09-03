@@ -10,7 +10,7 @@ var models = require('./../models');
 
 var approuter = new router.Router();
 
-var users = require('./../views/users');
+var users = require('./../views/user');
 
 approuter.use(function(req, res, next) {
     req.query = querystring.parse(url.parse(req.url).query);
