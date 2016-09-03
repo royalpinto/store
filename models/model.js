@@ -69,8 +69,10 @@ Model.findById = function(_id) {
 
 Model.findByKey = function(key, value) {
     var ModelClass = this;
+    var query = {};
+    query[key] = value;
     return ModelClass.collection
-    .findOne({key: value})
+    .findOne(query)
     .then(function(response) {
         return response ? new ModelClass(response) : null;
     })
