@@ -13,13 +13,8 @@ if (cluster.isMaster) {
         cluster.fork();
     });
 } else {
-    var http = require('http');
-    var mongoose = require('mongoose');
-    var config = require('config');
-
-    // mpromise (mongoose's default promise library) is deprecated
-    // Use the default Promise from node.
-    mongoose.Promise = global.Promise;
+    var mongodb = require('mongodb');
+    var config = require('./../config');
 
     /**
      * Event listener for HTTP server "listening" event.
@@ -55,14 +50,13 @@ if (cluster.isMaster) {
     };
 
     // Connect to the DB, then start the server.
-    mongoose.connect(config.db.uri, function(err) {
-        if (err) {
-            console.error("DB connection with error: %s", err.message || err);
-            return;
-        }
-
-        var app = require('../app');
-        var server = http.createServer(app);
+    mongodb.MongoClient.connect(config.db.uri)
+    .then(function(db) {
+        var models = require('./../models');
+        return models.init(db);
+    })
+    .then(function() {
+        var server = require('../main');
 
         var close = function() {
             // Worker recieved a SIG KILL/TERM/INT signal.
@@ -77,5 +71,6 @@ if (cluster.isMaster) {
         server.on('error', onError);
         server.on('listening', onListening);
         server.listen(config.server.port, config.server.interface);
-    });
+    })
+    ;
 }
