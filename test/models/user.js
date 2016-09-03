@@ -95,4 +95,20 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should update a User', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return user.update({name: "Royal Pinto"});
+        })
+        .then(function() {
+            done();
+        })
+        .catch(function(err) {
+            done(err);
+        })
+        ;
+    });
+
 });
