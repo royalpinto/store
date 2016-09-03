@@ -95,17 +95,25 @@ Model.prototype.save = function() {
     var model = this;
     var collection = this.constructor.collection;
 
-    // If it's an existing document, update.
-    if (model._id) {
-        return collection.updateOne({_id: model._id}, {$set: model.toObject()});
-    }
+    return this.validate()
+    .then(function() {
+        // If it's an existing document, update.
+        if (model._id) {
+            return collection.updateOne({
+                _id: model._id,
+            }, {
+                $set: model.toObject(),
+            });
+        }
 
-    // otherwise update.
-    return collection
-    .insertOne(model.toObject())
-    .then(function(response) {
-        model._id = response.insertedId;
-    });
+        // otherwise update.
+        return collection
+        .insertOne(model.toObject())
+        .then(function(response) {
+            model._id = response.insertedId;
+        });
+    })
+    ;
 };
 
 Model.prototype.update = function(properties) {
