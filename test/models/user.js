@@ -132,7 +132,7 @@ describe('User(Model):', function() {
         .then(function() {
             return models.User.findByKey('username', user.username);
         })
-        .then(function() {
+        .then(function(user) {
             chai.assert.isOk(user, "User find by id retrived null.");
             done();
         })
