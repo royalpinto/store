@@ -163,7 +163,7 @@ Model.prototype.validate = function() {
     var schema = this.constructor._schema;
     return new Promise(function(resolve, reject) {
         var key;
-        var error = new errors.ValidationError();
+        var error = null;
         for (key in schema) {
             if (key === undefined) {
                 continue;
@@ -183,11 +183,15 @@ Model.prototype.validate = function() {
 
                 var result = validator.fn(property, key);
                 if (result) {
-                    error.errors.push(result);
+                    error = new errors.ValidationError(result);
+                    break;
                 }
             }
+            if (error) {
+                break;
+            }
         }
-        if (error.errors.length > 0) {
+        if (error) {
             reject(error);
         } else {
             resolve();
