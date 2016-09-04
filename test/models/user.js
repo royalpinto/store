@@ -4,6 +4,7 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
+var errors = require('./../../errors');
 
 
 describe('User(Model):', function() {
@@ -68,9 +69,13 @@ describe('User(Model):', function() {
             chai.assert.fail(0, 1, 'Validation should have failed.');
             done();
         })
-        .catch(function(errors) {
-            chai.assert.isArray(errors, "Validation should return an array.");
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError,
+                "Validation should return an array.");
             done();
+        })
+        .catch(function(errors) {
+            done(errors);
         })
         ;
     });
