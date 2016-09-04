@@ -1,4 +1,5 @@
 var mongodb = require('mongodb');
+var errors = require('./../errors');
 
 
 var Model = function Model(properties) {
@@ -143,7 +144,7 @@ Model.prototype.validate = function() {
     var schema = this.constructor._schema;
     return new Promise(function(resolve, reject) {
         var key;
-        var errors = [];
+        var error = new errors.ValidationError();
         for (key in schema) {
             if (key === undefined) {
                 continue;
@@ -163,12 +164,12 @@ Model.prototype.validate = function() {
 
                 var result = validator.fn(property, key);
                 if (result) {
-                    errors.push(result);
+                    error.errors.push(result);
                 }
             }
         }
-        if (errors.length > 0) {
-            reject(errors);
+        if (error.errors.length > 0) {
+            reject(error);
         } else {
             resolve();
         }
