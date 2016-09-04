@@ -56,8 +56,13 @@ Router.prototype.dispatch = function(req, res, next) {
             }
 
             // Skip if defined regex is not matching with the incoming url.
-            if (regex && !regex.test(path)) {
-                continue;
+            if (regex) {
+                var exec = regex.exec(path);
+                if (exec) {
+                    req.params = exec.slice(1);
+                } else {
+                    continue;
+                }
             }
 
             var cb = pattern[1];
