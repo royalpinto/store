@@ -52,8 +52,17 @@ var registerUser = function(data) {
     ;
 };
 
+var hasPermission = function(userid, noun, verb) {
+    return models.User
+    .findById(userid)
+    .then(function(user) {
+        return user.hasPermission(noun, verb);
+    })
+    ;
+};
 
 module.exports = {
     registerUser: registerUser,
     loginUser: loginUser,
+    hasPermission: hasPermission,
 };
