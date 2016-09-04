@@ -25,6 +25,14 @@ var ValidationError = function ValidationError(error) {
 util.inherits(ValidationError, AppError);
 
 
+var UnauthorizedAccess = function UnauthorizedAccess(error) {
+    AppError.call(this, "Unauthorized access.", error);
+    this.status = 303;
+};
+
+util.inherits(UnauthorizedAccess, Error);
+
+
 var handle = function(req, res, error) {
     if (error instanceof ValidationError) {
         return res.status(error.status).json(error);
@@ -35,5 +43,6 @@ var handle = function(req, res, error) {
 
 module.exports = {
     ValidationError: ValidationError,
+    UnauthorizedAccess: UnauthorizedAccess,
     handle: handle,
 };
