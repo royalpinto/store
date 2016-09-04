@@ -18,14 +18,12 @@ var schema = {
     },
     price: {
         type: Number,
-        cast: Number.parseFloat,
         validations: [{
             fn: validators.number(1),
         }],
     },
     quantity: {
         type: Number,
-        cast: Number.parseInt,
         validations: [{
             fn: validators.number(0),
         }],
