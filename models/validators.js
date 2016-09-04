@@ -35,4 +35,23 @@ module.exports = {
             }
         };
     },
+    number: function(min, max) {
+        return function(value, key) {
+            if (isNaN(value)) {
+                return util.format("Invalid %s.", key);
+            }
+
+            if (!value) {
+                return util.format("%s is required.", key);
+            }
+
+            if (min !== undefined && value < min) {
+                return util.format("%s is too small.", key);
+            }
+
+            if (min !== undefined && value > max) {
+                return util.format("%s is too small.", key);
+            }
+        };
+    },
 };
