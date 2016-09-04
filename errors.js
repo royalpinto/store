@@ -30,7 +30,7 @@ var UnauthorizedAccess = function UnauthorizedAccess(error) {
     this.status = 303;
 };
 
-util.inherits(UnauthorizedAccess, Error);
+util.inherits(UnauthorizedAccess, AppError);
 
 
 var UnauthenticatedAccess = function UnauthenticatedAccess(error) {
@@ -38,11 +38,11 @@ var UnauthenticatedAccess = function UnauthenticatedAccess(error) {
     this.status = 301;
 };
 
-util.inherits(UnauthenticatedAccess, Error);
+util.inherits(UnauthenticatedAccess, AppError);
 
 
 var handle = function(req, res, error) {
-    if (error instanceof ValidationError) {
+    if (error instanceof AppError) {
         return res.status(error.status).json(error);
     }
     console.trace(error);
@@ -53,5 +53,6 @@ module.exports = {
     ValidationError: ValidationError,
     UnauthorizedAccess: UnauthorizedAccess,
     UnauthenticatedAccess: UnauthenticatedAccess,
+    AppError: AppError,
     handle: handle,
 };
