@@ -1,0 +1,47 @@
+var Controller = function(Model) {
+    this.Model = Model;
+};
+
+Controller.prototype.create = function(data) {
+    var model = new this.Model(data);
+    return model.save()
+    .then(function() {
+        return model;
+    });
+};
+
+Controller.prototype.getById = function(id) {
+    return this.Model
+    .findById(id)
+    ;
+};
+
+Controller.prototype.get = function(query, limit, skip, order) {
+    return this.Model
+    .find(query)
+    .sort(order || {})
+    .limit(limit)
+    .skip(skip || 0)
+    .toArray()
+    ;
+};
+
+Controller.prototype.update = function(id, data) {
+    return this.Model
+    .findById(id)
+    .then(function(user) {
+        return user.update(data);
+    });
+};
+
+Controller.prototype.remove = function(id) {
+    return this.Model
+    .findById(id)
+    .then(function(user) {
+        return user.remove();
+    })
+    ;
+};
+
+
+module.exports = Controller;
