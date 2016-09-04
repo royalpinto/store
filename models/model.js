@@ -177,6 +177,17 @@ Model.prototype.update = function(properties) {
     }, {
         $set: data,
     })
+    .then(function() {
+        for (var key in data) {
+            if (key === undefined) {
+                continue;
+            }
+            model[key] = data[key];
+        }
+    })
+    .catch(function(error) {
+        throw refactorError(error);
+    })
     ;
 };
 
