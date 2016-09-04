@@ -178,7 +178,12 @@ Model.prototype.toObject = function() {
         if (key === undefined) {
             continue;
         }
-        object[key] = model[key];
+        var propertySchema = schema[key];
+        var value = model[key];
+        if (propertySchema.cast) {
+            value = propertySchema.cast(value);
+        }
+        object[key] = value;
     }
     return object;
 };
