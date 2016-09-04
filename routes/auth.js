@@ -37,12 +37,11 @@ router.get(/^\/login\//, function(req, res) {
 router.post(/^\/register\//, function(req, res) {
     controller.registerUser(req.body)
     .then(function(user) {
-        req.session.user = user.toObject();
-        res.end(JSON.stringify(user));
+        req.session.user = user.toJSON();
+        res.json(user);
     })
     .catch(function(error) {
-        console.trace(':--', error);
-        res.end("Bad Request");
+        errors.handle(req, res, error);
     })
     ;
 });
