@@ -17,6 +17,15 @@ ValidationError.prototype.toJSON = function() {
     };
 };
 
+var handle = function(req, res, error) {
+    if (error instanceof ValidationError) {
+        return res.status(error.status).json(error);
+    }
+    console.trace(error);
+    res.status(error.status || 500).json("Internal server error.");
+};
+
 module.exports = {
     ValidationError: ValidationError,
+    handle: handle,
 };
