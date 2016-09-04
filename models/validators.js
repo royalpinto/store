@@ -12,7 +12,7 @@ module.exports = {
         if (value) {
             return;
         }
-        return util.format("Invalid %s.", key);
+        return util.format("%s is invalid.", key);
     },
     string: function(min, max) {
         return function(value, key) {
@@ -32,7 +32,7 @@ module.exports = {
     number: function(min, max) {
         return function(value, key) {
             if (isNaN(value)) {
-                return util.format("Invalid %s.", key);
+                return util.format("%s is invalid.", key);
             }
 
             if (!value) {
