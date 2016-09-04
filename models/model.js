@@ -155,6 +155,12 @@ Model.prototype.validate = function() {
                     continue;
                 }
                 var validator = propertySchema.validations[validatorIndex];
+
+                // Cast it, if there is cast specified.
+                if (propertySchema.cast) {
+                    property = propertySchema.cast(property);
+                }
+
                 var result = validator.fn(property, key);
                 if (result) {
                     errors.push(result);
