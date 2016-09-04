@@ -46,12 +46,15 @@ router.post(/^\/register\//, function(req, res) {
     ;
 });
 
-
 router.get(/^\/logout\//, function(req, res) {
-    req.session.destroy(function(err) {
-        console.log(err);
-        res.end("Hi");
+    req.session.destroy(function(error) {
+        if (error) {
+            errors.handle(req, res, error);
+        } else {
+            res.status(204).end();
+        }
     });
 });
+
 
 module.exports = router;
