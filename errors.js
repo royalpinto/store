@@ -16,6 +16,15 @@ AppError.prototype.toJSON = function() {
     };
 };
 
+
+var ValidationError = function ValidationError(error) {
+    AppError.call(this, "Invalid input.", error);
+    this.status = 400;
+};
+
+util.inherits(ValidationError, AppError);
+
+
 var handle = function(req, res, error) {
     if (error instanceof ValidationError) {
         return res.status(error.status).json(error);
