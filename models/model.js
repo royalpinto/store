@@ -143,11 +143,29 @@ Model.prototype.save = function() {
 
 Model.prototype.update = function(properties) {
     var model = this;
+    var schema = this.constructor._schema;
+    var data = {};
+    for (var key in properties) {
+        if (key === undefined) {
+            continue;
+        }
+        var value = properties[key];
+        var propertySchema = schema[key];
+        if (!propertySchema) {
+            continue;
+        }
+
+        if (value && !(value instanceof propertySchema.type)) {
+            value = propertySchema.type(value);
+        }
+        data[key] = value;
+    }
+
     var collection = this.constructor.collection;
     return collection.updateOne({
         _id: model._id,
     }, {
-        $set: properties,
+        $set: data,
     })
     ;
 };
