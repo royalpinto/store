@@ -148,6 +148,9 @@ Model.prototype.save = function() {
             model._id = response.insertedId;
         });
     })
+    .catch(function(error) {
+        throw refactorError(error);
+    })
     ;
 };
 
