@@ -1,11 +1,5 @@
 var util = require('util');
 
-var ValidationError = function() {
-    Error.call(this, arguments);
-};
-
-util.inherits(ValidationError, Error);
-
 
 module.exports = {
     required: function(value, key) {
