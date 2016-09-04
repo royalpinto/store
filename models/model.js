@@ -1,5 +1,18 @@
+var util = require('util');
 var mongodb = require('mongodb');
 var errors = require('./../errors');
+
+
+var refactorError = function(error) {
+    if (error.code === 11000) {
+        var regex = /index:\s*(?:.+?\.\$)?(.*?)\s*dup/;
+        var exec = regex.exec(error.message);
+        error = new errors.ValidationError(
+            util.format("%s already present.", exec[1])
+        );
+    }
+    return error;
+};
 
 
 var Model = function Model(properties) {
