@@ -1,18 +1,26 @@
 var util = require('util');
 var Model = require('./model');
+var validators = require('./validators');
+
 
 var schema = {
     group: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(3, 255),
+        }],
     },
     noun: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(3, 255),
+        }],
     },
     verb: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(1),
+        }],
     },
 };
 
