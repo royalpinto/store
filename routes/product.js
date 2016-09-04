@@ -1,6 +1,7 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
 var controller = require('../controllers/product');
+var errors = require('./../errors');
 
 
 router.get(/^\/products\/(\w+)\/$/, function(req, res) {
@@ -9,8 +10,8 @@ router.get(/^\/products\/(\w+)\/$/, function(req, res) {
     .then(function(product) {
         res.json(product);
     })
-    .catch(function() {
-        res.end("Bad Request");
+    .catch(function(error) {
+        errors.handle(req, res, error);
     })
     ;
 });
@@ -26,8 +27,7 @@ router.post(/^\/products\//, function(req, res) {
         res.json(product);
     })
     .catch(function(error) {
-        console.trace(error);
-        res.end("Bad Request");
+        errors.handle(req, res, error);
     })
     ;
 });
