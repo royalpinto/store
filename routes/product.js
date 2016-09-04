@@ -32,5 +32,18 @@ router.post(/^\/products\//, function(req, res) {
     ;
 });
 
+router.put(/^\/products\/(\w+)\/$/, function(req, res) {
+    var id = req.params[0];
+    controller
+    .update(id, req.body)
+    .then(function() {
+        res.status(204).end();
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
+
 
 module.exports = router;
