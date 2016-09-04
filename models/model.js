@@ -70,8 +70,10 @@ Model.init = function(db) {
 
 Model.findById = function(_id) {
     var ModelClass = this;
-    if (!(_id instanceof mongodb.ObjectID)) {
-        _id = new mongodb.ObjectID(_id);
+
+    var propertySchema = ModelClass._schema._id;
+    if (!(_id instanceof propertySchema.type)) {
+        _id = propertySchema.type(_id);
     }
     return ModelClass.collection
     .findOne({_id: _id})
@@ -84,6 +86,10 @@ Model.findById = function(_id) {
 Model.findByKey = function(key, value) {
     var ModelClass = this;
     var query = {};
+    var propertySchema = ModelClass._schema[key];
+    if (!(value instanceof propertySchema.type)) {
+        value = propertySchema.type(value);
+    }
     query[key] = value;
     return ModelClass.collection
     .findOne(query)
@@ -170,9 +176,9 @@ Model.prototype.validate = function() {
                 }
                 var validator = propertySchema.validations[validatorIndex];
 
-                // Cast it, if there is cast specified.
-                if (propertySchema.cast) {
-                    property = propertySchema.cast(property);
+                // Cast if required.
+                if (property && !(property instanceof propertySchema.type)) {
+                    property = propertySchema.type(property);
                 }
 
                 var result = validator.fn(property, key);
@@ -200,8 +206,10 @@ Model.prototype.toObject = function() {
         }
         var propertySchema = schema[key];
         var value = model[key];
-        if (propertySchema.cast) {
-            value = propertySchema.cast(value);
+
+        // Cast if required.
+        if (value && !(value instanceof propertySchema.type)) {
+            value = propertySchema.type(value);
         }
         object[key] = value;
     }
