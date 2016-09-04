@@ -2,17 +2,22 @@ var urls = require('./../app/router');
 var router = new urls.Router();
 var controller = require('./../controllers/auth');
 var userController = require('./../controllers/user');
+var errors = require('./../errors');
 
 
 router.post(/^\/login\//, function(req, res) {
-    controller.loginUser(req.body.username, req.body.password)
+    if (req.session.user) {
+        res.json(req.session.user);
+    }
+
+    controller
+    .loginUser(req.body.username, req.body.password)
     .then(function(user) {
-        req.session.user = user.toObject();
-        res.end(JSON.stringify(user));
+        req.session.user = user.toJSON();
+        res.json(user);
     })
     .catch(function(error) {
-        console.trace(error);
-        res.end("Bad Request");
+        errors.handle(req, res, error);
     })
     ;
 });
