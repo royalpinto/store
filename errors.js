@@ -1,16 +1,15 @@
 var util = require('util');
 
 
-var ValidationError = function ValidationError(message) {
-    Error.call(this, arguments);
-    this.message = "Invalid input.";
-    this.error = message;
-    this.status = 400;
+var AppError = function AppError(message, error) {
+    Error.call(this, message);
+    this.message = message;
+    this.error = error;
 };
 
-util.inherits(ValidationError, Error);
+util.inherits(AppError, Error);
 
-ValidationError.prototype.toJSON = function() {
+AppError.prototype.toJSON = function() {
     return {
         message: this.message,
         error: this.error,
