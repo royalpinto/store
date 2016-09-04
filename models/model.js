@@ -16,11 +16,21 @@ var refactorError = function(error) {
 
 
 var Model = function Model(properties) {
+    var schema = this.constructor._schema;
     for (var key in properties) {
         if (key === undefined) {
             continue;
         }
-        this[key] = properties[key];
+        var value = properties[key];
+        var propertySchema = schema[key];
+        if (!propertySchema) {
+            continue;
+        }
+
+        if (value && !(value instanceof propertySchema.type)) {
+            value = propertySchema.type(value);
+        }
+        this[key] = value;
     }
 };
 
