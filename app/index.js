@@ -16,6 +16,7 @@ var products = require('./../routes/product');
 approuter.use(middlewares.easyResponse);
 approuter.use(middlewares.querystringParser);
 approuter.use(middlewares.paginate(10, 50));
+approuter.use(middlewares.orderParser);
 approuter.use(bodyParser.json());
 approuter.use(bodyParser.urlencoded({extended: false}));
 approuter.use(cookieParser());
