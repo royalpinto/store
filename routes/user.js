@@ -1,8 +1,11 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
+var routes = require('./index');
 var controller = require('../controllers/user');
 
 
+// This route can be accessed only by admins.
+router.use(/^\/users\//, routes.handlePermission('users', 'readwrite'));
 
 
 router.get(/^\/users\/(\w+)\/$/, function(req, res) {
