@@ -27,7 +27,7 @@ util.inherits(ValidationError, AppError);
 
 var UnauthorizedAccess = function UnauthorizedAccess(error) {
     AppError.call(this, "Unauthorized access.", error);
-    this.status = 303;
+    this.status = 403;
 };
 
 util.inherits(UnauthorizedAccess, AppError);
