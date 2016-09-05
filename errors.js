@@ -35,7 +35,7 @@ util.inherits(UnauthorizedAccess, AppError);
 
 var UnauthenticatedAccess = function UnauthenticatedAccess(error) {
     AppError.call(this, "Unauthenticated access.", error);
-    this.status = 301;
+    this.status = 401;
 };
 
 util.inherits(UnauthenticatedAccess, AppError);
