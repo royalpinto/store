@@ -73,9 +73,24 @@ var orderParser = function(req, res, next) {
 };
 
 
+var searchParser = function(req, res, next) {
+    var _search = req.query.search;
+    if (!(_search instanceof Array)) {
+        _search = [_search];
+    }
+    req.query.search = {
+        $in: _search.map(function(i) {
+            return new RegExp(i, 'i');
+        }),
+    };
+    next();
+};
+
+
 module.exports = {
     querystringParser: querystringParser,
     easyResponse: easyResponse,
     paginate: paginate,
     orderParser: orderParser,
+    searchParser: searchParser,
 };
