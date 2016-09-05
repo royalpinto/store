@@ -226,6 +226,7 @@ Model.prototype.validate = function() {
     return new Promise(function(resolve, reject) {
         var key;
         var error = null;
+        var validators = [];
         for (key in schema) {
             if (key === undefined) {
                 continue;
@@ -243,21 +244,15 @@ Model.prototype.validate = function() {
                     property = propertySchema.type(property);
                 }
 
-                var result = validator.fn(property, key);
-                if (result) {
-                    error = new errors.ValidationError(result);
-                    break;
-                }
-            }
-            if (error) {
-                break;
+                validators.push(validator.fn(property, key, model));
             }
         }
-        if (error) {
+        Promise.all(validators)
+        .then(resolve)
+        .catch(function(result) {
+            error = new errors.ValidationError(result);
             reject(error);
-        } else {
-            resolve();
-        }
+        });
     });
 };
 
