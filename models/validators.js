@@ -11,10 +11,12 @@ module.exports = {
         });
     },
     email: function(value, key) {
-        if (value) {
-            return;
-        }
-        return util.format("%s is invalid.", key);
+        return new Promise(function(resolve, reject) {
+            if (value) {
+                resolve();
+            }
+            reject(util.format("%s is invalid.", key));
+        });
     },
     string: function(min, max) {
         return function(value, key) {
