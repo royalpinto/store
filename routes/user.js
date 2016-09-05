@@ -2,6 +2,7 @@ var urls = require('./../app/router');
 var router = new urls.Router();
 var routes = require('./index');
 var controller = require('../controllers/user');
+var errors = require('./../errors');
 
 
 // This route can be accessed only by admins.
