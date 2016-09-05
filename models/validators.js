@@ -3,10 +3,12 @@ var util = require('util');
 
 module.exports = {
     required: function(value, key) {
-        if (value) {
-            return;
-        }
-        return util.format("%s is required.", key);
+        return new Promise(function(resolve, reject) {
+            if (value) {
+                resolve();
+            }
+            reject(util.format("%s is required.", key));
+        });
     },
     email: function(value, key) {
         if (value) {
