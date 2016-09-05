@@ -150,4 +150,34 @@ describe('/users/', function() {
         });
     });
 
+    describe('DELETE /users/id/', function() {
+        it('It should DELETE user with authorized user login.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return agent.delete('/users/' + userid + '/');
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(204);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
