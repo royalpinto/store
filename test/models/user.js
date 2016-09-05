@@ -255,21 +255,12 @@ describe('User(Model):', function() {
 
         Promise.all(users)
         .then(function() {
-            return models.User.find();
-        })
-        .then(function(cursor) {
-            chai.assert.instanceOf(cursor, mongodb.Cursor);
-            return cursor.limit(2).skip(4);
-        })
-        .then(function(cursor) {
-            return Promise.all([
-                cursor.toArray(),
-                cursor.count(),
-            ]);
+            return models.User.findAndCount({}, 5, 3);
         })
         .then(function(result) {
-            chai.assert.strictEqual(result[1], 10);
-            chai.assert.strictEqual(result[0].length, 2);
+            chai.assert.strictEqual(result.count, 10);
+            chai.assert.isArray(result.data);
+            chai.assert.strictEqual(result.data.length, 5);
             done();
         })
         .catch(function(err) {
