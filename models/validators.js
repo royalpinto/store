@@ -20,17 +20,20 @@ module.exports = {
     },
     string: function(min, max) {
         return function(value, key) {
-            if (!value) {
-                return util.format("%s is required.", key);
-            }
+            return new Promise(function(resolve, reject) {
+                if (!value) {
+                    return reject(util.format("%s is required.", key));
+                }
 
-            if (min && value.length < min) {
-                return util.format("%s is too small.", key);
-            }
+                if (min && value.length < min) {
+                    return reject(util.format("%s is too small.", key));
+                }
 
-            if (max && value.length > max) {
-                return util.format("%s is too small.", key);
-            }
+                if (max && value.length > max) {
+                    return reject(util.format("%s is too small.", key));
+                }
+                resolve();
+            });
         };
     },
     number: function(min, max) {
