@@ -62,4 +62,32 @@ describe('/users/', function() {
             });
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should fail to GET users with regular user.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent.get('/users/');
+            })
+            .then(function() {
+                done("Should have failed.");
+            })
+            .catch(function(err) {
+                err.should.have.status(403);
+                done();
+            })
+            .catch(function(err) {
+                done(err);
+            })
+            ;
+        });
+    });
+
 });
