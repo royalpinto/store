@@ -38,21 +38,24 @@ module.exports = {
     },
     number: function(min, max) {
         return function(value, key) {
-            if (isNaN(value)) {
-                return util.format("%s is invalid.", key);
-            }
+            return new Promise(function(resolve, reject) {
+                if (isNaN(value)) {
+                    return reject(util.format("%s is invalid.", key));
+                }
 
-            if (!value) {
-                return util.format("%s is required.", key);
-            }
+                if (!value) {
+                    return reject(util.format("%s is required.", key));
+                }
 
-            if (min !== undefined && value < min) {
-                return util.format("%s is too small.", key);
-            }
+                if (min !== undefined && value < min) {
+                    return reject(util.format("%s is too small.", key));
+                }
 
-            if (min !== undefined && value > max) {
-                return util.format("%s is too small.", key);
-            }
+                if (min !== undefined && value > max) {
+                    return reject(util.format("%s is too small.", key));
+                }
+                reject();
+            });
         };
     },
 };
