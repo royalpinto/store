@@ -5,7 +5,7 @@ var models = require('./../models');
 var hashPassword = function(password, salt) {
     return new Promise(function(resolve, reject) {
         salt = salt || crypto.randomBytes(16).toString('hex');
-        crypto.pbkdf2(password, salt, 100000,
+        crypto.pbkdf2(password, salt, 1000,
             512, 'sha512', function(err, key) {
                 if (err) {
                     return reject(err);
