@@ -16,8 +16,17 @@ router.get(/^\/products\/(\w+)\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/products\//, function(req, res, next) {
-    next();
+router.get(/^\/products\//, function(req, res) {
+    var query = {name: req.query.search};
+    controller
+    .get(query, req.query.limit, req.query.skip, req.query.order)
+    .then(function(product) {
+        res.json(product);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
 });
 
 router.post(/^\/products\//, function(req, res) {
