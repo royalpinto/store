@@ -4,23 +4,21 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var userController = require('./../../controllers/user');
+var controller;
 
 
 describe('User(Controller):', function() {
     before(function(done) {
-        mongodb.MongoClient.connect(config.db.uri, function(err, db) {
-            if (err) {
-                console.error("Failed to connect to the db.");
-            } else {
-                models.init(db)
-                .then(function() {
-                    done();
-                })
-                .catch(console.err)
-                ;
-            }
-        });
+        mongodb.MongoClient.connect(config.db.uri)
+        .then(function(db) {
+            return models.init(db);
+        })
+        .then(function() {
+            controller = require('./../../controllers/user');
+            done();
+        })
+        .catch(done)
+        ;
     });
 
     var cleanCollection = function(done) {
@@ -45,68 +43,15 @@ describe('User(Controller):', function() {
         group: "member",
     };
 
-    it('It should fail user creation because of validations.', function(done) {
-        userController.createUser({
-            name: "Lohith Pinto",
-        })
-        .then(function() {
-            chai.assert.fail(0, 1, 'Validation should have failed.');
-            done();
-        })
-        .catch(function(errors) {
-            chai.assert.isArray(errors, "Validation should return an array.");
-            done();
-        })
-        .catch(function(e) {
-            done(e);
-        })
-        ;
-    });
-
-    it('It should create a User', function(done) {
-        userController.createUser(payload)
-        .then(function(user) {
-            chai.assert.isOk(user._id, "User creation hasn't created the id.");
-            done();
-        })
-        .catch(function(err) {
-            done(err);
-        })
-        ;
-    });
-
     it('It should fetch a User', function(done) {
         var user = new models.User(payload);
 
         user.save()
         .then(function() {
-            return userController.readUser(user._id);
+            return controller.getById(user._id);
         })
         .then(function(user) {
-            chai.assert.isOk(user, "User find by id retrived null.");
-            chai.assert.instanceOf(user, models.User);
-            done();
-        })
-        .catch(function(err) {
-            done(err);
-        })
-        ;
-    });
-
-    it('It should update a User', function(done) {
-        var user = new models.User(payload);
-
-        user.save()
-        .then(function() {
-            return userController.updateUser(user._id, {
-                name: "Royal Pinto",
-            });
-        })
-        .then(function() {
-            return models.User.findById(user._id);
-        })
-        .then(function(user) {
-            chai.assert.strictEqual(user.name, "Royal Pinto");
+            chai.assert.instanceOf(user, Object);
             done();
         })
         .catch(function(err) {
@@ -120,7 +65,7 @@ describe('User(Controller):', function() {
 
         user.save()
         .then(function() {
-            return userController.removeUser(user._id);
+            return controller.remove(user._id);
         })
         .then(function() {
             return models.User.findById(user._id);
@@ -147,10 +92,12 @@ describe('User(Controller):', function() {
 
         Promise.all(users)
         .then(function() {
-            return userController.readUsers({}, 2, 4, {});
+            return controller.get({}, 2, 4, {});
         })
         .then(function(users) {
-            chai.assert.isArray(users);
+            chai.assert.strictEqual(users.count, 10);
+            chai.assert.isArray(users.data);
+            chai.assert.strictEqual(users.data.length, 2);
             done();
         })
         .catch(function(err) {
