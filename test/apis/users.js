@@ -119,4 +119,35 @@ describe('/users/', function() {
         });
     });
 
+    describe('GET /users/id/', function() {
+        it('It should GET users with authorized user.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return agent.get('/users/' + userid + '/');
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(200);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
 });
