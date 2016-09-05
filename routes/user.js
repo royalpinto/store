@@ -17,6 +17,18 @@ router.get(/^\/users\/(\w+)\/$/, function(req, res) {
     ;
 });
 
+router.get(/^\/users\//, function(req, res) {
+    var query = {name: req.query.search};
+    controller
+    .get(query, req.query.limit, req.query.skip, req.query.order)
+    .then(function(user) {
+        res.json(user);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
 
 });
 
