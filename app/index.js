@@ -33,11 +33,15 @@ approuter.use(auth);
 approuter.use(users);
 approuter.use(products);
 
+
+// Finally if non of the routes have matched or responded.
+approuter.use(function(req, res) {
+    res.writeHead(404, {'Content-Type': 'text/plain'});
+    res.end('Not Found');
+});
+
 var server = http.createServer(function(req, res) {
-    approuter.dispatch(req, res, function() {
-        res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.end('Not Found');
-    });
+    approuter.dispatch(req, res);
 });
 
 
