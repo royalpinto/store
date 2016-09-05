@@ -119,11 +119,31 @@ Model.findOne = function(query) {
     ;
 };
 
-Model.find = function(query) {
+Model.findAndCount = function(query, limit, skip, order) {
     var ModelClass = this;
-    return ModelClass.collection
-    .find(query)
-    ;
+    return new Promise(function(resolve, reject) {
+        var cursor = ModelClass.collection
+        .find(query)
+        .sort(order || {})
+        .limit(limit || 0)
+        .skip(skip || 0)
+        ;
+
+        Promise.all([
+            cursor.count(),
+            cursor.toArray(),
+        ])
+        .then(function(values) {
+            resolve({
+                count: values[0],
+                data: values[1].map(function(value) {
+                    return new ModelClass(value);
+                }),
+            });
+        })
+        .catch(reject)
+        ;
+    });
 };
 
 Model.prototype.save = function() {
