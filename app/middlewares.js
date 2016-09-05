@@ -44,8 +44,38 @@ var paginate = function(deafultLimit, maxLimit) {
 };
 
 
+var orderParser = function(req, res, next) {
+    var order = {};
+    var _order = req.query.order;
+
+    if (!(_order instanceof Array)) {
+        _order = [_order];
+    }
+
+    for (var i = 0; i < _order.length; i++) {
+        var orderItem = _order[i];
+        var field;
+        var direction;
+        if (orderItem && orderItem.indexOf('~') === 0) {
+            field = orderItem.slice(1);
+            direction = -1;
+        } else {
+            field = orderItem;
+            direction = 1;
+        }
+        if (field) {
+            order[field] = direction;
+        }
+    }
+
+    req.query.order = order;
+    next();
+};
+
+
 module.exports = {
     querystringParser: querystringParser,
     easyResponse: easyResponse,
     paginate: paginate,
+    orderParser: orderParser,
 };
