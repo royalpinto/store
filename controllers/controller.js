@@ -17,13 +17,7 @@ Controller.prototype.getById = function(id) {
 };
 
 Controller.prototype.get = function(query, limit, skip, order) {
-    return this.Model
-    .find(query)
-    .sort(order || {})
-    .limit(limit)
-    .skip(skip || 0)
-    .toArray()
-    ;
+    return this.Model.findAndCount(query, limit, skip, order);
 };
 
 Controller.prototype.update = function(id, data) {
