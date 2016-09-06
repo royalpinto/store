@@ -39,6 +39,7 @@ describe('/cart/items/', function() {
     var cleanCollection = function(done) {
         Promise.all([
             models.db.collection(models.User.collectionName).removeMany(),
+            models.db.collection(models.Product.collectionName).removeMany(),
             models.db.collection(models.Permission.collectionName).removeMany(),
         ])
         .then(function() {
@@ -82,6 +83,51 @@ describe('/cart/items/', function() {
                 done();
             })
             .catch(done)
+            ;
+        });
+    });
+
+    describe('POST /cart/items/', function() {
+        it('It should POST a cart item.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                var product = new models.Product({
+                    name: 'Allen Solly Jeans',
+                    code: 'ALNS02',
+                    price: 12,
+                    quantity: 10,
+                    category: 'Clothing',
+                    brand: 'Allen Solly',
+                });
+                return product.save()
+                .then(function() {
+                    return product;
+                });
+            })
+            .then(function(product) {
+                return agent.post('/cart/items/').send({
+                    projectId: product._id,
+                    quantity: 2,
+                });
+            })
+            .then(function() {
+                return agent.get('/cart/items/');
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.length(1);
+                done();
+            })
+            .catch(function(err) {
+                done(err);
+            })
             ;
         });
     });
