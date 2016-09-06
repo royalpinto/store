@@ -1,11 +1,12 @@
 var util = require('util');
+var mongodb = require('mongodb');
 var Model = require('./model');
 var CartItem = require('./cartitem');
 
 
 var schema = {
     userId: {
-        type: String,
+        type: mongodb.ObjectID,
         unique: true,
     },
     items: {
