@@ -62,4 +62,27 @@ describe('/cart/items/', function() {
             });
         });
     });
+
+    describe('GET /cart/items/', function() {
+        it('It should GET cart items.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent.get('/cart/items/');
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.length(0);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
