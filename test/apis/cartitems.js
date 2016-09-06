@@ -51,4 +51,15 @@ describe('/cart/items/', function() {
 
     beforeEach(cleanCollection);
     afterEach(cleanCollection);
+
+    describe('GET /cart/items/', function() {
+        it('It should fail to GET cart items without login.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.get('/cart/items/')
+            .end(function(err) {
+                err.should.have.status(401);
+                done();
+            });
+        });
+    });
 });
