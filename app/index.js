@@ -12,6 +12,7 @@ var approuter = new router.Router();
 var auth = require('./../routes/auth');
 var users = require('./../routes/user');
 var products = require('./../routes/product');
+var cartitem = require('./../routes/cartitem');
 
 approuter.use(middlewares.easyResponse);
 approuter.use(middlewares.querystringParser);
@@ -33,6 +34,7 @@ approuter.use(session({
 approuter.use(auth);
 approuter.use(users);
 approuter.use(products);
+approuter.use(cartitem);
 
 
 // Finally if non of the routes have matched or responded.
