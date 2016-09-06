@@ -9,7 +9,7 @@ router.use(/^\/cart\/items\/$/, routes.handlePermission());
 
 router.get(/^\/cart\/items\/$/, function(req, res) {
     controller
-    .get(req.session._id)
+    .get(req.session.user._id)
     .then(function(cart) {
         res.json(cart);
     })
