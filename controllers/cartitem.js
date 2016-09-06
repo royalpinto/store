@@ -22,8 +22,7 @@ CartController.prototype.get = function(userId) {
     ;
 };
 
-CartController.prototype.create = function(userId, projectId, quantity) {
-    console.log(userId, projectId, quantity);
+CartController.prototype.create = function(userId, productId, quantity) {
     var cart;
     return models.Cart
     .findByKey('userId', userId)
@@ -40,11 +39,11 @@ CartController.prototype.create = function(userId, projectId, quantity) {
     })
     .then(function() {
         if (cart.items.filter(function(item) {
-            return item.projectId.toString() === projectId;
+            return item.productId.toString() === productId;
         }).length > 0) {
             throw new errors.ValidationError("projectId already added.");
         }
-        return models.Product.findById(projectId);
+        return models.Product.findById(productId);
     })
     .then(function(product) {
         if (!product) {
@@ -54,6 +53,11 @@ CartController.prototype.create = function(userId, projectId, quantity) {
             throw new errors
                 .ValidationError("quantity is greater than available.");
         }
+        cart.items.push(new models.CartItem({
+            productId: productId,
+            quantity: quantity,
+        }));
+        return cart.save();
     })
     ;
 };
