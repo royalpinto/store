@@ -54,7 +54,7 @@ module.exports = {
                 if (min !== undefined && value > max) {
                     return reject(util.format("%s is too small.", key));
                 }
-                reject();
+                resolve();
             });
         };
     },
