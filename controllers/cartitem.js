@@ -9,5 +9,17 @@ var CartController = function() {
 
 util.inherits(CartController, Controller);
 
+CartController.prototype.get = function(userId) {
+    return models.Cart
+    .findByKey('userId', userId)
+    .then(function(cart) {
+        if (cart) {
+            return cart.items;
+        }
+        return [];
+    })
+    ;
+};
+
 
 module.exports = new CartController();
