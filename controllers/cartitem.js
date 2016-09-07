@@ -11,13 +11,25 @@ var CartController = function() {
 util.inherits(CartController, Controller);
 
 CartController.prototype.get = function(userId) {
+    var items;
     return models.Cart
     .findByKey('userId', userId)
     .then(function(cart) {
         if (cart) {
-            return cart.items;
+            items = cart.items;
+            return cart.getProducts();
         }
+        items = [];
         return [];
+    })
+    .then(function(products) {
+        products.forEach(function(product) {
+            var item = items.find(function(item) {
+                return product._id.equals(item.productId);
+            });
+            item.product = product;
+        });
+        return items;
     })
     ;
 };
