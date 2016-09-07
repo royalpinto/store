@@ -22,8 +22,7 @@ var schema = {
                     for (i = 0; i < items.length; i++) {
                         var item = items[i];
                         if (!(item instanceof CartItem)) {
-                            return reject(util
-                                .format("%s[%d] is invalid.", key, i));
+                            item = items[i] = new CartItem(item);
                         }
                         validators.push(item.validate());
                     }
