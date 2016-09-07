@@ -97,5 +97,33 @@ CartController.prototype.update = function(userId, productId, quantity) {
     ;
 };
 
+CartController.prototype.remove = function(userId, productId) {
+    var cart;
+    var cartItem = null;
+    return models.Cart
+    .findByKey('userId', userId)
+    .then(function(_cart) {
+        if (!_cart) {
+            throw new errors.ValidationError(
+                "productId not added to the cart.");
+        }
+        cart = _cart;
+        var i;
+        for (i = 0; i < cart.items.length; i++) {
+            if (cart.items[i].productId.toString() === productId) {
+                cartItem = cart.items[i];
+                break;
+            }
+        }
+        if (!cartItem) {
+            throw new errors.ValidationError(
+                "productId not added to the cart.");
+        }
+        cart.items.splice(i, 1);
+        return cart.save();
+    })
+    ;
+};
+
 
 module.exports = new CartController();
