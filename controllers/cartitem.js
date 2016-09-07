@@ -41,13 +41,13 @@ CartController.prototype.create = function(userId, productId, quantity) {
         if (cart.items.filter(function(item) {
             return item.productId.toString() === productId;
         }).length > 0) {
-            throw new errors.ValidationError("projectId already added.");
+            throw new errors.ValidationError("productId already added.");
         }
         return models.Product.findById(productId);
     })
     .then(function(product) {
         if (!product) {
-            throw new errors.ValidationError("projectId invalid.");
+            throw new errors.ValidationError("productId invalid.");
         }
         if (product.quantity < quantity) {
             throw new errors
