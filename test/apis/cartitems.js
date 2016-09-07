@@ -181,4 +181,53 @@ describe('/cart/items/', function() {
             ;
         });
     });
+
+    describe('DELETE /cart/items/', function() {
+        it('It should delete a cart item.', function(done) {
+            var agent = chai.request.agent(server);
+            var product = null;
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                product = new models.Product({
+                    name: 'Allen Solly Jeans',
+                    code: 'ALNS02',
+                    price: 12,
+                    quantity: 10,
+                    category: 'Clothing',
+                    brand: 'Allen Solly',
+                });
+                return product.save();
+            })
+            .then(function() {
+                return agent.post('/cart/items/').send({
+                    projectId: product._id,
+                    quantity: 2,
+                });
+            })
+            .then(function() {
+                return agent.delete('/cart/items/').query({
+                    projectId: product._id.toString(),
+                });
+            })
+            .then(function() {
+                return agent.get('/cart/items/');
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.length(0);
+                done();
+            })
+            .catch(function(err) {
+                console.log(err.body);
+                done(err);
+            })
+            ;
+        });
+    });
 });
