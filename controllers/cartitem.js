@@ -125,5 +125,20 @@ CartController.prototype.remove = function(userId, productId) {
     ;
 };
 
+CartController.prototype.checkout = function(userId) {
+    return models.Cart
+    .findByKey('userId', userId)
+    .then(function(cart) {
+        if (!cart || cart.items.length === 0) {
+            throw new errors.ValidationError(
+                "Nothing is in the cart to checkout.");
+        }
+        // Proceed for the payment and store the order details.
+        cart.items = [];
+        return cart.save();
+    })
+    ;
+};
+
 
 module.exports = new CartController();
