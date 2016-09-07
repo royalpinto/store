@@ -89,6 +89,7 @@ describe('/cart/items/', function() {
 
     describe('POST /cart/items/', function() {
         it('It should POST a cart item.', function(done) {
+            var product;
             var agent = chai.request.agent(server);
             agent.post('/register/')
             .send({
@@ -98,7 +99,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                var product = new models.Product({
+                product = new models.Product({
                     name: 'Allen Solly Jeans',
                     code: 'ALNS02',
                     price: 12,
@@ -106,12 +107,9 @@ describe('/cart/items/', function() {
                     category: 'Clothing',
                     brand: 'Allen Solly',
                 });
-                return product.save()
-                .then(function() {
-                    return product;
-                });
+                return product.save();
             })
-            .then(function(product) {
+            .then(function() {
                 return agent.post('/cart/items/').send({
                     projectId: product._id,
                     quantity: 2,
@@ -123,6 +121,8 @@ describe('/cart/items/', function() {
             .then(function(res) {
                 res.should.have.status(200);
                 chai.expect(res.body).to.have.length(1);
+                chai.expect(res.body).to.have.deep
+                    .property('[0].product.name', product.name);
                 done();
             })
             .catch(function(err) {
