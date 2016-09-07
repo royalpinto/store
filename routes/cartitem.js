@@ -55,5 +55,16 @@ router.delete(/^\/cart\/items\//, function(req, res) {
     ;
 });
 
+router.post(/^\/cart\/checkout\/$/, function(req, res) {
+    controller
+    .checkout(req.session.user._id)
+    .then(function() {
+        res.status(204).end();
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
 
 module.exports = router;
