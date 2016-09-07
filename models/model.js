@@ -44,8 +44,8 @@ Model.init = function(db) {
     var key;
     var schema = this._schema;
     this.db = db;
-    this.collectionName = this.name.toLowerCase();
-    this.collection = this.db.collection(this.collectionName);
+    var collectionName = this.name.toLowerCase();
+    this.collection = this.db.collection(collectionName);
     var ModelClass = this;
     for (key in schema) {
         if (key === undefined) {
