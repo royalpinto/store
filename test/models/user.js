@@ -25,8 +25,8 @@ describe('User(Model):', function() {
 
     var cleanCollection = function(done) {
         Promise.all([
-            models.db.collection(models.User.collectionName).removeMany(),
-            models.db.collection(models.Permission.collectionName).removeMany(),
+            models.User.collection.removeMany(),
+            models.Permission.collection.removeMany(),
         ])
         .then(function() {
             done();
@@ -45,7 +45,7 @@ describe('User(Model):', function() {
     };
 
     it('It should have all model attributes', function(done) {
-        chai.assert.equal(models.User.collectionName, 'user');
+        chai.assert.equal(models.User.collection.collectionName, 'user');
         done();
     });
 

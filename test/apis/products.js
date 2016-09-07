@@ -31,9 +31,9 @@ describe('Products:', function() {
 
     var cleanCollection = function(done) {
         Promise.all([
-            models.db.collection(models.Product.collectionName).removeMany(),
-            models.db.collection(models.User.collectionName).removeMany(),
-            models.db.collection(models.Permission.collectionName).removeMany(),
+            models.Product.collection.removeMany(),
+            models.User.collection.removeMany(),
+            models.Permission.collection.removeMany(),
         ])
         .then(function() {
             done();

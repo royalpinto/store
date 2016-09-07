@@ -22,9 +22,9 @@ describe('Cart(Model):', function() {
 
     var cleanCollection = function(done) {
         Promise.all([
-            models.db.collection(models.Cart.collectionName).removeMany(),
-            models.db.collection(models.User.collectionName).removeMany(),
-            models.db.collection(models.Permission.collectionName).removeMany(),
+            models.Cart.collection.removeMany(),
+            models.User.collection.removeMany(),
+            models.Permission.collection.removeMany(),
         ])
         .then(function() {
             done();
