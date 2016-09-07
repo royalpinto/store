@@ -43,5 +43,17 @@ router.put(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
+router.delete(/^\/cart\/items\//, function(req, res) {
+    controller
+    .remove(req.session.user._id, req.query.projectId)
+    .then(function(cart) {
+        res.json(cart);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
+
 
 module.exports = router;
