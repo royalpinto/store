@@ -76,6 +76,21 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should fail the validation with invalid username.', function(done) {
+        var user = new models.User(payload);
+        user.username = "%7 09";
+        user.validate()
+        .then(function() {
+            done('Validation should have failed.');
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it('It should pass the validation.', function(done) {
         var user = new models.User(payload);
         user.validate()
