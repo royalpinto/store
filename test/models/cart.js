@@ -68,4 +68,33 @@ describe('Cart(Model):', function() {
         })
         ;
     });
+
+    it('It should fail the validation for invalid items.', function(done) {
+        var user = new models.User({
+            name: "Lohith Royal Pinto",
+            email: "royalpinto@gmail.com",
+            username: "royalpinto",
+            group: "member",
+        });
+        user.save()
+        .then(function() {
+            var cart = new models.Cart({
+                userId: user._id,
+                items: Object, //Invalid data.
+            });
+            return cart.validate();
+        })
+        .then(function() {
+            done("Validation should have failed.");
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError,
+                "Validation should return an array.");
+            done();
+        })
+        .catch(function(errors) {
+            done(errors);
+        })
+        ;
+    });
 });
