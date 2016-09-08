@@ -134,6 +134,15 @@ describe('User(Model):', function() {
         user.save()
         .then(function() {
             chai.assert.isOk(user._id, "User creation hasn't created the id.");
+            return models.User.collection.findOne({
+                username: user.username,
+            });
+        })
+        .then(function(userjson) {
+            chai.assert.equal(userjson._id.toString(), user._id.toString());
+            chai.assert.strictEqual(userjson.name, user.name);
+            chai.assert.strictEqual(userjson.username, user.username);
+            chai.assert.strictEqual(userjson.group, user.group);
             done();
         })
         .catch(function(err) {
@@ -149,9 +158,12 @@ describe('User(Model):', function() {
         .then(function() {
             return models.User.findById(user._id);
         })
-        .then(function(user) {
-            chai.assert.isOk(user, "User find by id retrived null.");
-            chai.assert.instanceOf(user, models.User);
+        .then(function(actualuser) {
+            chai.assert.isOk(actualuser);
+            chai.assert.instanceOf(actualuser, models.User);
+            chai.assert.strictEqual(actualuser.name, user.name);
+            chai.assert.strictEqual(actualuser.username, user.username);
+            chai.assert.strictEqual(actualuser.group, user.group);
             done();
         })
         .catch(function(err) {
@@ -167,8 +179,12 @@ describe('User(Model):', function() {
         .then(function() {
             return models.User.findByKey('username', user.username);
         })
-        .then(function(user) {
-            chai.assert.isOk(user, "User find by id retrived null.");
+        .then(function(actualuser) {
+            chai.assert.isOk(actualuser);
+            chai.assert.instanceOf(actualuser, models.User);
+            chai.assert.strictEqual(actualuser.name, user.name);
+            chai.assert.strictEqual(actualuser.username, user.username);
+            chai.assert.strictEqual(actualuser.group, user.group);
             done();
         })
         .catch(function(err) {
@@ -185,6 +201,12 @@ describe('User(Model):', function() {
             return user.update({name: "Royal Pinto"});
         })
         .then(function() {
+            return models.User.collection.findOne({
+                username: user.username,
+            });
+        })
+        .then(function(userjson) {
+            chai.assert.strictEqual(userjson.name, "Royal Pinto");
             done();
         })
         .catch(function(err) {
@@ -201,6 +223,12 @@ describe('User(Model):', function() {
             return user.remove();
         })
         .then(function() {
+            return models.User.collection.findOne({
+                username: user.username,
+            });
+        })
+        .then(function(doc) {
+            chai.assert.isNull(doc);
             done();
         })
         .catch(function(err) {
