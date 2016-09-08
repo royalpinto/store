@@ -4,6 +4,7 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
+var errors = require('./../../errors');
 
 
 describe('Permission(Model):', function() {
@@ -42,6 +43,31 @@ describe('Permission(Model):', function() {
         category: "Clothing",
         brand: "Allen Solley",
     };
+
+    it("It should validate a product.", function(done) {
+        var product = new models.Product(payload);
+        product.price = -1;
+        product.validate()
+        .then(function() {
+            done('Validation should have failed.');
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.price = 'adcsd';
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.price = 'adcsd';
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 
     it("It should create a product.", function(done) {
         var product = new models.Product(payload);
