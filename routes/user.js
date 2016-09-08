@@ -9,7 +9,7 @@ var errors = require('./../errors');
 router.use(/^\/users\//, routes.handlePermission('users', 'readwrite'));
 
 
-router.get(/^\/users\/(\w+)\/$/, function(req, res) {
+router.get(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller.getById(id)
     .then(function(user) {
@@ -21,7 +21,7 @@ router.get(/^\/users\/(\w+)\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/users\//, function(req, res) {
+router.get(/^\/users\/$/, function(req, res) {
     var query = {name: req.query.search};
     controller
     .get(query, req.query.limit, req.query.skip, req.query.order)
@@ -34,7 +34,7 @@ router.get(/^\/users\//, function(req, res) {
     ;
 });
 
-router.delete(/^\/users\/(\w+)\/$/, function(req, res) {
+router.delete(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .remove(id, req.body)
