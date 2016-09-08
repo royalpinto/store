@@ -9,7 +9,7 @@ router.post(/^\/products\//, routes.handlePermission('projects', 'write'));
 router.put(/^\/products\//, routes.handlePermission('projects', 'write'));
 
 
-router.get(/^\/products\/(\w+)\/$/, function(req, res) {
+router.get(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller.getById(id)
     .then(function(product) {
@@ -21,7 +21,7 @@ router.get(/^\/products\/(\w+)\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/products\//, function(req, res) {
+router.get(/^\/products\/$/, function(req, res) {
     var query = {name: req.query.search};
     controller
     .get(query, req.query.limit, req.query.skip, req.query.order)
@@ -34,7 +34,7 @@ router.get(/^\/products\//, function(req, res) {
     ;
 });
 
-router.post(/^\/products\//, function(req, res) {
+router.post(/^\/products\/$/, function(req, res) {
     controller
     .create(req.body)
     .then(function(product) {
@@ -46,7 +46,7 @@ router.post(/^\/products\//, function(req, res) {
     ;
 });
 
-router.put(/^\/products\/(\w+)\/$/, function(req, res) {
+router.put(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .update(id, req.body)
@@ -59,7 +59,7 @@ router.put(/^\/products\/(\w+)\/$/, function(req, res) {
     ;
 });
 
-router.delete(/^\/products\/(\w+)\/$/, function(req, res) {
+router.delete(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .remove(id, req.body)
