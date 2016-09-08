@@ -27,7 +27,7 @@ approuter.use(session({
     saveUninitialized: false,
     resave: true,
     store: new MongoStore({
-        db: models.db,
+        dbPromise: models.getDB(),
     }),
 }));
 
