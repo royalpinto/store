@@ -8,8 +8,7 @@ var dbDefereds = [];
 var files = fs.readdirSync(__dirname);
 for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    if (file.indexOf('.') !== 0 && file !== 'index.js' &&
-            file !== 'validators.js' && file.slice(-3) === '.js') {
+    if (/^(?!(model|index|validators))\w+.js$/i.test(file)) {
         var model = require(path.join(__dirname, file));
         models[model.name] = model;
         modelList.push(model);
