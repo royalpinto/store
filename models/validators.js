@@ -43,10 +43,6 @@ module.exports = {
                     return reject(util.format("%s is invalid.", key));
                 }
 
-                if (!value) {
-                    return reject(util.format("%s is required.", key));
-                }
-
                 if (min !== undefined && value < min) {
                     return reject(util.format("%s is too small.", key));
                 }
