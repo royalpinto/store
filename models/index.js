@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var models = {};
 var modelList = [];
+var dbDefereds = [];
 
 
 var files = fs.readdirSync(__dirname);
@@ -17,6 +18,11 @@ for (var i = 0; i < files.length; i++) {
 
 
 models.init = function(db) {
+    for (var i = 0; i < dbDefereds.length; i++) {
+        var resolve = dbDefereds[i];
+        resolve(db);
+    }
+
     return new Promise(function(resolve, reject) {
         models.db = db;
         var initPromises = [];
@@ -29,6 +35,16 @@ models.init = function(db) {
         .then(resolve)
         .catch(reject)
         ;
+    });
+};
+
+
+models.getDB = function() {
+    return new Promise(function(resolve) {
+        if (models.db) {
+            return resolve(models.db);
+        }
+        dbDefereds.push(resolve);
     });
 };
 
