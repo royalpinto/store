@@ -48,4 +48,26 @@ describe('Permission(Model):', function() {
         .catch(done)
         ;
     });
+
+    it("it should ignore adding permission, if already added.", function(done) {
+        models.Permission.add('admin', 'project', 'readwrite')
+        .then(function() {
+            return models.Permission.add('admin', 'project', 'readwrite');
+        })
+        .then(function() {
+            return models.Permission.collection
+            .find({
+                group: "admin",
+                noun: "project",
+                verb: "readwrite",
+            })
+            .count();
+        })
+        .then(function(count) {
+            chai.assert.strictEqual(count, 1);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
