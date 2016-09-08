@@ -66,17 +66,13 @@ describe('User(Model):', function() {
         var user = new models.User();
         user.validate()
         .then(function() {
-            chai.assert.fail(0, 1, 'Validation should have failed.');
-            done();
+            done('Validation should have failed.');
         })
         .catch(function(error) {
-            chai.assert.instanceOf(error, errors.ValidationError,
-                "Validation should return an array.");
+            chai.assert.instanceOf(error, errors.ValidationError);
             done();
         })
-        .catch(function(errors) {
-            done(errors);
-        })
+        .catch(done)
         ;
     });
 
