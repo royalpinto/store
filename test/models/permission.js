@@ -121,4 +121,29 @@ describe('Permission(Model):', function() {
             ;
         }
     );
+
+    it("it should check permission already added.",
+        function(done) {
+            models.Permission.add('admin', 'project', 'readwrite')
+            .then(function() {
+                return models.Permission
+                .check('admin', 'project', 'readwrite');
+            })
+            .then(function(permit) {
+                chai.assert.strictEqual(permit, true);
+                return models.Permission
+                .remove('admin', 'project', 'readwrite');
+            })
+            .then(function() {
+                return models.Permission
+                .check('admin', 'project', 'readwrite');
+            })
+            .then(function(permit) {
+                chai.assert.strictEqual(permit, false);
+                done();
+            })
+            .catch(done)
+            ;
+        }
+    );
 });
