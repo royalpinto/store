@@ -1,3 +1,5 @@
+var url = require('url');
+
 var Router = function() {
     this._patterns = [];
 };
@@ -34,7 +36,7 @@ Router.prototype.delete = function(regex, cb) {
 };
 
 Router.prototype.dispatch = function(req, res, next) {
-    var path = req.url;
+    var path = url.parse(req.url).pathname;
     var instance = this;
 
     var patternmatcher = function(sindex) {
