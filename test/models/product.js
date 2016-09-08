@@ -63,4 +63,26 @@ describe('Permission(Model):', function() {
         .catch(done)
         ;
     });
+
+    it("It should update a product.", function(done) {
+        var product = new models.Product(payload);
+        product.save()
+        .then(function() {
+            product.name = "Something else.";
+            return product.save();
+        })
+        .then(function() {
+            return models.Product.collection
+            .findOne({
+                _id: product._id,
+            })
+            ;
+        })
+        .then(function(productjson) {
+            chai.assert.strictEqual(productjson.name, "Something else.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
