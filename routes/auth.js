@@ -5,7 +5,7 @@ var userController = require('./../controllers/user');
 var errors = require('./../errors');
 
 
-router.post(/^\/login\//, function(req, res) {
+router.post(/^\/login\/$/, function(req, res) {
     if (req.session.user) {
         res.json(req.session.user);
     }
@@ -22,7 +22,7 @@ router.post(/^\/login\//, function(req, res) {
     ;
 });
 
-router.get(/^\/login\//, function(req, res) {
+router.get(/^\/login\/$/, function(req, res) {
     userController.readUser(req.session.user._id)
     .then(function(user) {
         req.session.user = user.toJSON();
@@ -34,7 +34,7 @@ router.get(/^\/login\//, function(req, res) {
     ;
 });
 
-router.post(/^\/register\//, function(req, res) {
+router.post(/^\/register\/$/, function(req, res) {
     controller.registerUser(req.body)
     .then(function(user) {
         req.session.user = user.toJSON();
@@ -46,7 +46,7 @@ router.post(/^\/register\//, function(req, res) {
     ;
 });
 
-router.get(/^\/logout\//, function(req, res) {
+router.get(/^\/logout\/$/, function(req, res) {
     req.session.destroy(function(error) {
         if (error) {
             errors.handle(req, res, error);
