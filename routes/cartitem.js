@@ -6,6 +6,7 @@ var routes = require('./index');
 
 
 router.use(/^\/cart\/items\/$/, routes.handlePermission());
+router.use(/^\/cart\/checkout\/$/, routes.handlePermission());
 
 router.get(/^\/cart\/items\/$/, function(req, res) {
     controller
@@ -43,7 +44,7 @@ router.put(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
-router.delete(/^\/cart\/items\//, function(req, res) {
+router.delete(/^\/cart\/items\/$/, function(req, res) {
     controller
     .remove(req.session.user._id, req.query.projectId)
     .then(function(cart) {
