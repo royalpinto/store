@@ -9,13 +9,5 @@ var UserController = function() {
 
 util.inherits(UserController, Controller);
 
-Controller.prototype.create = function() {
-    throw new Error("Not allowed, please use auth controller.");
-};
-
-Controller.prototype.update = function() {
-    throw new Error("Not allowed, please use auth controller.");
-};
-
 
 module.exports = new UserController();
