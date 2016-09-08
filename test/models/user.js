@@ -91,6 +91,25 @@ describe('User(Model):', function() {
         ;
     });
 
+    it('It should serialize user with only exposable fields.', function(done) {
+        var user = new models.User(payload);
+        user.salt = "dummysalt";
+        user.salt = "dummyhash";
+        user.save()
+        .then(function() {
+            var userjson = JSON.parse(JSON.stringify(user));
+            chai.assert.equal(userjson._id, user._id);
+            chai.assert.strictEqual(userjson.name, user.name);
+            chai.assert.strictEqual(userjson.username, user.username);
+            chai.assert.strictEqual(userjson.group, user.group);
+            chai.assert.isUndefined(userjson.salt);
+            chai.assert.isUndefined(userjson.hash);
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it('It should pass the validation.', function(done) {
         var user = new models.User(payload);
         user.validate()
