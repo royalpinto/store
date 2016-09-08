@@ -4,7 +4,7 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var controller;
+var controller = require('./../../controllers/user');
 
 
 describe('User(Controller):', function() {
@@ -14,7 +14,6 @@ describe('User(Controller):', function() {
             return models.init(db);
         })
         .then(function() {
-            controller = require('./../../controllers/user');
             done();
         })
         .catch(done)
