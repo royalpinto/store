@@ -4,7 +4,7 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var server;
+var server = require('../../app');
 
 
 chai.should();
@@ -21,7 +21,6 @@ describe('/cart/items/', function() {
             return new Promise(function(resolve, reject) {
                 var port = config.server.port;
                 var listen = config.server.listen;
-                server = require('../../app');
                 server.listen(port, listen, function(err) {
                     if (err) {
                         reject(err);
