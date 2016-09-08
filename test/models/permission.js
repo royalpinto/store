@@ -1,5 +1,6 @@
-/* global describe, before, beforeEach, afterEach */
+/* global describe, it, before, beforeEach, afterEach */
 
+var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
@@ -28,4 +29,23 @@ describe('Permission(Model):', function() {
 
     beforeEach(cleanCollection);
     afterEach(cleanCollection);
+
+    it("it should add/set permission.", function(done) {
+        models.Permission.add('admin', 'project', 'readwrite')
+        .then(function() {
+            return models.Permission.collection
+            .find({
+                group: "admin",
+                noun: "project",
+                verb: "readwrite",
+            })
+            .count();
+        })
+        .then(function(count) {
+            chai.assert.strictEqual(count, 1);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
