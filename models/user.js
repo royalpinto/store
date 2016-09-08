@@ -19,12 +19,14 @@ var schema = {
     username: {
         type: String,
         unique: true,
-        validators: [{
-            fn: function(value, key) {
-                if (/^[a-zA-Z0-9]+$/.test(key)) {
-                    return;
-                }
-                return "Invalid username.";
+        validations: [{
+            fn: function(value) {
+                return new Promise(function(resolve, reject) {
+                    if (/^[a-zA-Z0-9]+$/.test(value)) {
+                        resolve();
+                    }
+                    reject("Invalid username.");
+                });
             },
         }],
     },
