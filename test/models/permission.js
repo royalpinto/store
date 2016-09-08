@@ -92,4 +92,33 @@ describe('Permission(Model):', function() {
         .catch(done)
         ;
     });
+
+    it("it should ignore removing permission, if not already added.",
+        function(done) {
+            models.Permission.add('admin', 'project', 'readwrite')
+            .then(function() {
+                return models.Permission
+                .remove('admin', 'project', 'readwrite');
+            })
+            .then(function() {
+                return models.Permission
+                .remove('admin', 'project', 'readwrite');
+            })
+            .then(function() {
+                return models.Permission.collection
+                .find({
+                    group: "admin",
+                    noun: "project",
+                    verb: "readwrite",
+                })
+                .count();
+            })
+            .then(function(count) {
+                chai.assert.strictEqual(count, 0);
+                done();
+            })
+            .catch(done)
+            ;
+        }
+    );
 });
