@@ -107,6 +107,23 @@ describe('Permission(Model):', function() {
         ;
     });
 
+    it("It should not create another product with same code.", function(done) {
+        var product = new models.Product(payload);
+        product.save()
+        .then(function() {
+            var product = new models.Product(payload);
+            return product.save();
+        })
+        .then(function() {
+            done("Validation should have failed.");
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            done();
+        })
+        ;
+    });
+
     it("It should update a product.", function(done) {
         var product = new models.Product(payload);
         product.save()
