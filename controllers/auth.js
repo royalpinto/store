@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var models = require('./../models');
+var errors = require('./../errors');
 
 
 var hashPassword = function(password, salt) {
@@ -27,7 +28,7 @@ var loginUser = function(username, password) {
     })
     .then(function(result) {
         if (result[1] !== user.hash) {
-            throw new Error("Invalid credentials.");
+            throw new errors.ValidationError("Invalid credentials.");
         }
         return user;
     })
