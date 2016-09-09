@@ -28,7 +28,7 @@ router.post(/^\/login\/$/, function(req, res) {
 });
 
 router.get(/^\/login\/$/, function(req, res) {
-    userController.readUser(req.session.user._id)
+    userController.getById(req.session.user._id)
     .then(function(user) {
         req.session.user = user.toJSON();
         res.json(user);
