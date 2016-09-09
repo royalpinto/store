@@ -57,4 +57,18 @@ describe('Product(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should get a product", function(done) {
+        controller.create(payload)
+        .then(function(product) {
+            return controller.getById(product._id.toString());
+        })
+        .then(function(product) {
+            chai.assert.isOk(product);
+            chai.assert.isOk(product._id);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
