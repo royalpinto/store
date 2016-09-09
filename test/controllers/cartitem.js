@@ -207,6 +207,50 @@ describe('CartItem(Controller):', function() {
         ;
     });
 
+    it("It should validate updating item in the cart.", function(done) {
+        var user = new models.User(userpayload);
+        var product;
+        user.save()
+        .then(function() {
+            return controller.update(user._id);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error, "productId not added to the cart.");
+            product = new models.Product(productpayload);
+            return product.save();
+        })
+        .then(function() {
+            var cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            var cartitem = new models.CartItem({
+                productId: product._id,
+                quantity: 11,
+            });
+            cart.items.push(cartitem);
+            return cart.save();
+        })
+        .then(function() {
+            return controller.update(user._id, new mongodb.ObjectID(), 100);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "productId not added to the cart.");
+            return controller.update(user._id, product._id, 100);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "quantity is greater than available.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it("It should rmeove item from the cart.", function(done) {
         var user = new models.User(userpayload);
         var product;
