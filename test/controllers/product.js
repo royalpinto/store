@@ -71,4 +71,27 @@ describe('Product(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should get products", function(done) {
+        var products = [];
+        var i;
+        for (i = 0; i < 10; i++) {
+            var product = new models.Product(payload);
+            // This is required as username is unique.
+            product.code += i;
+            products.push(product.save());
+        }
+        Promise.all(products)
+        .then(function() {
+            return controller.get({}, 2, 4, {});
+        })
+        .then(function(products) {
+            chai.assert.strictEqual(products.count, 10);
+            chai.assert.isArray(products.data);
+            chai.assert.strictEqual(products.data.length, 2);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
