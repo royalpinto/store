@@ -88,4 +88,20 @@ describe('CartItem(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should not login with invalid credentials", function(done) {
+        controller
+        .registerUser(payload)
+        .then(function() {
+            return controller.loginUser(payload.username, "nonpassword");
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "Invalid credentials.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
