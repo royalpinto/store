@@ -158,4 +158,26 @@ describe('Permission(Model):', function() {
         .catch(done)
         ;
     });
+
+    it("It should not update a product with existing code.", function(done) {
+        var product = new models.Product(payload);
+        var newProduct;
+        product.save()
+        .then(function() {
+            newProduct = new models.Product(payload);
+            newProduct.code = payload.code + "A"; // Different code.
+            return newProduct.save();
+        })
+        .then(function() {
+            return newProduct.update({
+                code: product.code, // Already existing product.
+            });
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
