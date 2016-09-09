@@ -11,7 +11,7 @@ var schema = {
         type: mongodb.ObjectID,
         unique: true,
         validations: [{
-            fn: validators.ObjectID,
+            fn: validators.objectID(true),
         }],
     },
     items: {
