@@ -32,8 +32,8 @@ Controller.prototype.update = function(id, data) {
 Controller.prototype.remove = function(id) {
     return this.Model
     .findById(id)
-    .then(function(user) {
-        return user.remove();
+    .then(function(model) {
+        return model.remove();
     })
     ;
 };
