@@ -94,4 +94,22 @@ describe('Product(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should update a product", function(done) {
+        var product;
+        controller.create(payload)
+        .then(function(_product) {
+            product = _product;
+            return controller.update(product._id, {code: "ABCDEF"});
+        })
+        .then(function() {
+            return models.Product.findById(product._id);
+        })
+        .then(function(product) {
+            chai.assert.equal(product.code, "ABCDEF");
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
