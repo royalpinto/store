@@ -60,7 +60,7 @@ var hasPermission = function(userid, noun, verb) {
     return models.User
     .findById(userid)
     .then(function(user) {
-        return user.hasPermission(noun, verb);
+        return user && user.hasPermission(noun, verb);
     })
     ;
 };
