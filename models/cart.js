@@ -32,6 +32,9 @@ var schema = {
                         validators.push(item.validate());
                     }
                     Promise.all(validators)
+                    .then(function() {
+                        return items;
+                    })
                     .then(resolve)
                     .catch(function(error) {
                         reject(error.error);
