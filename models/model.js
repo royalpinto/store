@@ -27,9 +27,6 @@ var Model = function Model(properties) {
             continue;
         }
 
-        if (value && !(value instanceof propertySchema.type)) {
-            value = propertySchema.type(value);
-        }
         this[key] = value;
     }
 };
@@ -189,9 +186,6 @@ Model.prototype.update = function(properties) {
             continue;
         }
 
-        if (value && !(value instanceof propertySchema.type)) {
-            value = propertySchema.type(value);
-        }
         data[key] = value;
         count++;
     }
@@ -263,11 +257,6 @@ Model.prototype.validate = function() {
             for (var i = 0; i < validations.length; i++) {
                 var validator = validations[i];
 
-                // Cast if required.
-                if (property && !(property instanceof propertySchema.type)) {
-                    property = propertySchema.type(property);
-                }
-
                 validators.push(validator.fn(property, key, model));
             }
         }
@@ -289,14 +278,7 @@ Model.prototype.toObject = function() {
         if (!schema.hasOwnProperty(key)) {
             continue;
         }
-        var propertySchema = schema[key];
-        var value = model[key];
-
-        // Cast if required.
-        if (value && !(value instanceof propertySchema.type)) {
-            value = propertySchema.type(value);
-        }
-        object[key] = value;
+        object[key] = model[key];
     }
     return object;
 };
