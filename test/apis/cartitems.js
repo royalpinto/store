@@ -212,6 +212,37 @@ describe('/cart/items/', function() {
         });
     });
 
+    describe('PUT /cart/items/', function() {
+        it('It should fail to update a cart item quantity.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent.put('/cart/items/').send({
+                    projectId: new mongodb.ObjectID(),
+                    quantity: 2,
+                });
+            })
+            .then(function() {
+                done("I should not have come here.");
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal('productId not added to the cart.');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
     describe('DELETE /cart/items/', function() {
         it('It should delete a cart item.', function(done) {
             var agent = chai.request.agent(server);
