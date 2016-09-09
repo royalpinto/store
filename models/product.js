@@ -19,7 +19,9 @@ var schema = {
     price: {
         type: Number,
         validations: [{
-            fn: validators.number(1),
+            // For now let's not allow price more than 1million.
+            // Later this can be removed based on the requirement.
+            fn: validators.number(1, 1000000),
         }],
     },
     quantity: {
