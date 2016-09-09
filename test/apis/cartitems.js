@@ -175,7 +175,6 @@ describe('/cart/items/', function() {
                 done();
             })
             .catch(function(err) {
-                console.log(err.body);
                 done(err);
             })
             ;
@@ -224,7 +223,6 @@ describe('/cart/items/', function() {
                 done();
             })
             .catch(function(err) {
-                console.log(err.body);
                 done(err);
             })
             ;
@@ -272,7 +270,6 @@ describe('/cart/items/', function() {
                 done();
             })
             .catch(function(err) {
-                console.log(err.body);
                 done(err);
             })
             ;
