@@ -38,6 +38,9 @@ var loginUser = function(username, password) {
 var registerUser = function(data) {
     // Set/override the group as member.
     data = data || {};
+    if (!data.password && typeof data.password !== 'string') {
+        return Promise.reject(new errors.ValidationError("password invalid."));
+    }
     data.group = 'member';
     var user = new models.User(data);
 
