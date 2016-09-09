@@ -122,7 +122,7 @@ CartController.prototype.remove = function(userId, productId) {
         cart = _cart;
         var i;
         for (i = 0; i < cart.items.length; i++) {
-            if (cart.items[i].productId.toString() === productId) {
+            if (cart.items[i].productId.equals(productId)) {
                 cartItem = cart.items[i];
                 break;
             }
