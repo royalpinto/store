@@ -57,7 +57,11 @@ Cart.setSchema(schema);
 
 Cart.prototype.getProducts = function() {
     var productIds = this.items.map(function(item) {
-        return item.productId;
+        var productId = item.productId;
+        if (productId && !(productId instanceof mongodb.ObjectID)) {
+            productId = new mongodb.ObjectID(productId);
+        }
+        return productId;
     })
     ;
     return Product.collection.find({
