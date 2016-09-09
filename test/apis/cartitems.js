@@ -38,6 +38,7 @@ describe('/cart/items/', function() {
     var cleanCollection = function(done) {
         Promise.all([
             models.User.collection.removeMany(),
+            models.Cart.collection.removeMany(),
             models.Product.collection.removeMany(),
             models.Permission.collection.removeMany(),
         ])
