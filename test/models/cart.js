@@ -128,6 +128,11 @@ describe('Cart(Model):', function() {
                 quantity: 90,
             });
             cart.items.push(cartitem);
+            // Even regular object should be allowed to push.
+            cart.items.push({
+                productId: new mongodb.ObjectID(),
+                quantity: 90,
+            });
             return cart.validate();
         })
         .then(function() {
