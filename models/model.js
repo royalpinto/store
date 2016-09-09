@@ -225,6 +225,24 @@ Model.prototype.remove = function() {
     return collection.deleteOne({_id: model._id});
 };
 
+Model.validateFiled = function(key, value) {
+    var schema = this._schema;
+    var propertySchema = schema[key];
+    var validations = propertySchema.validations;
+    var validators = [];
+    var validationSuccess = function(_value) {
+        value = _value || value;
+    };
+    for (var i = 0; i < (validations || []).length; i++) {
+        var validation = validations[i];
+        validators.push(validation.fn(value, key).then(validationSuccess));
+    }
+    return Promise.all(validators)
+    .then(function() {
+        return value;
+    });
+};
+
 Model.prototype.validate = function() {
     var model = this;
     var schema = this.constructor._schema;
