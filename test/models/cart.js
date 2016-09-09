@@ -59,8 +59,20 @@ describe('Cart(Model):', function() {
             done("Validation should have failed.");
         })
         .catch(function(error) {
-            chai.assert.instanceOf(error, errors.ValidationError,
-                "Validation should return an array.");
+            chai.assert.instanceOf(error, errors.ValidationError);
+            var cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            var cartitem = new models.CartItem({
+                productId: "I am something but not valid",
+                quantity: 90,
+            });
+            cart.items.push(cartitem);
+            return cart.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
             done();
         })
         .catch(function(errors) {
