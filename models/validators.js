@@ -3,19 +3,21 @@ var mongodb = require('mongodb');
 
 
 module.exports = {
-    ObjectID: function(value, key) {
-        return new Promise(function(resolve, reject) {
-            if (!value) {
-                return resolve();
-            }
-            if (mongodb.ObjectID.isValid(value)) {
-                if (!(value instanceof mongodb.ObjectID)) {
-                    value = new mongodb.ObjectID(value);
+    objectID: function(required) {
+        return function(value, key) {
+            return new Promise(function(resolve, reject) {
+                if (required && !value) {
+                    return reject(util.format("%s is required.", key));
                 }
-                return resolve(value);
-            }
-            reject(util.format("%s is invalid.", key));
-        });
+                if (mongodb.ObjectID.isValid(value)) {
+                    if (!(value instanceof mongodb.ObjectID)) {
+                        value = new mongodb.ObjectID(value);
+                    }
+                    return resolve(value);
+                }
+                reject(util.format("%s is invalid.", key));
+            });
+        };
     },
     email: function(value, key) {
         return new Promise(function(resolve, reject) {
