@@ -50,14 +50,17 @@ describe('User(Model):', function() {
     });
 
     it('It should instantiate a User model', function(done) {
-        var user = new models.User(payload);
-
+        var localpayload = JSON.parse(JSON.stringify(payload));
+        localpayload.random = "ABCD";
+        var user = new models.User(localpayload);
         // Check if fields are assigned.
-        for (var key in payload) {
+        for (var key in localpayload) {
             if (key === undefined) {
                 continue;
+            } else if (key === "random") { // Random keys should not be applied.
+                continue;
             }
-            chai.assert.equal(user[key], payload[key]);
+            chai.assert.equal(user[key], localpayload[key]);
         }
         done();
     });
