@@ -141,4 +141,52 @@ describe('Cart(Model):', function() {
         .catch(errors)
         ;
     });
+
+    it('It should get Projects from cart.', function(done) {
+        var projectPayload = {
+            name: "Allen Solly Jeans",
+            code: "ALNS001",
+            price: 90,
+            quantity: 12,
+            category: "Clothing",
+            brand: "Allen Solley",
+        };
+        var user = new models.User({
+            name: "Lohith Royal Pinto",
+            email: "royalpinto@gmail.com",
+            username: "royalpinto",
+            group: "member",
+        });
+        var product;
+        var cart;
+        user.save()
+        .then(function() {
+            product = new models.Product(projectPayload);
+            return product.save();
+        })
+        .then(function() {
+            cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            cart.items.push(new models.CartItem({
+                productId: product._id,
+                quantity: 90,
+            }));
+            cart.items.push({
+                productId: product._id.toString(),
+                quantity: 90,
+            });
+            return cart.save();
+        })
+        .then(function() {
+            return cart.getProducts();
+        })
+        .then(function(products) {
+            console.log(products);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
