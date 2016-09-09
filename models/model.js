@@ -18,16 +18,15 @@ var refactorError = function(error) {
 var Model = function Model(properties) {
     var schema = this.constructor._schema;
     for (var key in properties) {
-        if (!properties.hasOwnProperty(key)) {
-            continue;
-        }
-        var value = properties[key];
-        var propertySchema = schema[key];
-        if (!propertySchema) {
-            continue;
-        }
+        if (properties.hasOwnProperty(key)) {
+            var value = properties[key];
+            var propertySchema = schema[key];
+            if (!propertySchema) {
+                continue;
+            }
 
-        this[key] = value;
+            this[key] = value;
+        }
     }
 };
 
@@ -45,23 +44,20 @@ Model.init = function(db) {
     this.collection = this.db.collection(collectionName);
     var ModelClass = this;
     for (key in schema) {
-        if (!schema.hasOwnProperty(key)) {
-            continue;
+        if (schema.hasOwnProperty(key)) {
+            var property = schema[key];
+            if (!property.unique) {
+                continue;
+            }
+
+            var index = {
+                name: key,
+                unique: true,
+                key: {},
+            };
+            index.key[key] = 1;
+            indexes.push(index);
         }
-
-        var property = schema[key];
-
-        if (!property.unique) {
-            continue;
-        }
-
-        var index = {
-            name: key,
-            unique: true,
-            key: {},
-        };
-        index.key[key] = 1;
-        indexes.push(index);
     }
 
     return new Promise(function(resolve, reject) {
@@ -179,18 +175,17 @@ Model.prototype.update = function(properties) {
     var count = 0;
     var validators = [];
     for (var key in properties) {
-        if (!properties.hasOwnProperty(key)) {
-            continue;
-        }
-        var value = properties[key];
-        var propertySchema = schema[key];
-        if (!propertySchema) {
-            continue;
-        }
+        if (properties.hasOwnProperty(key)) {
+            var value = properties[key];
+            var propertySchema = schema[key];
+            if (!propertySchema) {
+                continue;
+            }
 
-        validators.push(ModelClass.validateFiled(key, value));
-        data[key] = value;
-        count++;
+            validators.push(ModelClass.validateFiled(key, value));
+            data[key] = value;
+            count++;
+        }
     }
 
     if (count === 0) {
@@ -253,19 +248,18 @@ Model.prototype.validate = function() {
         var error = null;
         var validators = [];
         for (key in schema) {
-            if (!schema.hasOwnProperty(key)) {
-                continue;
+            if (schema.hasOwnProperty(key)) {
+                var value = model[key];
+                (function(key, value) {
+                    validators.push(
+                        ModelClass
+                        .validateFiled(key, value)
+                        .then(function(_value) {
+                            model[key] = _value;
+                        })
+                    );
+                })(key, value);
             }
-            var value = model[key];
-            (function(key, value) {
-                validators.push(
-                    ModelClass
-                    .validateFiled(key, value)
-                    .then(function(_value) {
-                        model[key] = _value;
-                    })
-                );
-            })(key, value);
         }
         Promise.all(validators)
         .then(resolve)
@@ -282,10 +276,9 @@ Model.prototype.toObject = function() {
     var schema = model.constructor._schema;
     var key;
     for (key in schema) {
-        if (!schema.hasOwnProperty(key)) {
-            continue;
+        if (schema.hasOwnProperty(key)) {
+            object[key] = model[key];
         }
-        object[key] = model[key];
     }
     return object;
 };
