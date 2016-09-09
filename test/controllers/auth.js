@@ -72,4 +72,20 @@ describe('CartItem(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should login user", function(done) {
+        controller
+        .registerUser(payload)
+        .then(function() {
+            return controller.loginUser(payload.username, payload.password);
+        })
+        .then(function(user) {
+            chai.assert.isOk(user);
+            chai.assert.instanceOf(user, models.User);
+            chai.assert.equal(user.username, payload.username);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
