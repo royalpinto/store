@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var controller = require('./../../controllers/cartitem');
+var errors = require('./../../errors');
 
 
 describe('CartItem(Controller):', function() {
@@ -129,6 +130,40 @@ describe('CartItem(Controller):', function() {
             chai.assert.isOk(cart);
             chai.assert.isArray(cart.items);
             chai.assert.lengthOf(cart.items, 2);
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should validate adding item to the cart.", function(done) {
+        var user = new models.User(userpayload);
+        var product;
+        user.save()
+        .then(function() {
+            return controller.create(user._id, new mongodb.ObjectID(), 2);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error, "productId invalid.");
+            product = new models.Product(productpayload);
+            return product.save();
+        })
+        .then(function() {
+            return controller.create(user._id, product._id, 100);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "quantity is greater than available.");
+            return controller.create(user._id, product._id, 10);
+        })
+        .then(function() {
+            return controller.create(user._id, product._id, 10);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error, "productId already added.");
             done();
         })
         .catch(done)
