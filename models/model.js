@@ -232,11 +232,12 @@ Model.prototype.validate = function() {
             }
             var propertySchema = schema[key];
             var property = model[key];
-            for (var validatorIndex in propertySchema.validations) {
-                if (validatorIndex === undefined) {
-                    continue;
-                }
-                var validator = propertySchema.validations[validatorIndex];
+            var validations = propertySchema.validations;
+            if (!validations) {
+                continue;
+            }
+            for (var i = 0; i < validations.length; i++) {
+                var validator = validations[i];
 
                 // Cast if required.
                 if (property && !(property instanceof propertySchema.type)) {
