@@ -207,4 +207,40 @@ describe('CartItem(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should checkout items from the cart.", function(done) {
+        var user = new models.User(userpayload);
+        var product;
+        user.save()
+        .then(function() {
+            product = new models.Product(productpayload);
+            return product.save();
+        })
+        .then(function() {
+            var cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            var cartitem = new models.CartItem({
+                productId: product._id,
+                quantity: 11,
+            });
+            cart.items.push(cartitem);
+            return cart.save();
+        })
+        .then(function() {
+            return controller.checkout(user._id);
+        })
+        .then(function() {
+            return models.Cart.findByKey('userId', user._id);
+        })
+        .then(function(cart) {
+            chai.assert.isOk(cart);
+            chai.assert.isArray(cart.items);
+            chai.assert.lengthOf(cart.items, 0);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
