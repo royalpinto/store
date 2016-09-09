@@ -173,9 +173,11 @@ Model.prototype.save = function() {
 
 Model.prototype.update = function(properties) {
     var model = this;
-    var schema = this.constructor._schema;
+    var ModelClass = this.constructor;
+    var schema = ModelClass._schema;
     var data = {};
     var count = 0;
+    var validators = [];
     for (var key in properties) {
         if (!properties.hasOwnProperty(key)) {
             continue;
@@ -186,6 +188,7 @@ Model.prototype.update = function(properties) {
             continue;
         }
 
+        validators.push(ModelClass.validateFiled(key, value));
         data[key] = value;
         count++;
     }
@@ -194,11 +197,15 @@ Model.prototype.update = function(properties) {
         return Promise.resolve();
     }
 
-    var collection = this.constructor.collection;
-    return collection.updateOne({
-        _id: model._id,
-    }, {
-        $set: data,
+    return Promise
+    .all(validators)
+    .then(function() {
+        return model.constructor.collection
+        .updateOne({
+            _id: model._id,
+        }, {
+            $set: data,
+        });
     })
     .then(function() {
         for (var key in data) {
@@ -239,7 +246,8 @@ Model.validateFiled = function(key, value) {
 
 Model.prototype.validate = function() {
     var model = this;
-    var schema = this.constructor._schema;
+    var ModelClass = this.constructor;
+    var schema = ModelClass._schema;
     return new Promise(function(resolve, reject) {
         var key;
         var error = null;
@@ -248,17 +256,16 @@ Model.prototype.validate = function() {
             if (!schema.hasOwnProperty(key)) {
                 continue;
             }
-            var propertySchema = schema[key];
-            var property = model[key];
-            var validations = propertySchema.validations;
-            if (!validations) {
-                continue;
-            }
-            for (var i = 0; i < validations.length; i++) {
-                var validator = validations[i];
-
-                validators.push(validator.fn(property, key, model));
-            }
+            var value = model[key];
+            (function(key, value) {
+                validators.push(
+                    ModelClass
+                    .validateFiled(key, value)
+                    .then(function(_value) {
+                        model[key] = _value;
+                    })
+                );
+            })(key, value);
         }
         Promise.all(validators)
         .then(resolve)
