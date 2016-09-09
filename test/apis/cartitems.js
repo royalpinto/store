@@ -88,6 +88,37 @@ describe('/cart/items/', function() {
     });
 
     describe('POST /cart/items/', function() {
+        it('It should fail to POST a cart item.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent.post('/cart/items/').send({
+                    projectId: new mongodb.ObjectID(),
+                    quantity: 2,
+                });
+            })
+            .then(function() {
+                done("I should not have come here.");
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal('productId invalid.');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
+    describe('POST /cart/items/', function() {
         it('It should POST a cart item.', function(done) {
             var product;
             var agent = chai.request.agent(server);
