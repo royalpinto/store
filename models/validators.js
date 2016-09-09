@@ -39,7 +39,7 @@ module.exports = {
                 }
 
                 if (max && value.length > max) {
-                    return reject(util.format("%s is too small.", key));
+                    return reject(util.format("%s is too large.", key));
                 }
                 resolve();
             });
