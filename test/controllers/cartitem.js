@@ -278,4 +278,20 @@ describe('CartItem(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should validate checking items from the cart.", function(done) {
+        var user = new models.User(userpayload);
+        user.save()
+        .then(function() {
+            return controller.checkout(user._id);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "Nothing is in the cart to checkout.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
