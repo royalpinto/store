@@ -287,6 +287,44 @@ describe('CartItem(Controller):', function() {
         ;
     });
 
+    it("It should validate removing item from the cart.", function(done) {
+        var user = new models.User(userpayload);
+        var product;
+        user.save()
+        .then(function() {
+            return controller.remove(user._id, new mongodb.ObjectID());
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error, "productId not added to the cart.");
+            product = new models.Product(productpayload);
+            return product.save();
+        })
+        .then(function() {
+            var cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            var cartitem = new models.CartItem({
+                productId: product._id,
+                quantity: 11,
+            });
+            cart.items.push(cartitem);
+            return cart.save();
+        })
+        .then(function() {
+            return controller.remove(user._id, new mongodb.ObjectID());
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "productId not added to the cart.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it("It should checkout items from the cart.", function(done) {
         var user = new models.User(userpayload);
         var product;
