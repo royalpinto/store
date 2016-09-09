@@ -112,4 +112,22 @@ describe('Product(Controller):', function() {
         .catch(done)
         ;
     });
+
+    it("It should remove a product", function(done) {
+        var product;
+        controller.create(payload)
+        .then(function(_product) {
+            product = _product;
+            return controller.remove(product._id);
+        })
+        .then(function() {
+            return models.Product.findById(product._id);
+        })
+        .then(function(product) {
+            chai.assert.isNotOk(product);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
