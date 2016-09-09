@@ -23,9 +23,10 @@ Controller.prototype.get = function(query, limit, skip, order) {
 Controller.prototype.update = function(id, data) {
     return this.Model
     .findById(id)
-    .then(function(user) {
-        return user.update(data);
-    });
+    .then(function(model) {
+        return model.update(data);
+    })
+    ;
 };
 
 Controller.prototype.remove = function(id) {
