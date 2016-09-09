@@ -212,7 +212,7 @@ describe('CartItem(Controller):', function() {
         var product;
         user.save()
         .then(function() {
-            return controller.update(user._id);
+            return controller.update(user._id, new mongodb.ObjectID(), 10);
         })
         .catch(function(error) {
             chai.assert.instanceOf(error, errors.ValidationError);
