@@ -3,14 +3,6 @@ var mongodb = require('mongodb');
 
 
 module.exports = {
-    required: function(value, key) {
-        return new Promise(function(resolve, reject) {
-            if (value) {
-                resolve();
-            }
-            reject(util.format("%s is required.", key));
-        });
-    },
     ObjectID: function(value, key) {
         return new Promise(function(resolve, reject) {
             if (!value) {
