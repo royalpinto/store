@@ -3,12 +3,16 @@ var mongodb = require('mongodb');
 var Model = require('./model');
 var Product = require('./product');
 var CartItem = require('./cartitem');
+var validators = require('./validators');
 
 
 var schema = {
     userId: {
         type: mongodb.ObjectID,
         unique: true,
+        validations: [{
+            fn: validators.ObjectID,
+        }],
     },
     items: {
         type: Array,
