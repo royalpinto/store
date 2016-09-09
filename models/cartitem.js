@@ -8,7 +8,7 @@ var schema = {
     productId: {
         type: mongodb.ObjectID,
         validations: [{
-            fn: validators.required,
+            fn: validators.objectID(true),
         }],
     },
     quantity: {
