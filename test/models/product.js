@@ -53,12 +53,29 @@ describe('Permission(Model):', function() {
         })
         .catch(function(error) {
             chai.assert.instanceOf(error, errors.ValidationError);
-            product.price = 'adcsd';
+            product.price = 1000001; // Too high.
             return product.validate();
         })
         .catch(function(error) {
             chai.assert.instanceOf(error, errors.ValidationError);
             product.price = 'adcsd';
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.code = "a"; // Too Small
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.price = payload.price;
+            product.code = Array(257).join("a"); // Too Large
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.price = payload.price;
+            product.code = null; // Required
             return product.validate();
         })
         .catch(function(error) {
