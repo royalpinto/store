@@ -178,6 +178,7 @@ Model.prototype.update = function(properties) {
     var model = this;
     var schema = this.constructor._schema;
     var data = {};
+    var count = 0;
     for (var key in properties) {
         if (!properties.hasOwnProperty(key)) {
             continue;
@@ -192,6 +193,13 @@ Model.prototype.update = function(properties) {
             value = propertySchema.type(value);
         }
         data[key] = value;
+        count++;
+    }
+
+    if (count === 0) {
+        return new Promise(function(resolve) {
+            resolve();
+        });
     }
 
     var collection = this.constructor.collection;
