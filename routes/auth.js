@@ -7,7 +7,7 @@ var errors = require('./../errors');
 
 router.post(/^\/login\/$/, function(req, res) {
     if (req.session.user) {
-        res.json(req.session.user);
+        return res.json(req.session.user);
     }
 
     controller
