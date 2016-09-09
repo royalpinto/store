@@ -1,4 +1,5 @@
 var util = require('util');
+var mongodb = require('mongodb');
 
 
 module.exports = {
@@ -8,6 +9,20 @@ module.exports = {
                 resolve();
             }
             reject(util.format("%s is required.", key));
+        });
+    },
+    ObjectID: function(value, key) {
+        return new Promise(function(resolve, reject) {
+            if (!value) {
+                return resolve();
+            }
+            if (mongodb.ObjectID.isValid(value)) {
+                if (!(value instanceof mongodb.ObjectID)) {
+                    value = new mongodb.ObjectID(value);
+                }
+                return resolve(value);
+            }
+            reject(util.format("%s is invalid.", key));
         });
     },
     email: function(value, key) {
