@@ -1,8 +1,13 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
+var routes = require('./index');
 var controller = require('./../controllers/auth');
 var userController = require('./../controllers/user');
 var errors = require('./../errors');
+
+
+router.get(/^\/login\/$/, routes.handlePermission());
+router.get(/^\/logout\/$/, routes.handlePermission());
 
 
 router.post(/^\/login\/$/, function(req, res) {
