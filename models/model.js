@@ -278,8 +278,8 @@ Model.prototype.toObject = function() {
 };
 
 Model.prototype.toJSON = function() {
-    var user = this.toObject();
-    return user;
+    var model = this.toObject();
+    return model;
 };
 
 
