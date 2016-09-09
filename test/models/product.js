@@ -180,4 +180,27 @@ describe('Permission(Model):', function() {
         .catch(done)
         ;
     });
+
+    it("It should not update random fields.", function(done) {
+        var product = new models.Product(payload);
+        product.save()
+        .then(function() {
+            return product.update({
+                random: "ABCD",
+            });
+        })
+        .then(function() {
+            return models.Product.collection
+            .findOne({
+                _id: product._id,
+            })
+            ;
+        })
+        .then(function(product) {
+            chai.assert.isNotOk(product.random);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
