@@ -107,6 +107,19 @@ describe('Permission(Model):', function() {
         ;
     });
 
+    it("It should copy a product(same id but diff instance).", function(done) {
+        var product = new models.Product(payload);
+        product.save()
+        .then(function() {
+            var copied = new models.Product(product);
+            chai.assert.notEqual(copied, product);
+            chai.assert.deepEqual(copied.toJSON(), copied.toJSON());
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it("It should not create another product with same code.", function(done) {
         var product = new models.Product(payload);
         product.save()
