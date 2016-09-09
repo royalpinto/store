@@ -197,9 +197,7 @@ Model.prototype.update = function(properties) {
     }
 
     if (count === 0) {
-        return new Promise(function(resolve) {
-            resolve();
-        });
+        return Promise.resolve();
     }
 
     var collection = this.constructor.collection;
