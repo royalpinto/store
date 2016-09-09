@@ -97,4 +97,31 @@ describe('Cart(Model):', function() {
         })
         ;
     });
+
+    it('It should add a cart item.', function(done) {
+        var user = new models.User({
+            name: "Lohith Royal Pinto",
+            email: "royalpinto@gmail.com",
+            username: "royalpinto",
+            group: "member",
+        });
+        user.save()
+        .then(function() {
+            var cart = new models.Cart({
+                userId: user._id,
+                items: [],
+            });
+            var cartitem = new models.CartItem({
+                productId: new mongodb.ObjectID(),
+                quantity: 90,
+            });
+            cart.items.push(cartitem);
+            return cart.validate();
+        })
+        .then(function() {
+            done();
+        })
+        .catch(errors)
+        ;
+    });
 });
