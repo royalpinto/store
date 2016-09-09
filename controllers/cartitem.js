@@ -51,7 +51,7 @@ CartController.prototype.create = function(userId, productId, quantity) {
     })
     .then(function() {
         if (cart.items.filter(function(item) {
-            return item.productId.toString() === productId;
+            return item.productId.equals(productId);
         }).length > 0) {
             throw new errors.ValidationError("productId already added.");
         }
