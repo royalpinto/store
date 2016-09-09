@@ -173,17 +173,15 @@ describe('Cart(Model):', function() {
                 productId: product._id,
                 quantity: 90,
             }));
-            cart.items.push({
-                productId: product._id.toString(),
-                quantity: 90,
-            });
             return cart.save();
         })
         .then(function() {
             return cart.getProducts();
         })
         .then(function(products) {
-            console.log(products);
+            chai.assert.isArray(products);
+            chai.assert.equal(products.length, 1);
+            chai.assert.instanceOf(products[0], models.Product);
             done();
         })
         .catch(done)
