@@ -92,4 +92,46 @@ describe('CartItem(Controller):', function() {
         .catch()
         ;
     });
+
+    it("It should add item to the cart.", function(done) {
+        var user = new models.User(userpayload);
+        var product;
+        user.save()
+        .then(function() {
+            product = new models.Product(productpayload);
+            return product.save();
+        })
+        .then(function() {
+            return controller.create(user._id, product._id, 2);
+        })
+        .then(function() {
+            return models.Cart.findByKey('userId', user._id);
+        })
+        .then(function(cart) {
+            chai.assert.isOk(cart);
+            chai.assert.isArray(cart.items);
+            chai.assert.lengthOf(cart.items, 1);
+            chai.assert.equal(cart.items[0].productId.toString(),
+                product._id.toString());
+
+            // Create another product.
+            product = new models.Product(productpayload);
+            product.code = "ABCDEF";
+            return product.save();
+        })
+        .then(function() {
+            return controller.create(user._id, product._id, 2);
+        })
+        .then(function() {
+            return models.Cart.findByKey('userId', user._id);
+        })
+        .then(function(cart) {
+            chai.assert.isOk(cart);
+            chai.assert.isArray(cart.items);
+            chai.assert.lengthOf(cart.items, 2);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 });
