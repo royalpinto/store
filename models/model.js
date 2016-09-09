@@ -18,7 +18,7 @@ var refactorError = function(error) {
 var Model = function Model(properties) {
     var schema = this.constructor._schema;
     for (var key in properties) {
-        if (key === undefined) {
+        if (!properties.hasOwnProperty(key)) {
             continue;
         }
         var value = properties[key];
@@ -48,7 +48,7 @@ Model.init = function(db) {
     this.collection = this.db.collection(collectionName);
     var ModelClass = this;
     for (key in schema) {
-        if (key === undefined) {
+        if (!schema.hasOwnProperty(key)) {
             continue;
         }
 
@@ -179,7 +179,7 @@ Model.prototype.update = function(properties) {
     var schema = this.constructor._schema;
     var data = {};
     for (var key in properties) {
-        if (key === undefined) {
+        if (!properties.hasOwnProperty(key)) {
             continue;
         }
         var value = properties[key];
@@ -202,10 +202,9 @@ Model.prototype.update = function(properties) {
     })
     .then(function() {
         for (var key in data) {
-            if (key === undefined) {
-                continue;
+            if (data.hasOwnProperty(key)) {
+                model[key] = data[key];
             }
-            model[key] = data[key];
         }
     })
     .catch(function(error) {
@@ -228,7 +227,7 @@ Model.prototype.validate = function() {
         var error = null;
         var validators = [];
         for (key in schema) {
-            if (key === undefined) {
+            if (!schema.hasOwnProperty(key)) {
                 continue;
             }
             var propertySchema = schema[key];
@@ -262,7 +261,7 @@ Model.prototype.toObject = function() {
     var schema = model.constructor._schema;
     var key;
     for (key in schema) {
-        if (key === undefined) {
+        if (!schema.hasOwnProperty(key)) {
             continue;
         }
         var propertySchema = schema[key];
