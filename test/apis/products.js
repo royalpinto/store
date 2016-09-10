@@ -124,6 +124,38 @@ describe('Products:', function() {
         });
     });
 
+    describe('/POST product', function() {
+        it('It should post a product with valid data.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return agent
+                .post('/products/')
+                .send(payload)
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('_id');
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/GET product', function() {
         it('It should get a product.', function(done) {
             var product;
