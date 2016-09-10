@@ -85,6 +85,33 @@ describe('Products:', function() {
         });
     });
 
+    describe('/GET product', function() {
+        it('It should not allow to limit > max allowed.', function(done) {
+            var promises = [];
+            for (var i = 0; i < 100; i++) {
+                var localpayload = JSON.parse(JSON.stringify(payload));
+                localpayload.code += i;
+                promises.push(controller.create(localpayload));
+            }
+            Promise.all(promises)
+            .then(function() {
+                return chai.request(server).get('/products/')
+                .query({
+                    limit: [100, 90], // It should ignore both and apply 50(max).
+                })
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('count');
+                chai.expect(res.body.count).to.be.equal(100);
+                chai.expect(res.body.data.length).to.be.equal(50);
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/POST product', function() {
         it('It should not post a product with invalid data.', function(done) {
             var agent = chai.request.agent(server);
