@@ -28,15 +28,7 @@ router.post(/^\/login\/$/, function(req, res) {
 });
 
 router.get(/^\/login\/$/, function(req, res) {
-    userController.getById(req.session.user._id)
-    .then(function(user) {
-        req.session.user = user.toJSON();
-        res.json(user);
-    })
-    .catch(function(error) {
-        errors.handle(req, res, error);
-    })
-    ;
+    res.json(req.session.user);
 });
 
 router.post(/^\/register\/$/, function(req, res) {
