@@ -146,4 +146,38 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should fail to login with invalid credentials.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return chai.request(server)
+                .post("/login/")
+                .send({
+                    username: "royalpinto",
+                    password: "sdcsd",
+                })
+                ;
+            })
+            .then(function() {
+                done("I shoud have failed.");
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal('Invalid credentials.');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
