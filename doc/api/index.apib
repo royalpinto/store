@@ -428,3 +428,108 @@ Delete a user by id.
     + Body
 
             "Unauthorized access."
+
+# Group Cart
+
+## Cart [/cart/items/]
+
+### Add to Cart [POST]
+
+Add item to the cart. All fields mentioned in the request body are mandatory.
+
++ Request (application/json)
+
+        {
+            "quantity": 5,
+            "productId": "57d3936a8c6fb74e98d18f4d"
+        }
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "quantity is greater than available."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
+### Get Cart Items [GET]
+
+Get items added to the cart.
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+
+            ]
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
+### Update Cart [PUT]
+
+Update a cart item by id. All fields mentioned in the request body are mandatory. This is useful to update the quantity of a product available in the cart.
+
++ Request (application/json)
+
+        {
+            "quantity": 10,
+            "productId": "57d3936a8c6fb74e98d18f4d"
+        }
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "quantity is greater than available."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
+### Delete Cart [DELETE]
+
+Delete a product item from the cart.
+
++ Request (application/json)
+
+        {
+            "productId": "57d3936a8c6fb74e98d18f4d"
+        }
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "productId not added to the cart."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
