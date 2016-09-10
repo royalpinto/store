@@ -58,9 +58,9 @@ REST APIs are documented according to [API Blueprint](https://apiblueprint.org/)
 
 One example of generating doc from the API spec is given below:
 ```bash
-// install `aglio` https://github.com/danielgtaylor/aglio
+# Install `aglio` https://github.com/danielgtaylor/aglio
 npm install aglio
 
-// Convert to html and open the output html on browser.
+# Convert doc spec to html and open it on the browser.
 aglio -i doc/api/index.apib -o output.html
 ```
