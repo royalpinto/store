@@ -224,4 +224,28 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should logout.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent
+                .get("/logout/")
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(204);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
