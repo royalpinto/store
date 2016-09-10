@@ -60,6 +60,24 @@ describe('Products:', function() {
         });
     });
 
+    describe('/GET product', function() {
+        it('It should not get a product for invalid id.', function(done) {
+            chai.request(server)
+            .get('/products/' + (new mongodb.ObjectID()).toString() + '/')
+            .then(function() {
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal("resource not found.");
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/PUT product', function() {
         it('It should not update a product for invalid id.', function(done) {
             var agent = chai.request.agent(server);
