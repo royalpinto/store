@@ -51,7 +51,15 @@ npm run coverage
 
 
 #### Documentation
-Run the following command and visit doc/ directory for documentation.
+
+##### REST API Documentation
+REST APIs are documented according to [API Blueprint](https://apiblueprint.org/) specification. Use your favorite API Blueprint renderer tool to render from the API documentation available here: [doc/api/index.apib](https://github.com/royalpinto/store/blob/dev/doc/api/index.apib).
+
+One example of generating doc from the API spec is given below:
 ```bash
-npm run doc
+// install `aglio` https://github.com/danielgtaylor/aglio
+npm install aglio
+
+// Convert to html and open the output html on browser.
+aglio -i doc/api/index.apib -o output.html
 ```
