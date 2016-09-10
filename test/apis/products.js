@@ -85,6 +85,45 @@ describe('Products:', function() {
         });
     });
 
+    describe('/POST product', function() {
+        it('It should not post a product with invalid data.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                var localpayload = JSON.parse(JSON.stringify(payload));
+                delete localpayload.code;
+                return agent
+                .post('/products/')
+                .send(localpayload)
+                ;
+            })
+            .then(function() {
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal("code is required.");
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/GET product', function() {
         it('It should get a product.', function(done) {
             var product;
