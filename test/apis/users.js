@@ -215,4 +215,40 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('DELETE /users/id/', function() {
+        it('It should fail to DELETE with invalid id.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return agent.delete('/users/' +
+                    (new mongodb.ObjectID()).toString() + '/');
+            })
+            .then(function() {
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal("resource not found.");
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
