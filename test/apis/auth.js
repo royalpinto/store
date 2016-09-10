@@ -70,6 +70,45 @@ describe('/users/', function() {
     });
 
     describe('POST /register/', function() {
+        it('It should not register because of internal issue.', function(done) {
+            // Simple mocking here to generate an error
+            // while generating the hash.
+            var crypto = require('crypto');
+            var pbkdf2 = crypto.pbkdf2;
+            crypto.pbkdf2 = function() {
+                var cb = arguments[5];
+                cb(new Error("Some internal mocked issue."));
+            };
+
+            // Reset mock function with actual.
+            var cleanup = function(value) {
+                crypto.pbkdf2 = pbkdf2;
+                done(value);
+            };
+
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                cleanup(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                cleanup();
+            })
+            .catch(cleanup)
+            ;
+        });
+    });
+
+    describe('POST /register/', function() {
         it('It should fail to register a user.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/register/')
