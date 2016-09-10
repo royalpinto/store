@@ -6,6 +6,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha test --recursive",
+    "coverage": "istanbul cover _mocha -- --recursive test",
     "lint": "eslint .",
     "start": "node ./bin/www",
     "doc": "apidoc -e node_modules/"
