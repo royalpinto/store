@@ -1,0 +1,119 @@
+FORMAT: 1A
+HOST: http://hostname:3000
+
+# Store API
+
+A simple shopping experience.
+
+# Group Auth
+
+## User Registration [/register/]
+
+### Register [POST]
+
+Register a new user. By this way, user gets assigned to the default group: `member` and will inherit all permissions of `member` group.
+
++ Request (application/json)
+
+        {
+            "name": "Royal Pinto",
+            "email": "royalpinto@gmail.com",
+            "username": "royalpinto",
+            "password": "password"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /login/
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Royal Pinto",
+                "email": "royalpinto@gmail.com",
+                "username": "royalpinto",
+                "password": "password"
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "error": "email invalid.",
+                "message": "Invalid input.",
+            }
+
+
+## Login [/login/]
+
+### Login [POST]
+
+User login.
+
++ Request (application/json)
+
+        {
+            "username": "royalpinto",
+            "password": "password"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Royal Pinto",
+                "email": "royalpinto@gmail.com",
+                "username": "royalpinto",
+                "password": "password"
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "Invalid credentials."
+            }
+
+### Login [GET]
+
+Get logged in user details.
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Royal Pinto",
+                "email": "royalpinto@gmail.com",
+                "username": "royalpinto",
+                "password": "password"
+            }
+
++ Response 401 (text/plain)
+
+    + Body
+
+            "Unauthenticated access."
+
+## Logout [/logout/]
+
+### Logout [GET]
+
+Logout.
+
++ Response 204
+
++ Response 401 (text/plain)
+
+    + Body
+
+            "Unauthenticated access."
