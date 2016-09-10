@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
+var controller = require('../../controllers/user.js');
 
 
 chai.should();
@@ -127,6 +128,59 @@ describe('/users/', function() {
                 done();
             })
             .catch(function() {
+                demock();
+                done(true);
+            })
+            ;
+        });
+    });
+
+    describe('GET /users/', function() {
+        it('It should not GET users if unable to fetch.', function(done) {
+            var backup;
+            var mock = function() {
+                backup = controller.get;
+                controller.get = function() {
+                    return Promise.reject(new Error("Mocked error :)"));
+                };
+            };
+            var demock = function() {
+                controller.get = backup;
+            };
+
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                mock();
+                return agent.get('/users/');
+            })
+            .then(function(res) {
+                console.log(res.body);
+                demock();
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                demock();
+                done();
+            })
+            .catch(function() {
+                console.log(arguments);
                 demock();
                 done(true);
             })
