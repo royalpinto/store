@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
+var controller = require('../../controllers/cartitem.js');
 
 
 chai.should();
@@ -83,6 +84,50 @@ describe('/cart/items/', function() {
                 done();
             })
             .catch(done)
+            ;
+        });
+    });
+
+    describe('GET /cart/items/', function() {
+        it("It shouldn't GET cart items for an internal error", function(done) {
+            var backup;
+            var mock = function() {
+                backup = controller.get;
+                controller.get = function() {
+                    return Promise.reject(new Error("Mocked error :)"));
+                };
+            };
+            var demock = function() {
+                controller.get = backup;
+            };
+
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                mock();
+                return agent.get('/cart/items/');
+            })
+            .then(function() {
+                demock();
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                demock();
+                done();
+            })
+            .catch(function() {
+                demock();
+                done(true);
+            })
             ;
         });
     });
