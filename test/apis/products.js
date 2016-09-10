@@ -233,6 +233,48 @@ describe('Products:', function() {
         });
     });
 
+    describe('/PUT product', function() {
+        it('It should update a product with valid data.', function(done) {
+            var agent = chai.request.agent(server);
+            var product;
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return controller.create(payload);
+            })
+            .then(function(_product) {
+                product = _product;
+                return agent
+                .put('/products/' + product._id.toString() + '/')
+                .send({
+                    code: "SOMETHINGELSE",
+                })
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(204);
+                return models.Product.findById(product._id);
+            })
+            .then(function(_product) {
+                chai.assert.equal(_product.code, "SOMETHINGELSE");
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/DELETE product', function() {
         it('It should not delete a product for invalid id.', function(done) {
             var agent = chai.request.agent(server);
