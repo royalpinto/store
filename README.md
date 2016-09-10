@@ -23,6 +23,7 @@ docker-compose up
 
 A customized installation:
 ```bash
+# NOTE: Optionally pass --production to skip dev dependencies.
 npm install
 
 # Edit env specific config file to set the port, database and other settings.
