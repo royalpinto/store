@@ -119,4 +119,31 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should ignore relogin(already logged in).', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent
+                .post("/login/")
+                .send({
+                    username: "royalpinto",
+                    password: "password",
+                })
+                ;
+            })
+            .then(function() {
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
