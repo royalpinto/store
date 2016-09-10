@@ -207,4 +207,21 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should not get user details without login.', function(done) {
+            var agent = chai.request.agent(server);
+            agent
+            .get("/login/")
+            .then(function() {
+                done("Should have failed.");
+            })
+            .catch(function(err) {
+                err.should.have.status(401);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
