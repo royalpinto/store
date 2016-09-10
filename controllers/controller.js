@@ -1,3 +1,5 @@
+var errors = require('./../errors');
+
 var Controller = function(Model) {
     this.Model = Model;
 };
@@ -13,6 +15,13 @@ Controller.prototype.create = function(data) {
 Controller.prototype.getById = function(id) {
     return this.Model
     .findById(id)
+    .then(function(model) {
+        if (!model) {
+            throw new errors.ValidationError(
+                "resource not found.");
+        }
+        return model;
+    })
     ;
 };
 
