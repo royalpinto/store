@@ -117,3 +117,196 @@ Logout.
     + Body
 
             "Unauthenticated access."
+
+# Group Products
+
+## Products [/products/]
+### Create Product [POST]
+
+Create a product. All fields mentioned in the request body are mandatory except `brand` and `category`.
+
++ Request (application/json)
+
+        {
+            "name": "Allen Solly Jeans",
+            "code": "ALNS002",
+            "price": 12,
+            "quantity": 5,
+            "brand": "Allen Solly",
+            "category": "Clothing",
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Allen Solly Jeans",
+                "code": "ALNS002",
+                "price": 12,
+                "quantity": 5,
+                "brand": "Allen Solly",
+                "category": "Clothing",
+            }
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "code alreay present."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
+
+## Products [/products/{?search,limit,skip}]
+
+### Get Products [GET]
+
+Browse for products.
+
++ Parameters
+    + search (string, optional) - Search products by given keyword.
+    + limit (number, optional) - Limit by number of products to be fetched. Max limit allowed is 50.
+        + Default: 10
+    + skip (optional) - Skip number of products before applying the limit.
+        + Default: 0
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "count": 23,
+                "data": [{
+                    "_id": "57d3936a8c6fb74e98d18f4d",
+                    "name": "Allen Solly Jeans",
+                    "code": "ALNS002",
+                    "price": 12,
+                    "quantity": 5,
+                    "brand": "Allen Solly",
+                    "category": "Clothing",
+                }
+                .
+                .
+                .
+                ]
+            }
+
+## Product [/products/{id}/]
+
+### Get Product [GET]
+
+Get a product by id.
+
++ Parameters
+    + id - The product id.
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Allen Solly Jeans",
+                "code": "ALNS002",
+                "price": 12,
+                "quantity": 5,
+                "brand": "Allen Solly",
+                "category": "Clothing",
+            }
+
+### Update Product [PUT]
+
+Update a product by id. All fields mentioned in the body are optional, you could choose to update even a single field.
+
++ Parameters
+    + id - The product id.
+
++ Request (application/json)
+
+        {
+            "name": "Allen Solly Jeans",
+            "code": "ALNS002",
+            "price": 12,
+            "quantity": 5,
+            "brand": "Allen Solly",
+            "category": "Clothing",
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Allen Solly Jeans",
+                "code": "ALNS002",
+                "price": 12,
+                "quantity": 5,
+                "brand": "Allen Solly",
+                "category": "Clothing",
+            }
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "resource not found."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
+
+### Delete Product [DELETE]
+
+Delete a product by id.
+
++ Parameters
+    + id - The product id.
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "resource not found."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
