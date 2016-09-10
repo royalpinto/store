@@ -287,4 +287,48 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should handle internal error while logging out', function(done) {
+            var backup;
+            var session = require('express-session');
+            var mock = function() {
+                backup = session.Session.prototype.destroy;
+                session.Session.prototype.destroy = function(cb) {
+                    cb(new Error("Mocked error :)"));
+                };
+            };
+            var demock = function() {
+                session.Session.prototype.destroy = backup;
+            };
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                mock();
+                return agent.get("/logout/");
+            })
+            .then(function() {
+                demock();
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                demock();
+                done();
+            })
+            .catch(function() {
+                demock();
+                done(true);
+            })
+            ;
+        });
+    });
 });
