@@ -40,6 +40,15 @@ npm start
 npm test
 ```
 
+#### Code Coverage
+
+```bash
+# NOTE: This uses test env config.
+# Command runs test cases using mocha & generates code coverage report using istanbul.
+# Browse for `coverage/lcov-report/index.html` for the detailed report upon completion.
+npm run coverage
+```
+
 
 #### Documentation
 Run the following command and visit doc/ directory for documentation.
