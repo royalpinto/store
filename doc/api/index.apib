@@ -310,3 +310,121 @@ Delete a product by id.
     + Body
 
             "Unauthorized access."
+
+# Group Users
+
+These APIs are only for admins/supervisors for managing users. supervisors are allowed to browse users and delete them but they are not allowed to create/modify user.
+
+## Users [/users/{?search,limit,skip}]
+
+### Get Users [GET]
+
+Browse for users.
+
++ Parameters
+    + search (string, optional) - Search users by given keyword.
+    + limit (number, optional) - Limit by number of users to be fetched. Max limit allowed is 50.
+        + Default: 10
+    + skip (number, optional) - Skip number of users before applying the limit.
+        + Default: 0
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "count": 23,
+                "data": [{
+                    "_id": "57d3936a8c6fb74e98d18f4d",
+                    "name": "Royal Pinto",
+                    "email": "royalpinto@gmail.com",
+                    "username": "royalpinto",
+                }
+                .
+                .
+                .
+                ]
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
+
+## User [/users/{id}/]
+
+### Get User [GET]
+
+Get a user by id.
+
++ Parameters
+    + id - The user id.
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "57d3936a8c6fb74e98d18f4d",
+                "name": "Royal Pinto",
+                "email": "royalpinto@gmail.com",
+                "username": "royalpinto",
+            }
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "resource not found."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
+
+### Delete User [DELETE]
+
+Delete a user by id.
+
++ Parameters
+    + id - The user id.
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "resource not found."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
