@@ -60,6 +60,51 @@ describe('Products:', function() {
         });
     });
 
+    var payload = {
+        name: "Allen Solly Jeans",
+        code: "ALNS001",
+        price: 90,
+        quantity: 12,
+        category: "Clothing",
+        brand: "Allen Solley",
+    };
+
+    describe('/POST product', function() {
+        it('It should get products.', function(done) {
+            controller.create(payload)
+            .then(function() {
+                return chai.request(server).get('/products/');
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('count');
+                chai.expect(res.body.count).to.be.equal(1);
+                done();
+            })
+            .catch(done);
+        });
+    });
+
+    describe('/GET product', function() {
+        it('It should get a product.', function(done) {
+            var product;
+            controller.create(payload)
+            .then(function(_product) {
+                product = _product;
+                return chai.request(server)
+                .get('/products/' + product._id.toString() + '/')
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('_id');
+                chai.expect(res.body._id).to.be.equal(product._id.toString());
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/GET product', function() {
         it('It should not get a product for invalid id.', function(done) {
             chai.request(server)
