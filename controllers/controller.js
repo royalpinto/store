@@ -33,6 +33,10 @@ Controller.prototype.update = function(id, data) {
     return this.Model
     .findById(id)
     .then(function(model) {
+        if (!model) {
+            throw new errors.ValidationError(
+                "resource not found.");
+        }
         return model.update(data);
     })
     ;
