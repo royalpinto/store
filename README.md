@@ -7,11 +7,10 @@ Simple shopping experience.
 A project developed using `node` to provide simple shopping experience.
 
 #### Features:
- * REST APIs with complete documentation using `apidoc`.
- * Session Authentication using `passport` (mongo backend).
- * Access control using `acl`.
+ * REST APIs with complete documentation according to `API Blueprint` spec.
  * Quick setup using `docker` and `npm`.
- * Test cases using `mocha` and `chai`.
+ * Test cases using `mocha` and `chai` with 100 % code coverage.
+ * Minimal production dependencies with hardly 50-60 internal dependencies: `npm list --production | wc -l`
 
 #### Installation
 
