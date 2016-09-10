@@ -10,11 +10,9 @@ Router.prototype.use = function(_regex, _cb) {
     if (_cb) {
         regex = _regex;
         cb = _cb;
-    } else if (_regex) {
+    } else {
         regex = null;
         cb = _regex;
-    } else {
-        throw new TypeError("Invalid input.");
     }
     this._patterns.push([regex, cb]);
 };
