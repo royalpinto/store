@@ -172,6 +172,19 @@ describe('Products:', function() {
                 chai.expect(res.body).to.have.property('count');
                 chai.expect(res.body.count).to.be.equal(100);
                 chai.expect(res.body.data.length).to.be.equal(5);
+                return chai.request(server).get('/products/')
+                .query({
+                    limit: 5, // It should ignore both and apply 50(max).
+                    search: ["Allen", "Lee"], // Mutliple keywords.
+                    order: ["name", "~code"],
+                })
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('count');
+                chai.expect(res.body.count).to.be.equal(100);
+                chai.expect(res.body.data.length).to.be.equal(5);
                 done();
             })
             .catch(done);
