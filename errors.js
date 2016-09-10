@@ -46,7 +46,7 @@ var handle = function(req, res, error) {
         return res.status(error.status).json(error);
     }
     console.trace(error);
-    res.status(error.status || 500).json("Internal server error.");
+    res.status(error.status || 500).end("Internal server error.");
 };
 
 module.exports = {
