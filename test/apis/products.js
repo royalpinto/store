@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
+var controller = require('./../../controllers/product');
 
 
 chai.should();
@@ -35,6 +36,9 @@ describe('Products:', function() {
             models.Permission.collection.removeMany(),
         ])
         .then(function() {
+            return models.Permission.add('admin', 'projects', 'write');
+        })
+        .then(function() {
             done();
         })
         ;
@@ -53,6 +57,43 @@ describe('Products:', function() {
                 err.should.have.status(401);
                 done();
             });
+        });
+    });
+
+    describe('/DELETE product', function() {
+        it('It should not delete a product for invalid id.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return agent
+                .delete('/products/' +
+                    (new mongodb.ObjectID()).toString() + '/')
+                ;
+            })
+            .then(function() {
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal("resource not found.");
+                done();
+            })
+            .catch(done);
         });
     });
 });
