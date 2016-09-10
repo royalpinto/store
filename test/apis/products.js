@@ -311,4 +311,43 @@ describe('Products:', function() {
             .catch(done);
         });
     });
+
+    describe('/DELETE product', function() {
+        it('It should delete a product.', function(done) {
+            var agent = chai.request.agent(server);
+            var product;
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = "admin";
+                return user.save();
+            })
+            .then(function() {
+                return controller.create(payload);
+            })
+            .then(function(_product) {
+                product = _product;
+                return agent
+                .delete('/products/' + product._id.toString() + '/')
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(204);
+                return models.Product.findById(product._id);
+            })
+            .then(function(_product) {
+                chai.assert.isNotOk(_product);
+                done();
+            })
+            .catch(done);
+        });
+    });
 });
