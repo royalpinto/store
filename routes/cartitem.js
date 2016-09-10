@@ -23,8 +23,8 @@ router.get(/^\/cart\/items\/$/, function(req, res) {
 router.post(/^\/cart\/items\/$/, function(req, res) {
     controller
     .create(req.session.user._id, req.body.projectId, req.body.quantity)
-    .then(function(cart) {
-        res.json(cart);
+    .then(function() {
+        res.status(204).end();
     })
     .catch(function(error) {
         errors.handle(req, res, error);
