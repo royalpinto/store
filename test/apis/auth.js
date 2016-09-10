@@ -180,4 +180,31 @@ describe('/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/', function() {
+        it('It should get logged in user details.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent
+                .get("/login/")
+                ;
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('username');
+                chai.expect(res.body.username)
+                    .to.be.equal('royalpinto');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 });
