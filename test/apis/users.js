@@ -90,6 +90,51 @@ describe('/users/', function() {
     });
 
     describe('GET /users/', function() {
+        it('It should not GET users if unable to authorize.', function(done) {
+            var backup;
+            var controller = require('../../controllers/auth.js');
+            var mock = function() {
+                backup = controller.hasPermission;
+                controller.hasPermission = function() {
+                    return Promise.reject(new Error("Mocked error :)"));
+                };
+            };
+            var demock = function() {
+                controller.hasPermission = backup;
+            };
+
+            var agent = chai.request.agent(server);
+            agent.post('/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                mock();
+                return agent.get('/users/');
+            })
+            .then(function() {
+                demock();
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                demock();
+                done();
+            })
+            .catch(function() {
+                demock();
+                done(true);
+            })
+            ;
+        });
+    });
+
+    describe('GET /users/', function() {
         it('It should GET users with authorized user.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/register/')
