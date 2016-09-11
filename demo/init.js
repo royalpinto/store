@@ -2,6 +2,7 @@ var util = require('util');
 var mongodb = require('mongodb');
 var config = require('./../config');
 var models = require('./../models');
+var initdata = require('./../initdata');
 var authController = require('./../controllers/auth');
 
 console.log("Using %s env...", config.env);
@@ -21,11 +22,7 @@ mongodb.MongoClient.connect(config.db.uri)
 })
 
 .then(function() {
-    console.log("Configuring roles/permissions...");
-    return Promise.all([
-        models.Permission.add("admin", "projects", "write"),
-        models.Permission.add("admin", "users", "readwrite"),
-    ]);
+    return initdata();
 })
 
 .then(function() {
