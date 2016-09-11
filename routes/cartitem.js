@@ -25,7 +25,7 @@ router.post(/^\/cart\/items\/$/, function(req, res) {
     .create(req.session.user._id, req.body.projectId, req.body.quantity)
     .then(function() {
         res.setHeader('Location', "/cart/items/");
-        res.status(201).end();
+        res.status(201).json({});
     })
     .catch(function(error) {
         errors.handle(req, res, error);
