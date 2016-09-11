@@ -24,7 +24,8 @@ router.post(/^\/cart\/items\/$/, function(req, res) {
     controller
     .create(req.session.user._id, req.body.projectId, req.body.quantity)
     .then(function() {
-        res.status(204).end();
+        res.setHeader('Location', "/cart/items/");
+        res.status(201).end();
     })
     .catch(function(error) {
         errors.handle(req, res, error);
