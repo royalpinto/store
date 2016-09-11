@@ -325,7 +325,8 @@ describe('/cart/items/', function() {
                     projectId: product._id.toString(),
                 });
             })
-            .then(function() {
+            .then(function(res) {
+                res.should.have.status(204);
                 return agent.get('/cart/items/');
             })
             .then(function(res) {
