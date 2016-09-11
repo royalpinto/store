@@ -222,6 +222,29 @@ describe('/users/', function() {
     });
 
     describe('GET /users/', function() {
+        it('It should fail to login for a new username.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post("/login/")
+            .send({
+                username: "sdfadadada",
+                password: "sdcsd",
+            })
+            .then(function() {
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(400);
+                chai.expect(err.response.body).to.have.property('error');
+                chai.expect(err.response.body.error)
+                    .to.be.equal('Invalid credentials.');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
+    describe('GET /users/', function() {
         it('It should get logged in user details.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/register/')
