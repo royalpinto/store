@@ -245,7 +245,8 @@ describe('/cart/items/', function() {
                     quantity: 3,
                 });
             })
-            .then(function() {
+            .then(function(res) {
+                res.should.have.status(204);
                 return agent.get('/cart/items/');
             })
             .then(function(res) {
