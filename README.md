@@ -15,8 +15,7 @@ A project developed using `node` to provide simple shopping experience.
 #### Configuration
  * The configuration files have to be placed in the config directory and should have filename pattern: `<env>.json`.
  * Based on the env is set (Ex: export NODE_ENV=test), an appropriate configuration file will be loaded when app or test starts.
-##### Configuration file spec:
-The config file should be a valid JSON file with following fields.
+ * The config file should be a valid JSON file with following fields.
 
 ```js
 {
