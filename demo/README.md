@@ -13,3 +13,10 @@ node demo/init.js
 # Start the server.
 npm start
 ```
+
+Examples requests after the setup.
+```bash
+curl 'http://localhost:3000/products/'
+
+curl -i -X POST 'http://localhost:3000/register/' --data 'name=Lohith%20Royal%20Pinto&username=royalpinto&email=royalpinto@gmail.com&password=password'
+```
