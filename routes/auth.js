@@ -34,7 +34,7 @@ router.post(/^\/register\/$/, function(req, res) {
     controller.registerUser(req.body)
     .then(function(user) {
         req.session.user = user.toJSON();
-        res.json(user);
+        res.setHeader('Location', '/login/');
     })
     .catch(function(error) {
         errors.handle(req, res, error);
