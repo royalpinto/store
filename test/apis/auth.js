@@ -62,7 +62,11 @@ describe('/users/', function() {
                 username: "royalpinto",
                 password: "password",
             })
-            .then(function() {
+            .then(function(res) {
+                res.should.have.status(201);
+                chai.expect(res).to.have.header('location', '/login/');
+                chai.expect(res).to.have.cookie('connect.sid');
+                chai.expect(res.body).to.have.property('_id');
                 done();
             })
             .catch(done)
