@@ -24,6 +24,9 @@ var loginUser = function(username, password) {
     .findByKey('username', username)
     .then(function(_user) {
         user = _user;
+        if (!user) {
+            throw new errors.ValidationError("Invalid credentials.");
+        }
         return hashPassword(password, _user.salt);
     })
     .then(function(result) {
