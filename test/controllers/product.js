@@ -89,6 +89,14 @@ describe('Product(Controller):', function() {
             chai.assert.strictEqual(products.count, 10);
             chai.assert.isArray(products.data);
             chai.assert.strictEqual(products.data.length, 2);
+        })
+        .then(function() {
+            return controller.get({});
+        })
+        .then(function(products) {
+            chai.assert.strictEqual(products.count, 10);
+            chai.assert.isArray(products.data);
+            chai.assert.strictEqual(products.data.length, 10);
             done();
         })
         .catch(done)
