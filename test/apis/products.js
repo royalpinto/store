@@ -1,5 +1,6 @@
 /* global describe, it, before, beforeEach, afterEach */
 
+var util = require('util');
 var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
@@ -254,7 +255,9 @@ describe('Products:', function() {
                 ;
             })
             .then(function(res) {
-                res.should.have.status(200);
+                res.should.have.status(201);
+                chai.expect(res).to.have.header('location',
+                    util.format('/products/%s/', res.body._id));
                 chai.expect(res.body).to.have.property('_id');
                 done();
             })
