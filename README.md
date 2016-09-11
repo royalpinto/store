@@ -43,8 +43,7 @@ A project developed using `node` to provide simple shopping experience.
 A quick installation using `docker` with self database container:
 
 ``` bash
-# --build can be used if source code has changes from the previous build.
-docker-compose up
+docker-compose up --build
 ```
 
 A customized installation:
