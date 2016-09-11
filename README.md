@@ -96,3 +96,6 @@ npm install aglio
 # Convert doc spec to html and open it on the browser.
 aglio -i doc/api/index.apib -o output.html
 ```
+
+##### Code Documentation
+Coming soon :)
