@@ -12,6 +12,33 @@ A project developed using `node` to provide simple shopping experience.
  * Test cases using `mocha` and `chai` with 100 % code coverage.
  * Minimal production dependencies with hardly 50-60 internal dependencies: `npm list --production | wc -l`
 
+#### Configuration
+ * The configuration files have to be placed in the config directory and should have filename pattern: `<env>.json`.
+ * Based on the env is set (Ex: export NODE_ENV=test), an appropriate configuration file will be loaded when app or test starts.
+##### Configuration file spec:
+The config file should be a valid JSON file with following fields.
+
+```js
+{
+    "db": {
+        // This is a mandatory field, will be used to connect to mongo db server.
+        "uri": '<mongodb database uri>' // Ex: "mongodb://localhost/store"
+    },
+
+
+    "server": {
+        // The mandatory field port number to let server know
+        // on which port server should listen.
+        "port": '<port number on which app should listen>' // Ex: 3000
+
+        // This is an optional parameter to let server
+        // know on what hostname server should start.
+        "interface": '<optional hostname>' // Ex: "127.0.0.1"
+    }
+}
+```
+
+
 #### Installation
 
 A quick installation using `docker` with self database container:
