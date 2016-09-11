@@ -6,6 +6,7 @@ var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
 var controller = require('../../controllers/user.js');
+var initdata = require('../../initdata');
 
 
 chai.should();
@@ -42,7 +43,7 @@ describe('/users/', function() {
             models.Permission.collection.removeMany(),
         ])
         .then(function() {
-            return models.Permission.add('admin', 'users', 'readwrite');
+            return initdata();
         })
         .then(done)
         .catch(done)
