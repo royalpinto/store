@@ -43,7 +43,10 @@ util.inherits(UnauthenticatedAccess, AppError);
 
 
 var handle = function(req, res, error) {
-    var username = req.session.user ? req.session.username : null;
+    var username = null;
+    if (req.session && req.session.user) {
+        username = req.session.user.username;
+    }
     if (error instanceof AppError) {
         logging.warn(error, {username: username});
         return res.status(error.status).json(error);
