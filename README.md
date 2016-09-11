@@ -35,6 +35,8 @@ export NODE_ENV=<env>
 npm start
 ```
 
+#### [Dump sample data for Demonstration](https://github.com/royalpinto/store/tree/dev/demo)
+
 #### Test
 ```bash
 # This uses test env config.
