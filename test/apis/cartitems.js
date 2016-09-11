@@ -192,7 +192,9 @@ describe('/cart/items/', function() {
                     quantity: 2,
                 });
             })
-            .then(function() {
+            .then(function(res) {
+                res.should.have.status(201);
+                chai.expect(res).to.have.header('location', "/cart/items/");
                 return agent.get('/cart/items/');
             })
             .then(function(res) {
