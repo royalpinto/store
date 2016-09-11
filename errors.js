@@ -1,4 +1,5 @@
 var util = require('util');
+var logging = require('./logging');
 
 
 var AppError = function AppError(message, error) {
@@ -42,10 +43,12 @@ util.inherits(UnauthenticatedAccess, AppError);
 
 
 var handle = function(req, res, error) {
+    var username = req.session.user ? req.session.username : null;
     if (error instanceof AppError) {
+        logging.warn(error, {username: username});
         return res.status(error.status).json(error);
     }
-    console.trace(error);
+    logging.error(error, {username: username});
     res.status(error.status || 500).end("Internal server error.");
 };
 
