@@ -69,6 +69,11 @@ npm start
 npm test
 ```
 
+#### Logging
+ * Winston library is used for application logging.
+ * Logging is configured with two transports to log messages to `logs/info.log` and `logs/error.log`.
+ * More transports can be easily plugged-in at logging module.
+
 #### Code Coverage
 
 ```bash
