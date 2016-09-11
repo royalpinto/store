@@ -6,7 +6,10 @@ var errors = require('./../errors');
 
 
 // This route can be accessed only by admins.
-router.use(/^\/users\//, routes.handlePermission('users', 'readwrite'));
+router.post(/^\/users\//, routes.handlePermission('users', 'write'));
+router.put(/^\/users\//, routes.handlePermission('users', 'write'));
+router.delete(/^\/users\//, routes.handlePermission('users', 'write'));
+router.get(/^\/users\//, routes.handlePermission('users', 'read'));
 
 
 router.get(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
