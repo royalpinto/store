@@ -17,6 +17,8 @@ if (cluster.isMaster) {
     var config = require('./../config');
     var initdata = require('./../initdata');
 
+    console.log("Using %s environment", config.env);
+
     /**
      * Event listener for HTTP server "listening" event.
      */
