@@ -156,7 +156,10 @@ describe('/users/', function() {
                 })
                 ;
             })
-            .then(function() {
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res).to.have.cookie('connect.sid');
+                chai.expect(res.body).to.have.property('_id');
                 done();
             })
             .catch(done)
