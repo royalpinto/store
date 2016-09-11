@@ -9,18 +9,15 @@ var errors = require('./../../errors');
 
 describe('User(Model):', function() {
     before(function(done) {
-        mongodb.MongoClient.connect(config.db.uri, function(err, db) {
-            if (err) {
-                console.error("Failed to connect to the db.");
-            } else {
-                models.init(db)
-                .then(function() {
-                    done();
-                })
-                .catch(console.err)
-                ;
-            }
-        });
+        mongodb.MongoClient.connect(config.db.uri)
+        .then(function(db) {
+            return models.init(db);
+        })
+        .then(function() {
+            done();
+        })
+        .catch(done)
+        ;
     });
 
     var cleanCollection = function(done) {
