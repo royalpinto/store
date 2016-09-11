@@ -1,3 +1,4 @@
+var util = require('util');
 var urls = require('./../app/router');
 var router = new urls.Router();
 var controller = require('../controllers/product');
@@ -38,7 +39,8 @@ router.post(/^\/products\/$/, function(req, res) {
     controller
     .create(req.body)
     .then(function(product) {
-        res.json(product);
+        res.setHeader('Location', util.format("/products/%s/", product._id));
+        res.status(201).json(product);
     })
     .catch(function(error) {
         errors.handle(req, res, error);
