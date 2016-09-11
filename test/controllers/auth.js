@@ -55,6 +55,22 @@ describe('CartItem(Controller):', function() {
         ;
     });
 
+    it("It should not register without data", function(done) {
+        controller
+        .registerUser()
+        .then(function() {
+            done(true);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "password invalid.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it("It should not register without password", function(done) {
         var localpayload = JSON.parse(JSON.stringify(payload));
         delete localpayload.password;
