@@ -5,6 +5,22 @@ HOST: http://hostname:3000
 
 A simple shopping experience.
 
+# Group Overview
+
+## Permissions
+ * If user has not logged in and is trying to access/modify resource for which anonymous access is not allowed, request will be declined with an error code `401` `Unauthenticated access.`.
+ * If user has logged in and is trying to access/modify resource for which access is not allowed, request will be declined with an error code `403` `Unauthorized access.`.
+### Admin
+Ths users belong to `admin` group so called administrators are allowed to make any adminitrative action. Ex: manage products, browse or delete users etc.
+### Admin
+Ths users belong to `member` group so called members are allowed to browse for products, manager thier carts and checkout. These users are not allowed to manage products, users etc.
+### Anonymous
+The requests without login so called `anonymous` users are allowed only to browse for the products and nothing else.
+
+## Authentication
+ * System uses session based Authentication
+ * To login to the system, user has to make a login (or register for the first time) request. A successfull request will be replied with a session cookie id, which has to be passed back for subsequent requests.
+
 # Group Auth
 
 ## User Registration [/register/]
