@@ -1,3 +1,6 @@
 var env = process.env.NODE_ENV || 'development';
 
-module.exports = require("./" + env);
+var config = require("./" + env);
+config.env = env;
+
+module.exports = config;
