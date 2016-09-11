@@ -556,3 +556,26 @@ Delete a product item from the cart.
     + Body
 
             "Unauthenticated access."
+
+## Cart [/cart/checkout/]
+
+### Checkout Cart [POST]
+
+Checkout items from the cart.
+
++ Response 204
+
++ Response 400 (application/json)
+    If items are not available or cart is empty.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "Nothing is in the cart to checkout."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
