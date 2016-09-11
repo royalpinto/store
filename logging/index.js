@@ -31,9 +31,7 @@ logger.middleware = function(req, res, next) {
         if (res.statusCode >= 400 && res.statusCode < 500) {
             return logger.warn(req.method, req.url, res.statusCode, username);
         }
-        if (res.statusCode >= 500) {
-            return logger.error(req.method, req.url, res.statusCode, username);
-        }
+        return logger.error(req.method, req.url, res.statusCode, username);
     });
     next();
 };
