@@ -6,6 +6,7 @@ var MongoStore = require('connect-mongo')(session);
 var router = require('./router');
 var models = require('./../models');
 var middlewares = require('./middlewares');
+var logging = require('./../logging');
 
 var approuter = new router.Router();
 
@@ -13,6 +14,8 @@ var auth = require('./../routes/auth');
 var users = require('./../routes/user');
 var products = require('./../routes/product');
 var cartitem = require('./../routes/cartitem');
+
+approuter.use(logging.middleware);
 
 approuter.use(middlewares.easyResponse);
 approuter.use(middlewares.querystringParser);
