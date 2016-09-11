@@ -48,8 +48,8 @@ router.put(/^\/cart\/items\/$/, function(req, res) {
 router.delete(/^\/cart\/items\/$/, function(req, res) {
     controller
     .remove(req.session.user._id, req.query.projectId)
-    .then(function(cart) {
-        res.json(cart);
+    .then(function() {
+        res.status(204).end();
     })
     .catch(function(error) {
         errors.handle(req, res, error);
