@@ -11,6 +11,8 @@ A project developed using `node` to provide simple shopping experience.
  * Quick setup using `docker` and `npm`.
  * Test cases using `mocha` and `chai` with 100 % code coverage.
  * Minimal production dependencies with hardly 50-60 internal dependencies: `npm list --production | wc -l`
+ * Dependencies are mainly used to parse cookies and body, database driver. The core design is completely based on `node` core modules.
+ * Standard design patterns like `middlewares` for easy integration with other modules.
 
 #### Configuration
  * The configuration files have to be placed in the config directory and should have filename pattern: `<env>.json`.
