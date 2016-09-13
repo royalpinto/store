@@ -1,4 +1,6 @@
+var fs = require('fs');
 var url = require('url');
+var path = require('path');
 var querystring = require('querystring');
 
 
@@ -87,10 +89,74 @@ var searchParser = function(req, res, next) {
 };
 
 
+var serveStatic = function(dirname, prefix) {
+    return function(req, res, next) {
+        var uri = url.parse(req.url).pathname;
+        var filename = path.join(dirname, prefix, uri);
+
+        if (filename.endsWith('/')) {
+            filename += 'index.html';
+        }
+
+        var extname = path.extname(filename);
+        var contentType;
+        switch (extname) {
+            case '.html':
+                contentType = 'text/html';
+                break;
+            case '.js':
+                contentType = 'text/javascript';
+                break;
+            case '.css':
+                contentType = 'text/css';
+                break;
+            case '.json':
+                contentType = 'application/json';
+                break;
+            case '.png':
+                contentType = 'image/png';
+                break;
+            case '.jpg':
+                contentType = 'image/jpg';
+                break;
+            case '.wav':
+                contentType = 'audio/wav';
+                break;
+            default:
+                contentType = 'text/plain';
+        }
+
+        fs.exists(filename, function(exists) {
+            if (!exists) {
+                return next();
+            }
+
+            if (fs.statSync(filename).isDirectory()) {
+                filename += '/index.html';
+            }
+
+            fs.readFile(filename, "binary", function(err, file) {
+                if (err) {
+                    res.writeHead(500, {"Content-Type": "text/plain"});
+                    res.write(err + "\n");
+                    res.end();
+                    return;
+                }
+
+                res.writeHead(200, {"Content-Type": contentType});
+                res.write(file, "binary");
+                res.end();
+            });
+        });
+    };
+};
+
+
 module.exports = {
     querystringParser: querystringParser,
     easyResponse: easyResponse,
     paginate: paginate,
     orderParser: orderParser,
     searchParser: searchParser,
+    static: serveStatic,
 };
