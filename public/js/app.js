@@ -2,7 +2,7 @@
 
 angular
 
-.module('StoreApp', [
+.module('app', [
     'ngMaterial',
 ])
 
