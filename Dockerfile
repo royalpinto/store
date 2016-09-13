@@ -18,7 +18,7 @@ USER store
 
 
 # Install dependencies.
-RUN cd /home/store/store/ && npm install
+RUN cd /home/store/store/ && git clean -fdx && npm install --production
 
 
 # Setup workign directory.

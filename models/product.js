@@ -1,39 +1,54 @@
-var mongoose = require('mongoose');
+var util = require('util');
+var Model = require('./model');
+var validators = require('./validators');
 
-
-var ProductSchema = new mongoose.Schema({
+var schema = {
     name: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
     },
     code: {
         type: String,
-        required: true,
-        index: {
-            unique: true,
-        },
+        unique: true,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
     },
     price: {
         type: Number,
-        required: true,
+        validations: [{
+            // For now let's not allow price more than 1million.
+            // Later this can be removed based on the requirement.
+            fn: validators.number(1, 1000000),
+        }],
     },
-    description: {
-        type: String,
-        required: true,
-    },
-    thumbnail: {
-        type: String,
+    quantity: {
+        type: Number,
+        validations: [{
+            fn: validators.number(0),
+        }],
     },
     category: {
         type: String,
-        required: true,
+        validations: [],
     },
-    rating: {
-        type: Number,
+    brand: {
+        type: String,
+        validations: [],
     },
-}, {
-    timestamps: true,
-});
+};
+
+var Product = function Product(properties) {
+    Model.call(this, properties);
+};
 
 
-module.exports = mongoose.model('Product', ProductSchema);
+util.inherits(Product, Model);
+Object.assign(Product, Model);
+
+Product.setSchema(schema);
+
+
+module.exports = Product;
