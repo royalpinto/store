@@ -1,24 +1,32 @@
-var mongoose = require('mongoose');
+var util = require('util');
+var mongodb = require('mongodb');
+var Model = require('./model');
+var validators = require('./validators');
 
 
-var CartItemSchema = new mongoose.Schema({
+var schema = {
     productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true,
+        type: mongodb.ObjectID,
+        validations: [{
+            fn: validators.objectID(true),
+        }],
     },
     quantity: {
         type: Number,
-        required: true,
+        validations: [{
+            fn: validators.number(1),
+        }],
     },
-});
+};
+
+var CartItem = function CartItem(properties) {
+    Model.call(this, properties);
+};
+
+util.inherits(CartItem, Model);
+Object.assign(CartItem, Model);
+
+CartItem.setSchema(schema);
 
 
-module.exports = mongoose.model('CartItem', CartItemSchema);
+module.exports = CartItem;

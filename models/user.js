@@ -1,33 +1,68 @@
-var mongoose = require('mongoose');
-var passportLocalMongoose = require('passport-local-mongoose');
+var util = require('util');
+var Model = require('./model');
+var Permission = require('./permission');
+var validators = require('./validators');
 
-
-var UserSchema = new mongoose.Schema({
+var schema = {
     name: {
         type: String,
-        required: true,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
     },
     email: {
         type: String,
-        required: true,
-        index: {
-            unique: true,
-        },
+        validations: [{
+            fn: validators.email,
+        }],
     },
-});
+    username: {
+        type: String,
+        unique: true,
+        validations: [{
+            fn: function(value) {
+                return new Promise(function(resolve, reject) {
+                    if (/^[a-zA-Z0-9]+$/.test(value)) {
+                        resolve();
+                    }
+                    reject("Invalid username.");
+                });
+            },
+        }],
+    },
+    group: {
+        type: String,
+        validations: [{
+            fn: validators.string(5, 255),
+        }],
+    },
+    salt: {
+        type: String,
+    },
+    hash: {
+        type: String,
+    },
+};
 
+var User = function User(properties) {
+    Model.call(this, properties);
+};
 
-UserSchema.plugin(passportLocalMongoose);
+util.inherits(User, Model);
+Object.assign(User, Model);
 
+User.setSchema(schema);
 
-// Hide internal password specific fields.
-UserSchema.method('toJSON', function() {
+User.prototype.hasPermission = function(noun, verb) {
+    return Permission.check(this.group, noun, verb);
+};
+
+User.prototype.toJSON = function() {
     var user = this.toObject();
     delete user.salt;
     delete user.hash;
-    delete user.__v;
     return user;
-});
+};
 
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = User;
