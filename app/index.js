@@ -41,6 +41,8 @@ approuter.use(products);
 approuter.use(cartitem);
 
 approuter.use(/\//, middlewares.static(path.join(__dirname, '..'), 'public/'));
+approuter.use(/\//,
+    middlewares.static(path.join(__dirname, '..'), 'bower_components/'));
 
 // Finally if non of the routes have matched or responded.
 approuter.use(function(req, res) {
