@@ -1,3 +1,4 @@
+var path = require('path');
 var http = require('http');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -39,6 +40,7 @@ approuter.use(users);
 approuter.use(products);
 approuter.use(cartitem);
 
+approuter.use(/\//, middlewares.static(path.join(__dirname, '..'), 'public/'));
 
 // Finally if non of the routes have matched or responded.
 approuter.use(function(req, res) {
