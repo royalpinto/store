@@ -1,5 +1,5 @@
-var path = require('path');
 var http = require('http');
+var staticServer = require('node-static');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -40,9 +40,30 @@ approuter.use(users);
 approuter.use(products);
 approuter.use(cartitem);
 
-approuter.use(/\//, middlewares.static(path.join(__dirname, '..'), 'public/'));
-approuter.use(/\//,
-    middlewares.static(path.join(__dirname, '..'), 'bower_components/'));
+
+var publicServer = new staticServer.Server('./public');
+var bowerServer = new staticServer.Server('./bower_components');
+
+approuter.use(function(req, res, next) {
+    publicServer.serve(req, res)
+    .on('error', function(err) {
+        if (err.status === 404) {
+            next();
+        }
+    })
+    ;
+});
+
+approuter.use(function(req, res, next) {
+    bowerServer.serve(req, res)
+    .on('error', function(err) {
+        if (err.status === 404) {
+            next();
+        }
+    })
+    ;
+});
+
 
 // Finally if non of the routes have matched or responded.
 approuter.use(function(req, res) {
