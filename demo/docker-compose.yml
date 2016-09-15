@@ -1,0 +1,31 @@
+version: '2'
+services:
+    db:
+        image: mongo
+        command: "--smallfiles --logpath=/dev/null"
+
+    migration:
+        build: ..
+        image: app
+        depends_on:
+            - db
+        links:
+            - db
+        environment:
+            NODE_ENV: docker
+        command:
+            node demo/init.js
+
+    web:
+        build: ..
+        image: app
+        ports:
+            - "3000:3000"
+        depends_on:
+            - migration
+        links:
+            - db
+        environment:
+            NODE_ENV: docker
+        command:
+            npm start
