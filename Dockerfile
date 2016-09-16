@@ -1,6 +1,10 @@
 FROM node:4.4.7
 
 
+# Install bower
+RUN npm install -g bower
+
+
 # Add an user.
 RUN adduser --disabled-password --gecos '' store
 
@@ -18,7 +22,7 @@ USER store
 
 
 # Install dependencies.
-RUN cd /home/store/store/ && git clean -fdx && npm install --production
+RUN cd /home/store/store/ && git clean -fdx && npm install --production && bower install
 
 
 # Setup workign directory.
