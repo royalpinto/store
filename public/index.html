@@ -10,6 +10,50 @@
 
     <body ng-app="app">
 
+        <div layout="column" layout-fill="layout-fill">
+            <md-toolbar
+                ng-controller="appController"
+                layout="row"
+                class="md-toolbar-tools">
+                <div flex="33" layout="row" layout-align="start center">
+                    <md-button hide-gt-sm aria-label="Open demo menu" class="md-icon-button" ng-click="toggleLeft($event)">
+                        <md-icon md-svg-src="img/icons/ic_menu_white_24px.svg" aria-label="Account">
+                        </md-icon>
+                    </md-button>
+                    <h3 class="md-title">Store</h3>
+                    <div hide show-gt-sm class="md-subhead">&nbsp;- A simple shopping experince</div>
+                </div>
+                <div hide show-gt-sm flex="33">
+                    <md-autocomplete
+                        md-selected-item="ctrl.selectedItem"
+                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                        md-search-text="ctrl.searchText"
+                        md-selected-item-change="ctrl.selectedItemChange(item)"
+                        md-items="item in ctrl.querySearch(ctrl.searchText)"
+                        md-item-text="item.display"
+                        md-min-length="0"
+                        placeholder="What you would like to shop today...">
+                        <md-item-template>
+                            <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </div>
+                <div flex="auto" layout="row" layout-align="end center">
+                    <md-button href="/cart" aria-label="Cart" class="md-icon-button">
+                        <md-icon md-svg-src="img/icons/ic_shopping_cart_white_24px.svg" aria-label="Cart">
+                        </md-icon>
+                    </md-button>
+                    <md-button aria-label="Account" class="md-icon-button" ng-click="showAccount($event)">
+                        <md-icon md-svg-src="img/icons/ic_account_circle_white_24px.svg" aria-label="Account">
+                        </md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-content layout="column" flex="flex">
+                <ng-view layout="column"></ng-view>
+            </md-content>
+        </div>
+
         <script src="/angular/angular.min.js"></script>
         <script src="/angular-route/angular-route.min.js"></script>
         <script src="/angular-animate/angular-animate.min.js"></script>
