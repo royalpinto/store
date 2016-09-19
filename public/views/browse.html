@@ -8,14 +8,8 @@
             >
             <div layout="column" class="md-padding">
                 <div class="md-title md-margin">Categories</div>
-                <md-checkbox>
-                  Allen Solley
-                </md-checkbox>
-                <md-checkbox>
-                  Allen Solley
-                </md-checkbox>
-                <md-checkbox>
-                  Allen Solley
+                <md-checkbox ng-repeat="category in categories">
+                    {{ category.name }}
                 </md-checkbox>
             </div>
             <md-divider></md-divider>

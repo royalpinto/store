@@ -36,6 +36,13 @@ angular
 
         $scope.$watch('skip', $scope.load);
         $scope.load();
+
+        $http.get('/products/categories/', {
+        })
+        .then(function(response) {
+            $scope.categories = response.data;
+        })
+        ;
     },
 ])
 
