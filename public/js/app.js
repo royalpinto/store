@@ -30,4 +30,9 @@ angular
     },
 ])
 
+.controller('appController', [
+    function() {
+    },
+])
+
 ;
