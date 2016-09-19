@@ -1,36 +1,17 @@
-var authController = require('../controllers/auth');
-var errors = require('./../errors');
+var urls = require('./../app/router');
+var router = new urls.Router();
 
 
-var handlePermission = function(noun, verb) {
-    return function(req, res, next) {
-        if (!req.session.user) {
-            var error = new errors.UnauthenticatedAccess();
-            return errors.handle(req, res, error);
-        }
-
-        if (!(noun && verb)) {
-            return next();
-        }
-
-        authController
-        .hasPermission(req.session.user._id, noun, verb)
-        .then(function(permit) {
-            if (permit) {
-                next();
-            } else {
-                var error = new errors.UnauthorizedAccess();
-                errors.handle(req, res, error);
-            }
-        })
-        .catch(function(error) {
-            errors.handle(req, res, error);
-        })
-        ;
-    };
-};
+var auth = require('./auth');
+var users = require('./user');
+var products = require('./product');
+var cartitem = require('./cartitem');
 
 
-module.exports = {
-    handlePermission: handlePermission,
-};
+router.use(auth);
+router.use(users);
+router.use(products);
+router.use(cartitem);
+
+
+module.exports = router;

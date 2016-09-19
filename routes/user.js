@@ -1,15 +1,15 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
-var routes = require('./index');
+var middlewares = require('./middlewares');
 var controller = require('../controllers/user');
 var errors = require('./../errors');
 
 
 // This route can be accessed only by admins.
-router.post(/^\/users\//, routes.handlePermission('users', 'write'));
-router.put(/^\/users\//, routes.handlePermission('users', 'write'));
-router.delete(/^\/users\//, routes.handlePermission('users', 'write'));
-router.get(/^\/users\//, routes.handlePermission('users', 'read'));
+router.post(/^\/users\//, middlewares.handlePermission('users', 'write'));
+router.put(/^\/users\//, middlewares.handlePermission('users', 'write'));
+router.delete(/^\/users\//, middlewares.handlePermission('users', 'write'));
+router.get(/^\/users\//, middlewares.handlePermission('users', 'read'));
 
 
 router.get(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {

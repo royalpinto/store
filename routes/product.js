@@ -3,11 +3,11 @@ var urls = require('./../app/router');
 var router = new urls.Router();
 var controller = require('../controllers/product');
 var errors = require('./../errors');
-var routes = require('./index');
+var middlewares = require('./middlewares');
 
 
-router.post(/^\/products\//, routes.handlePermission('projects', 'write'));
-router.put(/^\/products\//, routes.handlePermission('projects', 'write'));
+router.post(/^\/products\//, middlewares.handlePermission('projects', 'write'));
+router.put(/^\/products\//, middlewares.handlePermission('projects', 'write'));
 
 
 router.get(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
