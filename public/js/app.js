@@ -9,7 +9,7 @@ angular
 
 .config([
     '$routeProvider',
-    function($routeProvider) {
+    function($routeProvider, $locationProvider) {
         $routeProvider
         .when('/', {
             templateUrl: 'views/browse.html',
@@ -24,6 +24,8 @@ angular
             controller: 'cartController',
         })
         ;
+
+        $locationProvider.html5Mode(true);
     },
 ])
 
