@@ -10,10 +10,7 @@ var logging = require('./../logging');
 
 var approuter = new router.Router();
 
-var auth = require('./../routes/auth');
-var users = require('./../routes/user');
-var products = require('./../routes/product');
-var cartitem = require('./../routes/cartitem');
+var apirouter = require('./../routes');
 
 approuter.use(logging.middleware);
 
@@ -34,10 +31,7 @@ approuter.use(session({
     }),
 }));
 
-approuter.use(auth);
-approuter.use(users);
-approuter.use(products);
-approuter.use(cartitem);
+approuter.use(apirouter);
 
 
 // Finally if non of the routes have matched or responded.
