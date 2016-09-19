@@ -31,7 +31,17 @@ angular
 ])
 
 .controller('appController', [
-    function() {
+    '$scope',
+    '$mdDialog',
+    function($scope, $mdDialog) {
+        $scope.showAccount = function(ev) {
+            $mdDialog.show({
+                controller: 'accountController',
+                templateUrl: 'views/account.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+            });
+        };
     },
 ])
 
