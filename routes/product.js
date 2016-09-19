@@ -89,5 +89,20 @@ router.get(/^\/products\/categories\//, function(req, res) {
     ;
 });
 
+router.get(/^\/products\/brands\//, function(req, res) {
+    var query = {
+        brand: req.query.search,
+    };
+    controller
+    .getBrands(query, req.query.limit, req.query.skip, req.query.order)
+    .then(function(data) {
+        res.json(data);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
+
 
 module.exports = router;
