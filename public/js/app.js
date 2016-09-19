@@ -42,21 +42,7 @@ angular
                 targetEvent: ev,
             });
         };
-    },
-])
 
-.controller('browseController', [
-    '$scope',
-    function($scope) {
-        $scope.filters = [{
-            name: 'Allen Solly',
-        }, {
-            name: 'Allen Solly',
-        }, {
-            name: 'Allen Solly',
-        }];
-        console.log(123);
-        $scope.products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     },
 ])
 
