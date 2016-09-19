@@ -44,5 +44,39 @@ function(query, limit, skip, order) {
     ;
 };
 
+ProductController.prototype.getBrands =
+function(query, limit, skip, order) {
+    var pipeline = [{
+        $match: query,
+    }, {
+        $group: {
+            _id: '$brand',
+        },
+    }, {
+        $project: {
+            name: '$_id', _id: 0,
+        },
+    }];
+
+    if (Object.keys(order).length === 0) {
+        order.name = 1;
+    }
+
+    pipeline.push({$sort: order});
+
+    pipeline.push({
+        $skip: skip,
+    });
+
+    pipeline.push({
+        $limit: limit,
+    });
+
+    return models.Product.collection
+    .aggregate(pipeline)
+    .toArray()
+    ;
+};
+
 
 module.exports = new ProductController();
