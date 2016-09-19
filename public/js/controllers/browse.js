@@ -43,6 +43,13 @@ angular
             $scope.categories = response.data;
         })
         ;
+
+        $http.get('/products/brands/', {
+        })
+        .then(function(response) {
+            $scope.brands = response.data;
+        })
+        ;
     },
 ])
 

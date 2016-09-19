@@ -15,14 +15,8 @@
             <md-divider></md-divider>
             <div layout="column" class="md-padding">
                 <div class="md-title md-margin">Brands</div>
-                <md-checkbox>
-                  Allen Solley
-                </md-checkbox>
-                <md-checkbox>
-                  Allen Solley
-                </md-checkbox>
-                <md-checkbox>
-                  Allen Solley
+                <md-checkbox ng-repeat="brand in brands">
+                    {{ brand.name }}
                 </md-checkbox>
             </div>
         </md-sidenav>
