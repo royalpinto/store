@@ -74,5 +74,20 @@ router.delete(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     ;
 });
 
+router.get(/^\/products\/categories\//, function(req, res) {
+    var query = {
+        category: req.query.search,
+    };
+    controller
+    .getCategories(query, req.query.limit, req.query.skip, req.query.order)
+    .then(function(data) {
+        res.json(data);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
+
 
 module.exports = router;
