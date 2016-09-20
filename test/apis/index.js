@@ -45,4 +45,14 @@ describe('/', function() {
         })
         .catch(done);
     });
+
+    it('It should get index page.', function(done) {
+        chai.request(server)
+        .get('/index.html')
+        .then(function(res) {
+            res.should.have.status(200);
+            done();
+        })
+        .catch(done);
+    });
 });
