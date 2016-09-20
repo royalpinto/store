@@ -353,7 +353,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.delete('/api/cart/items/').query({
-                    projectId: new mongodb.ObjectID(),
+                    projectId: new mongodb.ObjectID().toString(),
                 });
             })
             .then(function() {
