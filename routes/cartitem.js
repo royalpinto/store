@@ -5,10 +5,10 @@ var errors = require('./../errors');
 var middlewares = require('./middlewares');
 
 
-router.use(/^\/cart\/items\/$/, middlewares.handlePermission());
-router.use(/^\/cart\/checkout\/$/, middlewares.handlePermission());
+router.use(/^\/api\/cart\/items\/$/, middlewares.handlePermission());
+router.use(/^\/api\/cart\/checkout\/$/, middlewares.handlePermission());
 
-router.get(/^\/cart\/items\/$/, function(req, res) {
+router.get(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
     .get(req.session.user._id)
     .then(function(cart) {
@@ -20,11 +20,11 @@ router.get(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
-router.post(/^\/cart\/items\/$/, function(req, res) {
+router.post(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
     .create(req.session.user._id, req.body.projectId, req.body.quantity)
     .then(function() {
-        res.setHeader('Location', "/cart/items/");
+        res.setHeader('Location', "/api/cart/items/");
         res.status(201).json({});
     })
     .catch(function(error) {
@@ -33,7 +33,7 @@ router.post(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
-router.put(/^\/cart\/items\/$/, function(req, res) {
+router.put(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
     .update(req.session.user._id, req.body.projectId, req.body.quantity)
     .then(function() {
@@ -45,7 +45,7 @@ router.put(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
-router.delete(/^\/cart\/items\/$/, function(req, res) {
+router.delete(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
     .remove(req.session.user._id, req.query.projectId)
     .then(function() {
@@ -57,7 +57,7 @@ router.delete(/^\/cart\/items\/$/, function(req, res) {
     ;
 });
 
-router.post(/^\/cart\/checkout\/$/, function(req, res) {
+router.post(/^\/api\/cart\/checkout\/$/, function(req, res) {
     controller
     .checkout(req.session.user._id)
     .then(function() {
