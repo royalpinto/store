@@ -25,7 +25,10 @@ router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
 });
 
 router.get(/^\/api\/users\/$/, function(req, res) {
-    var query = {name: req.query.search};
+    var query = {};
+    if (req.query.search) {
+        query.name = req.query.search;
+    }
     controller
     .get(query, req.query.limit, req.query.skip, req.query.order)
     .then(function(user) {
