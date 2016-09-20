@@ -6,13 +6,14 @@ var errors = require('./../errors');
 
 
 // This route can be accessed only by admins.
-router.post(/^\/users\//, middlewares.handlePermission('users', 'write'));
-router.put(/^\/users\//, middlewares.handlePermission('users', 'write'));
-router.delete(/^\/users\//, middlewares.handlePermission('users', 'write'));
-router.get(/^\/users\//, middlewares.handlePermission('users', 'read'));
+router.post(/^\/api\/users\//, middlewares.handlePermission('users', 'write'));
+router.put(/^\/api\/users\//, middlewares.handlePermission('users', 'write'));
+router.delete(/^\/api\/users\//,
+    middlewares.handlePermission('users', 'write'));
+router.get(/^\/api\/users\//, middlewares.handlePermission('users', 'read'));
 
 
-router.get(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
+router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller.getById(id)
     .then(function(user) {
@@ -24,7 +25,7 @@ router.get(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/users\/$/, function(req, res) {
+router.get(/^\/api\/users\/$/, function(req, res) {
     var query = {name: req.query.search};
     controller
     .get(query, req.query.limit, req.query.skip, req.query.order)
@@ -37,7 +38,7 @@ router.get(/^\/users\/$/, function(req, res) {
     ;
 });
 
-router.delete(/^\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
+router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .remove(id, req.body)
