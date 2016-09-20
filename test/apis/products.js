@@ -517,6 +517,47 @@ describe('Products:', function() {
         });
     });
 
+    describe('/api/products/categories/', function() {
+        it('It should not get categories for an internal error.',
+        function(done) {
+            var backup;
+            var mock = function() {
+                backup = controller.get;
+                controller.getCategories = function() {
+                    return Promise.reject(new Error('Mocked error :)'));
+                };
+            };
+            var demock = function() {
+                controller.getCategories = backup;
+            };
+
+            controller.create(payload)
+            .then(function() {
+                mock();
+                return chai.request(server).get('/api/products/categories/')
+                .query({
+                    search: payload.category,
+                });
+            })
+            .then(function() {
+                demock();
+                done(true);
+            })
+            .catch(function(err) {
+                err.should.have.status(500);
+                chai.expect(err.response.text)
+                    .to.be.equal('Internal server error.');
+                demock();
+                done();
+            })
+            .catch(function() {
+                demock();
+                done(true);
+            })
+            ;
+        });
+    });
+
     describe('/api/products/brands/', function() {
         it('It should get brands.', function(done) {
             controller.create(payload)
