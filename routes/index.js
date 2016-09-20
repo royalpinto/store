@@ -14,6 +14,7 @@ router.use(middlewares.querystringParser);
 router.use(middlewares.paginate(10, 50));
 router.use(middlewares.orderParser);
 router.use(middlewares.searchParser);
+router.use(middlewares.filter);
 
 
 router.use(auth);
