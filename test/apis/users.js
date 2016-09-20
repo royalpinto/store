@@ -13,7 +13,7 @@ chai.should();
 chai.use(require('chai-http'));
 
 
-describe('/users/', function() {
+describe('/api/users/', function() {
     before(function(done) {
         mongodb.MongoClient.connect(config.db.uri)
         .then(function(db) {
@@ -56,7 +56,7 @@ describe('/users/', function() {
     describe('GET /users/', function() {
         it('It should fail to GET users without login.', function(done) {
             var agent = chai.request.agent(server);
-            agent.get('/users/')
+            agent.get('/api/users/')
             .end(function(err) {
                 err.should.have.status(401);
                 done();
@@ -67,7 +67,7 @@ describe('/users/', function() {
     describe('GET /users/', function() {
         it('It should fail to GET users with regular user.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -75,7 +75,7 @@ describe('/users/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.get('/users/');
+                return agent.get('/api/users/');
             })
             .then(function() {
                 done("Should have failed.");
@@ -106,7 +106,7 @@ describe('/users/', function() {
             };
 
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -115,7 +115,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 mock();
-                return agent.get('/users/');
+                return agent.get('/api/users/');
             })
             .then(function() {
                 demock();
@@ -150,7 +150,7 @@ describe('/users/', function() {
             };
 
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -166,7 +166,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 mock();
-                return agent.get('/users/');
+                return agent.get('/api/users/');
             })
             .then(function(res) {
                 console.log(res.body);
@@ -192,7 +192,7 @@ describe('/users/', function() {
     describe('GET /users/', function() {
         it('It should GET users with authorized user.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -207,7 +207,7 @@ describe('/users/', function() {
                 return user.save();
             })
             .then(function() {
-                return agent.get('/users/');
+                return agent.get('/api/users/');
             })
             .then(function(res) {
                 chai.expect(res).to.have.status(200);
@@ -222,7 +222,7 @@ describe('/users/', function() {
         it('It should GET users with authorized user.', function(done) {
             var agent = chai.request.agent(server);
             var userid = null;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -238,7 +238,7 @@ describe('/users/', function() {
                 return user.save();
             })
             .then(function() {
-                return agent.get('/users/' + userid + '/');
+                return agent.get('/api/users/' + userid + '/');
             })
             .then(function(res) {
                 chai.expect(res).to.have.status(200);
@@ -252,7 +252,7 @@ describe('/users/', function() {
     describe('GET /users/id/', function() {
         it('It should not GET user with invalid id.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -267,7 +267,7 @@ describe('/users/', function() {
                 return user.save();
             })
             .then(function() {
-                return agent.get('/users/' +
+                return agent.get('/api/users/' +
                     (new mongodb.ObjectID()).toString() + '/');
             })
             .then(function() {
@@ -289,7 +289,7 @@ describe('/users/', function() {
         it('It should DELETE user with authorized user login.', function(done) {
             var agent = chai.request.agent(server);
             var userid = null;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -305,7 +305,7 @@ describe('/users/', function() {
                 return user.save();
             })
             .then(function() {
-                return agent.delete('/users/' + userid + '/');
+                return agent.delete('/api/users/' + userid + '/');
             })
             .then(function(res) {
                 chai.expect(res).to.have.status(204);
@@ -319,7 +319,7 @@ describe('/users/', function() {
     describe('DELETE /users/id/', function() {
         it('It should fail to DELETE with invalid id.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -334,7 +334,7 @@ describe('/users/', function() {
                 return user.save();
             })
             .then(function() {
-                return agent.delete('/users/' +
+                return agent.delete('/api/users/' +
                     (new mongodb.ObjectID()).toString() + '/');
             })
             .then(function() {
