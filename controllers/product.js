@@ -65,29 +65,42 @@ function(query, limit, skip, order) {
         $group: {
             _id: '$brand',
         },
-    }, {
-        $project: {
-            name: '$_id', _id: 0,
-        },
     }];
+
+    var countPipeline = pipeline.slice();
+    Array.prototype.push.apply(countPipeline, [
+        {$group: {_id: 1, sum: {$sum: 1}}},
+        {$project: {sum: 1, _id: 0}},
+    ]);
 
     if (Object.keys(order).length === 0) {
         order.name = 1;
     }
 
-    pipeline.push({$sort: order});
+    Array.prototype.push.apply(pipeline, [
+        {$project: {name: '$_id', _id: 0}},
+        {$sort: order},
+        {$skip: skip},
+        {$limit: limit},
+    ]);
 
-    pipeline.push({
-        $skip: skip,
-    });
-
-    pipeline.push({
-        $limit: limit,
-    });
-
-    return models.Product.collection
-    .aggregate(pipeline)
-    .toArray()
+    return Promise.all([
+        models.Product.collection
+        .aggregate(countPipeline)
+        .toArray(),
+        models.Product.collection
+        .aggregate(pipeline)
+        .toArray(),
+    ])
+    .then(function(values) {
+        var countData = values[0];
+        var count = countData.length > 0 ? countData[0].sum : 0;
+        var data = values[1];
+        return {
+            count: count,
+            data: data,
+        };
+    })
     ;
 };
 
