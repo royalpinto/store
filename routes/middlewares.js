@@ -129,6 +129,9 @@ var searchParser = function(req, res, next) {
 var filter = function(req, res, next) {
     var filter = {};
     for (var key in req.query) {
+        if (!key) {
+            continue;
+        }
         if (['search', 'limit', 'skip', 'order'].indexOf(key) > -1) {
             continue;
         }
