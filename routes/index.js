@@ -13,5 +13,11 @@ router.use(users);
 router.use(products);
 router.use(cartitem);
 
+// Finally if non of the routes have matched or responded.
+router.use(function(req, res) {
+    res.writeHead(404, {'Content-Type': 'text/plain'});
+    res.end('Not Found');
+});
+
 
 module.exports = router;
