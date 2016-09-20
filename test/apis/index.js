@@ -35,7 +35,7 @@ describe('/', function() {
 
     it("It should handle invalid request.", function(done) {
         chai.request(server)
-        .get('/nonexistingpath/')
+        .get('/api/nonexistingpath/')
         .then(function() {
             done(true);
         })
