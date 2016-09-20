@@ -25,7 +25,7 @@ angular
 
         $scope.load = function() {
             $http
-            .get('/products/', {
+            .get('/api/products/', {
                 params: getParams(),
             })
             .then(function(response) {
@@ -42,14 +42,14 @@ angular
         $scope.$watch('skip', $scope.load);
         $scope.load();
 
-        $http.get('/products/categories/', {
+        $http.get('/api/products/categories/', {
         })
         .then(function(response) {
             $scope.categories = response.data;
         })
         ;
 
-        $http.get('/products/brands/', {
+        $http.get('/api/products/brands/', {
         })
         .then(function(response) {
             $scope.brands = response.data;
