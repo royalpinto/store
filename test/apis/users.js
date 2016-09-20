@@ -218,6 +218,39 @@ describe('/api/users/', function() {
         });
     });
 
+    describe('GET /users/', function() {
+        it('It should GET(search) users with authorized user.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/api/register/')
+            .send({
+                name: 'Lohith Royal Pinto',
+                email: 'royalpinto@gmail.com',
+                username: 'royalpinto',
+                password: 'password',
+            })
+            .then(function(res) {
+                return models.User.findById(res.body._id);
+            })
+            .then(function(user) {
+                user.group = 'admin';
+                return user.save();
+            })
+            .then(function() {
+                return agent.get('/api/users/')
+                .query({
+                    search: 'pinto',
+                })
+                ;
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(200);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
     describe('GET /users/id/', function() {
         it('It should GET users with authorized user.', function(done) {
             var agent = chai.request.agent(server);
