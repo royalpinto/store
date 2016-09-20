@@ -32,7 +32,7 @@ approuter.use(session({
     }),
 }));
 
-approuter.use(apirouter);
+approuter.use(/^\/api\//, apirouter);
 
 
 var publicServer = new staticServer.Server('./public');
