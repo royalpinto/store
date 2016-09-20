@@ -6,7 +6,6 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var router = require('./router');
 var models = require('./../models');
-var middlewares = require('./middlewares');
 var logging = require('./../logging');
 
 var approuter = new router.Router();
@@ -15,11 +14,6 @@ var apirouter = require('./../routes');
 
 approuter.use(logging.middleware);
 
-approuter.use(middlewares.easyResponse);
-approuter.use(middlewares.querystringParser);
-approuter.use(middlewares.paginate(10, 50));
-approuter.use(middlewares.orderParser);
-approuter.use(middlewares.searchParser);
 approuter.use(bodyParser.json());
 approuter.use(bodyParser.urlencoded({extended: false}));
 approuter.use(cookieParser());
