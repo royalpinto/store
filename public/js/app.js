@@ -33,7 +33,8 @@ angular
 .controller('appController', [
     '$scope',
     '$mdDialog',
-    function($scope, $mdDialog) {
+    '$http',
+    function($scope, $mdDialog, $http) {
         $scope.showAccount = function(ev) {
             $mdDialog.show({
                 controller: 'accountController',
@@ -43,6 +44,22 @@ angular
             });
         };
 
+        $scope.search = function(query) {
+            return $http
+            .get('/api/products/?', {
+                params: {
+                    search: query,
+                },
+            })
+            .then(function(response) {
+                return response.data.data;
+            })
+            ;
+        };
+
+        $scope.searchSubmit = function() {
+            console.log('searchSubmit', $scope.searchText);
+        };
     },
 ])
 
