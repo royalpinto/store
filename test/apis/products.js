@@ -153,7 +153,7 @@ describe('Products:', function() {
             }
             Promise.all(promises)
             .then(function() {
-                return chai.request(server).get('/api/products/')
+                return chai.request(server).get('/api/products/?&')
                 .query({
                     limit: [100, 90], // It should ignore both and apply 50(max).
                 })
