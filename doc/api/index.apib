@@ -23,7 +23,7 @@ The requests without login so called `anonymous` users are allowed only to brows
 
 # Group Auth
 
-## User Registration [/register/]
+## User Registration [/api/register/]
 
 ### Register [POST]
 
@@ -42,7 +42,7 @@ Register a new user. By this way, user gets assigned to the default group: `memb
 
     + Headers
 
-            Location: /login/
+            Location: /api/login/
 
     + Body
 
@@ -64,7 +64,7 @@ Register a new user. By this way, user gets assigned to the default group: `memb
             }
 
 
-## Login [/login/]
+## Login [/api/login/]
 
 ### Login [POST]
 
@@ -120,7 +120,7 @@ Get logged in user details.
 
             "Unauthenticated access."
 
-## Logout [/logout/]
+## Logout [/api/logout/]
 
 ### Logout [GET]
 
@@ -136,7 +136,7 @@ Logout.
 
 # Group Products
 
-## Products [/products/]
+## Products [/api/products/]
 ### Create Product [POST]
 
 Create a product. All fields mentioned in the request body are mandatory except `brand` and `category`.
@@ -156,7 +156,7 @@ Create a product. All fields mentioned in the request body are mandatory except 
 
     + Headers
 
-            Location: /products/id/
+            Location: /api/products/id/
 
     + Body
 
@@ -191,7 +191,7 @@ Create a product. All fields mentioned in the request body are mandatory except 
 
             "Unauthorized access."
 
-## Products [/products/{?search,limit,skip}]
+## Products [/api/products/{?search,limit,skip}]
 
 ### Get Products [GET]
 
@@ -225,7 +225,7 @@ Browse for products.
                 ]
             }
 
-## Product [/products/{id}/]
+## Product [/api/products/{id}/]
 
 ### Get Product [GET]
 
@@ -323,7 +323,7 @@ Delete a product by id.
 
 These APIs are only for admins/supervisors for managing users. supervisors are allowed to browse users and delete them but they are not allowed to create/modify user.
 
-## Users [/users/{?search,limit,skip}]
+## Users [/api/users/{?search,limit,skip}]
 
 ### Get Users [GET]
 
@@ -366,7 +366,7 @@ Browse for users.
 
             "Unauthorized access."
 
-## User [/users/{id}/]
+## User [/api/users/{id}/]
 
 ### Get User [GET]
 
@@ -439,7 +439,7 @@ Delete a user by id.
 
 # Group Cart
 
-## Cart [/cart/items/]
+## Cart [/api/cart/items/]
 
 ### Add to Cart [POST]
 
@@ -456,7 +456,7 @@ Add item to the cart. All fields mentioned in the request body are mandatory.
 
     + Headers
 
-            Location: /cart/items/
+            Location: /api/cart/items/
 
     + Body
 
@@ -565,7 +565,7 @@ Delete a product item from the cart.
 
             "Unauthenticated access."
 
-## Cart [/cart/checkout/]
+## Cart [/api/cart/checkout/]
 
 ### Checkout Cart [POST]
 
