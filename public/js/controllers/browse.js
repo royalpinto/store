@@ -7,7 +7,12 @@ angular
 .controller('browseController', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    '$mdSidenav',
+    function($scope, $http, $mdSidenav) {
+        $scope.toggleLeft = function() {
+            $mdSidenav('left').toggle();
+        };
+
         $scope.skip = 0;
         $scope.limit = 30;
 
