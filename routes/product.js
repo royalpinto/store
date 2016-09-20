@@ -95,11 +95,12 @@ router.get(/^\/api\/products\/categories\//, function(req, res) {
 });
 
 router.get(/^\/api\/products\/brands\//, function(req, res) {
-    var query = {
-        brand: req.query.search,
-    };
+    var filter = req.query.filter;
+    if (req.query.search) {
+        filter.brand = req.query.search;
+    }
     controller
-    .getBrands(query, req.query.limit, req.query.skip, req.query.order)
+    .getBrands(filter, req.query.limit, req.query.skip, req.query.order)
     .then(function(data) {
         res.json(data);
     })
