@@ -322,7 +322,9 @@ describe('Products:', function() {
             })
             .then(function() {
                 return agent
-                .put('/api/products/' + (new mongodb.ObjectID()).toString() + '/')
+                .put(
+                    '/api/products/' + (new mongodb.ObjectID()).toString() + '/'
+                )
                 .send({
                     name: "ABCDEDFGH",
                 })
