@@ -5,8 +5,8 @@ var controller = require('./../controllers/auth');
 var errors = require('./../errors');
 
 
-router.get(/^\/api\/login\/$/, middlewares.handlePermission());
-router.get(/^\/api\/logout\/$/, middlewares.handlePermission());
+router.get(/^\/api\/login\/$/, middlewares.auth());
+router.get(/^\/api\/logout\/$/, middlewares.auth());
 
 
 router.post(/^\/api\/login\/$/, function(req, res) {

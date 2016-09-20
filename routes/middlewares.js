@@ -2,7 +2,7 @@ var authController = require('../controllers/auth');
 var errors = require('./../errors');
 
 
-var handlePermission = function(noun, verb) {
+var auth = function(noun, verb) {
     return function(req, res, next) {
         if (!req.session.user) {
             var error = new errors.UnauthenticatedAccess();
@@ -32,5 +32,5 @@ var handlePermission = function(noun, verb) {
 
 
 module.exports = {
-    handlePermission: handlePermission,
+    auth: auth,
 };

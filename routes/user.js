@@ -6,11 +6,10 @@ var errors = require('./../errors');
 
 
 // This route can be accessed only by admins.
-router.post(/^\/api\/users\//, middlewares.handlePermission('users', 'write'));
-router.put(/^\/api\/users\//, middlewares.handlePermission('users', 'write'));
-router.delete(/^\/api\/users\//,
-    middlewares.handlePermission('users', 'write'));
-router.get(/^\/api\/users\//, middlewares.handlePermission('users', 'read'));
+router.post(/^\/api\/users\//, middlewares.auth('users', 'write'));
+router.put(/^\/api\/users\//, middlewares.auth('users', 'write'));
+router.delete(/^\/api\/users\//, middlewares.auth('users', 'write'));
+router.get(/^\/api\/users\//, middlewares.auth('users', 'read'));
 
 
 router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {

@@ -5,8 +5,8 @@ var errors = require('./../errors');
 var middlewares = require('./middlewares');
 
 
-router.use(/^\/api\/cart\/items\/$/, middlewares.handlePermission());
-router.use(/^\/api\/cart\/checkout\/$/, middlewares.handlePermission());
+router.use(/^\/api\/cart\/items\/$/, middlewares.auth());
+router.use(/^\/api\/cart\/checkout\/$/, middlewares.auth());
 
 router.get(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
