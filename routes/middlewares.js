@@ -126,6 +126,27 @@ var searchParser = function(req, res, next) {
 };
 
 
+var filter = function(req, res, next) {
+    var filter = {};
+    for (var key in req.query) {
+        if (['search', 'limit', 'skip', 'order'].indexOf(key) > -1) {
+            continue;
+        }
+        var value = req.query[key];
+        if (value instanceof Array) {
+            filter[key] = {
+                $in: value,
+            };
+        } else {
+            filter[key] = value;
+        }
+    }
+
+    req.query.filter = filter;
+    next();
+};
+
+
 module.exports = {
     auth: auth,
     querystringParser: querystringParser,
@@ -133,4 +154,5 @@ module.exports = {
     paginate: paginate,
     orderParser: orderParser,
     searchParser: searchParser,
+    filter: filter,
 };
