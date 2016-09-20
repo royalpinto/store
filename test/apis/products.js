@@ -496,4 +496,20 @@ describe('Products:', function() {
             .catch(done);
         });
     });
+
+    describe('/api/products/brands/', function() {
+        it('It should get brands.', function(done) {
+            controller.create(payload)
+            .then(function() {
+                return chai.request(server).get('/api/products/brands/');
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('count');
+                chai.expect(res.body.count).to.be.equal(1);
+                done();
+            })
+            .catch(done);
+        });
+    });
 });
