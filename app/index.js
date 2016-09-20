@@ -60,9 +60,9 @@ approuter.use(function(req, res, next) {
 
 
 // Finally if non of the routes have matched or responded.
+// Send index file to support HTML5 mode.
 approuter.use(function(req, res) {
-    res.writeHead(404, {'Content-Type': 'text/plain'});
-    res.end('Not Found');
+    publicServer.serveFile('index.html', 200, {}, req, res);
 });
 
 var server = http.createServer(function(req, res) {
