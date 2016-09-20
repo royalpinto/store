@@ -109,11 +109,19 @@ var searchParser = function(req, res, next) {
     if (!(_search instanceof Array)) {
         _search = [_search];
     }
-    req.query.search = {
-        $in: _search.map(function(i) {
-            return new RegExp(i, 'i');
-        }),
-    };
+    var search = [];
+    _search.forEach(function(i) {
+        if (i) {
+            search.push(new RegExp(i, 'i'));
+        }
+    });
+    if (search.length > 0) {
+        req.query.search = {
+            $in: search,
+        };
+    } else {
+        delete req.query.search;
+    }
     next();
 };
 
