@@ -6,11 +6,13 @@ var errors = require('./../errors');
 var middlewares = require('./middlewares');
 
 
-router.post(/^\/products\//, middlewares.handlePermission('projects', 'write'));
-router.put(/^\/products\//, middlewares.handlePermission('projects', 'write'));
+router.post(/^\/api\/products\//,
+    middlewares.handlePermission('projects', 'write'));
+router.put(/^\/api\/products\//,
+    middlewares.handlePermission('projects', 'write'));
 
 
-router.get(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
+router.get(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller.getById(id)
     .then(function(product) {
@@ -22,7 +24,7 @@ router.get(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/products\/$/, function(req, res) {
+router.get(/^\/api\/products\/$/, function(req, res) {
     var query = {name: req.query.search};
     controller
     .get(query, req.query.limit, req.query.skip, req.query.order)
@@ -35,11 +37,12 @@ router.get(/^\/products\/$/, function(req, res) {
     ;
 });
 
-router.post(/^\/products\/$/, function(req, res) {
+router.post(/^\/api\/products\/$/, function(req, res) {
     controller
     .create(req.body)
     .then(function(product) {
-        res.setHeader('Location', util.format("/products/%s/", product._id));
+        res.setHeader('Location',
+            util.format("/api/products/%s/", product._id));
         res.status(201).json(product);
     })
     .catch(function(error) {
@@ -48,7 +51,7 @@ router.post(/^\/products\/$/, function(req, res) {
     ;
 });
 
-router.put(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
+router.put(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .update(id, req.body)
@@ -61,7 +64,7 @@ router.put(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     ;
 });
 
-router.delete(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
+router.delete(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     controller
     .remove(id, req.body)
@@ -74,7 +77,7 @@ router.delete(/^\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
     ;
 });
 
-router.get(/^\/products\/categories\//, function(req, res) {
+router.get(/^\/api\/products\/categories\//, function(req, res) {
     var query = {
         category: req.query.search,
     };
@@ -89,7 +92,7 @@ router.get(/^\/products\/categories\//, function(req, res) {
     ;
 });
 
-router.get(/^\/products\/brands\//, function(req, res) {
+router.get(/^\/api\/products\/brands\//, function(req, res) {
     var query = {
         brand: req.query.search,
     };
