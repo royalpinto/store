@@ -13,7 +13,7 @@ chai.should();
 chai.use(require('chai-http'));
 
 
-describe('/cart/items/', function() {
+describe('/api/cart/items/', function() {
     before(function(done) {
         mongodb.MongoClient.connect(config.db.uri)
         .then(function(db) {
@@ -55,10 +55,10 @@ describe('/cart/items/', function() {
     beforeEach(cleanCollection);
     afterEach(cleanCollection);
 
-    describe('GET /cart/items/', function() {
+    describe('GET /api/cart/items/', function() {
         it('It should fail to GET cart items without login.', function(done) {
             var agent = chai.request.agent(server);
-            agent.get('/cart/items/')
+            agent.get('/api/cart/items/')
             .end(function(err) {
                 err.should.have.status(401);
                 done();
@@ -66,10 +66,10 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('GET /cart/items/', function() {
+    describe('GET /api/cart/items/', function() {
         it('It should GET cart items.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -77,7 +77,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.get('/cart/items/');
+                return agent.get('/api/cart/items/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -89,7 +89,7 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('GET /cart/items/', function() {
+    describe('GET /api/cart/items/', function() {
         it("It shouldn't GET cart items for an internal error", function(done) {
             var backup;
             var mock = function() {
@@ -103,7 +103,7 @@ describe('/cart/items/', function() {
             };
 
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -112,7 +112,7 @@ describe('/cart/items/', function() {
             })
             .then(function() {
                 mock();
-                return agent.get('/cart/items/');
+                return agent.get('/api/cart/items/');
             })
             .then(function() {
                 demock();
@@ -133,10 +133,10 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('POST /cart/items/', function() {
+    describe('POST /api/cart/items/', function() {
         it('It should fail to POST a cart item.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -144,7 +144,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.post('/cart/items/').send({
+                return agent.post('/api/cart/items/').send({
                     projectId: new mongodb.ObjectID(),
                     quantity: 2,
                 });
@@ -164,11 +164,11 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('POST /cart/items/', function() {
+    describe('POST /api/cart/items/', function() {
         it('It should POST a cart item.', function(done) {
             var product;
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -187,15 +187,15 @@ describe('/cart/items/', function() {
                 return product.save();
             })
             .then(function() {
-                return agent.post('/cart/items/').send({
+                return agent.post('/api/cart/items/').send({
                     projectId: product._id,
                     quantity: 2,
                 });
             })
             .then(function(res) {
                 res.should.have.status(201);
-                chai.expect(res).to.have.header('location', "/cart/items/");
-                return agent.get('/cart/items/');
+                chai.expect(res).to.have.header('location', "/api/cart/items/");
+                return agent.get('/api/cart/items/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -211,11 +211,11 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('PUT /cart/items/', function() {
+    describe('PUT /api/api/cart/items/', function() {
         it('It should update a cart item quantity.', function(done) {
             var agent = chai.request.agent(server);
             var product = null;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -234,20 +234,20 @@ describe('/cart/items/', function() {
                 return product.save();
             })
             .then(function() {
-                return agent.post('/cart/items/').send({
+                return agent.post('/api/cart/items/').send({
                     projectId: product._id,
                     quantity: 2,
                 });
             })
             .then(function() {
-                return agent.put('/cart/items/').send({
+                return agent.put('/api/cart/items/').send({
                     projectId: product._id,
                     quantity: 3,
                 });
             })
             .then(function(res) {
                 res.should.have.status(204);
-                return agent.get('/cart/items/');
+                return agent.get('/api/cart/items/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -261,10 +261,10 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('PUT /cart/items/', function() {
+    describe('PUT /api/cart/items/', function() {
         it('It should fail to update a cart item quantity.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -272,7 +272,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.put('/cart/items/').send({
+                return agent.put('/api/cart/items/').send({
                     projectId: new mongodb.ObjectID(),
                     quantity: 2,
                 });
@@ -292,11 +292,11 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('DELETE /cart/items/', function() {
+    describe('DELETE /api/cart/items/', function() {
         it('It should delete a cart item.', function(done) {
             var agent = chai.request.agent(server);
             var product = null;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -315,19 +315,19 @@ describe('/cart/items/', function() {
                 return product.save();
             })
             .then(function() {
-                return agent.post('/cart/items/').send({
+                return agent.post('/api/cart/items/').send({
                     projectId: product._id,
                     quantity: 2,
                 });
             })
             .then(function() {
-                return agent.delete('/cart/items/').query({
+                return agent.delete('/api/cart/items/').query({
                     projectId: product._id.toString(),
                 });
             })
             .then(function(res) {
                 res.should.have.status(204);
-                return agent.get('/cart/items/');
+                return agent.get('/api/cart/items/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -341,10 +341,10 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('DELETE /cart/items/', function() {
+    describe('DELETE /api/cart/items/', function() {
         it('It should fail to delete a cart item.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -352,7 +352,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.delete('/cart/items/').query({
+                return agent.delete('/api/cart/items/').query({
                     projectId: new mongodb.ObjectID(),
                 });
             })
@@ -371,11 +371,11 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('POST /cart/checkout/', function() {
+    describe('POST /api/cart/checkout/', function() {
         it('It should checkout the cart.', function(done) {
             var agent = chai.request.agent(server);
             var product = null;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -394,17 +394,17 @@ describe('/cart/items/', function() {
                 return product.save();
             })
             .then(function() {
-                return agent.post('/cart/items/').send({
+                return agent.post('/api/cart/items/').send({
                     projectId: product._id,
                     quantity: 2,
                 });
             })
             .then(function() {
-                return agent.post('/cart/checkout/');
+                return agent.post('/api/cart/checkout/');
             })
             .then(function(res) {
                 res.should.have.status(204);
-                return agent.get('/cart/items/');
+                return agent.get('/api/cart/items/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -418,10 +418,10 @@ describe('/cart/items/', function() {
         });
     });
 
-    describe('POST /cart/checkout/', function() {
+    describe('POST /api/cart/checkout/', function() {
         it('It should fail to checkout the cart.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -429,7 +429,7 @@ describe('/cart/items/', function() {
                 password: "password",
             })
             .then(function() {
-                return agent.post('/cart/checkout/');
+                return agent.post('/api/cart/checkout/');
             })
             .then(function() {
                 done("I should not have come here.");
