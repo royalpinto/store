@@ -23,12 +23,12 @@ router.get(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
 });
 
 router.get(/^\/api\/products\/$/, function(req, res) {
-    var query = {};
+    var filter = req.query.filter;
     if (req.query.search) {
-        query.name = req.query.search;
+        filter.name = req.query.search;
     }
     controller
-    .get(query, req.query.limit, req.query.skip, req.query.order)
+    .get(filter, req.query.limit, req.query.skip, req.query.order)
     .then(function(product) {
         res.json(product);
     })
