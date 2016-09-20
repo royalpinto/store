@@ -33,7 +33,7 @@ describe('/', function() {
         ;
     });
 
-    it("It should handle invalid request.", function(done) {
+    it("It should handle invalid API request.", function(done) {
         chai.request(server)
         .get('/api/nonexistingpath/')
         .then(function() {
