@@ -52,7 +52,7 @@ describe('Products:', function() {
     describe('/POST product', function() {
         it('It should fail to POST a product without login.', function(done) {
             chai.request(server)
-            .post('/products/')
+            .post('/api/products/')
             .send({})
             .end(function(err) {
                 err.should.have.status(401);
@@ -74,7 +74,7 @@ describe('Products:', function() {
         it('It should get products.', function(done) {
             controller.create(payload)
             .then(function() {
-                return chai.request(server).get('/products/');
+                return chai.request(server).get('/api/products/');
             })
             .then(function(res) {
                 res.should.have.status(200);
@@ -102,7 +102,7 @@ describe('Products:', function() {
             controller.create(payload)
             .then(function() {
                 mock();
-                return chai.request(server).get('/products/');
+                return chai.request(server).get('/api/products/');
             })
             .then(function() {
                 demock();
@@ -133,7 +133,7 @@ describe('Products:', function() {
             }
             Promise.all(promises)
             .then(function() {
-                return chai.request(server).get('/products/')
+                return chai.request(server).get('/api/products/')
                 .query({
                     limit: [100, 90], // It should ignore both and apply 50(max).
                 })
@@ -160,7 +160,7 @@ describe('Products:', function() {
             }
             Promise.all(promises)
             .then(function() {
-                return chai.request(server).get('/products/')
+                return chai.request(server).get('/api/products/')
                 .query({
                     limit: 5, // It should ignore both and apply 50(max).
                     search: "Allen",
@@ -173,7 +173,7 @@ describe('Products:', function() {
                 chai.expect(res.body).to.have.property('count');
                 chai.expect(res.body.count).to.be.equal(100);
                 chai.expect(res.body.data.length).to.be.equal(5);
-                return chai.request(server).get('/products/')
+                return chai.request(server).get('/api/products/')
                 .query({
                     limit: 5, // It should ignore both and apply 50(max).
                     search: ["Allen", "Lee"], // Mutliple keywords.
@@ -195,7 +195,7 @@ describe('Products:', function() {
     describe('/POST product', function() {
         it('It should not post a product with invalid data.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -213,7 +213,7 @@ describe('Products:', function() {
                 var localpayload = JSON.parse(JSON.stringify(payload));
                 delete localpayload.code;
                 return agent
-                .post('/products/')
+                .post('/api/products/')
                 .send(localpayload)
                 ;
             })
@@ -234,7 +234,7 @@ describe('Products:', function() {
     describe('/POST product', function() {
         it('It should post a product with valid data.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -250,14 +250,14 @@ describe('Products:', function() {
             })
             .then(function() {
                 return agent
-                .post('/products/')
+                .post('/api/products/')
                 .send(payload)
                 ;
             })
             .then(function(res) {
                 res.should.have.status(201);
                 chai.expect(res).to.have.header('location',
-                    util.format('/products/%s/', res.body._id));
+                    util.format('/api/products/%s/', res.body._id));
                 chai.expect(res.body).to.have.property('_id');
                 done();
             })
@@ -272,7 +272,7 @@ describe('Products:', function() {
             .then(function(_product) {
                 product = _product;
                 return chai.request(server)
-                .get('/products/' + product._id.toString() + '/')
+                .get('/api/products/' + product._id.toString() + '/')
                 ;
             })
             .then(function(res) {
@@ -288,7 +288,7 @@ describe('Products:', function() {
     describe('/GET product', function() {
         it('It should not get a product for invalid id.', function(done) {
             chai.request(server)
-            .get('/products/' + (new mongodb.ObjectID()).toString() + '/')
+            .get('/api/products/' + (new mongodb.ObjectID()).toString() + '/')
             .then(function() {
                 done(true);
             })
@@ -306,7 +306,7 @@ describe('Products:', function() {
     describe('/PUT product', function() {
         it('It should not update a product for invalid id.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -322,7 +322,7 @@ describe('Products:', function() {
             })
             .then(function() {
                 return agent
-                .put('/products/' + (new mongodb.ObjectID()).toString() + '/')
+                .put('/api/products/' + (new mongodb.ObjectID()).toString() + '/')
                 .send({
                     name: "ABCDEDFGH",
                 })
@@ -346,7 +346,7 @@ describe('Products:', function() {
         it('It should update a product with valid data.', function(done) {
             var agent = chai.request.agent(server);
             var product;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -366,7 +366,7 @@ describe('Products:', function() {
             .then(function(_product) {
                 product = _product;
                 return agent
-                .put('/products/' + product._id.toString() + '/')
+                .put('/api/products/' + product._id.toString() + '/')
                 .send({
                     code: "SOMETHINGELSE",
                 })
@@ -387,7 +387,7 @@ describe('Products:', function() {
     describe('/DELETE product', function() {
         it('It should not delete a product for invalid id.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -403,7 +403,7 @@ describe('Products:', function() {
             })
             .then(function() {
                 return agent
-                .delete('/products/' +
+                .delete('/api/products/' +
                     (new mongodb.ObjectID()).toString() + '/')
                 ;
             })
@@ -425,7 +425,7 @@ describe('Products:', function() {
         it('It should delete a product.', function(done) {
             var agent = chai.request.agent(server);
             var product;
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -445,7 +445,7 @@ describe('Products:', function() {
             .then(function(_product) {
                 product = _product;
                 return agent
-                .delete('/products/' + product._id.toString() + '/')
+                .delete('/api/products/' + product._id.toString() + '/')
                 ;
             })
             .then(function(res) {
