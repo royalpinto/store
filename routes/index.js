@@ -1,6 +1,6 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
-var middlewares = require('./../app/middlewares');
+var middlewares = require('./middlewares');
 
 
 var auth = require('./auth');
