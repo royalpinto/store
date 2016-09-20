@@ -86,6 +86,26 @@ describe('Products:', function() {
         });
     });
 
+    describe('/api/products/', function() {
+        it('It should get products with filter.', function(done) {
+            controller.create(payload)
+            .then(function() {
+                return chai.request(server).get('/api/products/')
+                .query({
+                    brand: [payload.brand, 'Random Brand'],
+                    category: payload.category,
+                });
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                chai.expect(res.body).to.have.property('count');
+                chai.expect(res.body.count).to.be.equal(1);
+                done();
+            })
+            .catch(done);
+        });
+    });
+
     describe('/GET product', function() {
         it('It should not get products for an internal error.', function(done) {
             var backup;
