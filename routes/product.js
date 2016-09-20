@@ -79,11 +79,12 @@ router.delete(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {
 });
 
 router.get(/^\/api\/products\/categories\//, function(req, res) {
-    var query = {
-        category: req.query.search,
-    };
+    var filter = req.query.filter;
+    if (req.query.search) {
+        filter.category = req.query.search;
+    }
     controller
-    .getCategories(query, req.query.limit, req.query.skip, req.query.order)
+    .getCategories(filter, req.query.limit, req.query.skip, req.query.order)
     .then(function(data) {
         res.json(data);
     })
