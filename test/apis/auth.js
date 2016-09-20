@@ -12,7 +12,7 @@ chai.should();
 chai.use(require('chai-http'));
 
 
-describe('/users/', function() {
+describe('/api/users/', function() {
     before(function(done) {
         mongodb.MongoClient.connect(config.db.uri)
         .then(function(db) {
@@ -52,10 +52,10 @@ describe('/users/', function() {
     beforeEach(cleanCollection);
     afterEach(cleanCollection);
 
-    describe('POST /register/', function() {
+    describe('POST /api/register/', function() {
         it('It should register a user.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -64,7 +64,7 @@ describe('/users/', function() {
             })
             .then(function(res) {
                 res.should.have.status(201);
-                chai.expect(res).to.have.header('location', '/login/');
+                chai.expect(res).to.have.header('location', '/api/login/');
                 chai.expect(res).to.have.cookie('connect.sid');
                 chai.expect(res.body).to.have.property('_id');
                 done();
@@ -74,7 +74,7 @@ describe('/users/', function() {
         });
     });
 
-    describe('POST /register/', function() {
+    describe('POST /api/register/', function() {
         it('It should not register because of internal issue.', function(done) {
             // Simple mocking here to generate an error
             // while generating the hash.
@@ -92,7 +92,7 @@ describe('/users/', function() {
             };
 
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -113,10 +113,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('POST /register/', function() {
+    describe('POST /api/register/', function() {
         it('It should fail to register a user.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -137,10 +137,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should login a user.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -149,7 +149,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 return chai.request(server)
-                .post("/login/")
+                .post("/api/login/")
                 .send({
                     username: "royalpinto",
                     password: "password",
@@ -167,10 +167,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should ignore relogin(already logged in).', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -179,7 +179,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 return agent
-                .post("/login/")
+                .post("/api/login/")
                 .send({
                     username: "royalpinto",
                     password: "password",
@@ -194,10 +194,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should fail to login with invalid credentials.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -206,7 +206,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 return chai.request(server)
-                .post("/login/")
+                .post("/api/login/")
                 .send({
                     username: "royalpinto",
                     password: "sdcsd",
@@ -228,10 +228,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should fail to login for a new username.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post("/login/")
+            agent.post("/api/login/")
             .send({
                 username: "sdfadadada",
                 password: "sdcsd",
@@ -251,10 +251,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should get logged in user details.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -263,7 +263,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 return agent
-                .get("/login/")
+                .get("/api/login/")
                 ;
             })
             .then(function(res) {
@@ -278,11 +278,11 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should not get user details without login.', function(done) {
             var agent = chai.request.agent(server);
             agent
-            .get("/login/")
+            .get("/api/login/")
             .then(function() {
                 done("Should have failed.");
             })
@@ -295,10 +295,10 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should logout.', function(done) {
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -307,7 +307,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 return agent
-                .get("/logout/")
+                .get("/api/logout/")
                 ;
             })
             .then(function(res) {
@@ -319,7 +319,7 @@ describe('/users/', function() {
         });
     });
 
-    describe('GET /users/', function() {
+    describe('GET /api/users/', function() {
         it('It should handle internal error while logging out', function(done) {
             var backup;
             var session = require('express-session');
@@ -333,7 +333,7 @@ describe('/users/', function() {
                 session.Session.prototype.destroy = backup;
             };
             var agent = chai.request.agent(server);
-            agent.post('/register/')
+            agent.post('/api/register/')
             .send({
                 name: "Lohith Royal Pinto",
                 email: "royalpinto@gmail.com",
@@ -342,7 +342,7 @@ describe('/users/', function() {
             })
             .then(function() {
                 mock();
-                return agent.get("/logout/");
+                return agent.get("/api/logout/");
             })
             .then(function() {
                 demock();
