@@ -55,4 +55,14 @@ describe('/', function() {
         })
         .catch(done);
     });
+
+    it('It should get index page for non existing route.', function(done) {
+        chai.request(server)
+        .get('/nonexistingpath/')
+        .then(function(res) {
+            res.should.have.status(200);
+            done();
+        })
+        .catch(done);
+    });
 });
