@@ -102,12 +102,6 @@
             md-component-id="left"
             md-is-locked-open="$mdMedia('gt-sm')"
             >
-            <div layout="column" class="md-padding">
-                <div class="md-title md-margin">Categories</div>
-                <md-checkbox ng-repeat="category in categories.data">
-                    {{ category.name }}
-                </md-checkbox>
-            </div>
             <md-divider></md-divider>
             <div layout="column" class="md-padding">
                 <div class="md-title md-margin">Brands</div>
@@ -115,6 +109,36 @@
                     {{ brand.name }}
                 </md-checkbox>
             </div>
+            <md-card flex="50" layout="column">
+                <div layout="row" class="md-title md-margin">
+                    <span flex>Categories</span>
+                    <md-button
+                        ng-if="categories.selected.length > 0"
+                        flex="nogrow"
+                        aria-label="Reset"
+                        ng-click="categories.clear()"
+                        class="md-icon-button">
+                        <md-icon md-svg-src="img/icons/ic_highlight_off_black_24px.svg" aria-label="Reset">
+                      </md-icon>
+                    </md-button>
+                </div>
+                <md-input-container md-no-float>
+                    <input ng-model="categories.search"
+                        ng-change="categories.load(categories.search)"
+                        type="text"
+                        placeholder="Search here...">
+                </md-input-container>
+                <div layout="column" style="overflow-x: scroll">
+                    <div class="md-margin" layout="column">
+                        <md-checkbox
+                            ng-repeat="item in categories.data"
+                            ng-checked="categories.exists(item.name, categories.selected)"
+                            ng-click="categories.toggle(item.name, categories.selected)">
+                            {{ item.name }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </md-card>
         </md-sidenav>
     </div>
         <div layout="column">

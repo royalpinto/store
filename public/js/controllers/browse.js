@@ -23,6 +23,47 @@ angular
             };
         };
 
+        var filterController = function(name) {
+            var filter = {
+                selected: [],
+            };
+
+            filter.load = function(text) {
+                $http.get('/api/products/' + name + '/', {
+                    params: {
+                        search: text,
+                    },
+                })
+                .then(function(response) {
+                    filter.data = response.data.data;
+                    filter.count = response.data.count;
+                })
+                ;
+            };
+
+            filter.toggle = function(item, list) {
+                var idx = list.indexOf(item);
+                if (idx > -1) {
+                    list.splice(idx, 1);
+                } else {
+                    list.push(item);
+                }
+            };
+
+            filter.exists = function(item, list) {
+                return list.indexOf(item) > -1;
+            };
+
+            filter.clear = function() {
+                filter.selected = [];
+            };
+
+            filter.load();
+
+            return filter;
+        };
+        $scope.categories = filterController('categories');
+
         $scope.load = function() {
             $http
             .get('/api/products/', {
@@ -41,13 +82,6 @@ angular
 
         $scope.$watch('skip', $scope.load);
         $scope.load();
-
-        $http.get('/api/products/categories/', {
-        })
-        .then(function(response) {
-            $scope.categories = response.data;
-        })
-        ;
 
         $http.get('/api/products/brands/', {
         })
