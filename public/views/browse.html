@@ -103,12 +103,6 @@
             md-is-locked-open="$mdMedia('gt-sm')"
             >
             <md-divider></md-divider>
-            <div layout="column" class="md-padding">
-                <div class="md-title md-margin">Brands</div>
-                <md-checkbox ng-repeat="brand in brands.data">
-                    {{ brand.name }}
-                </md-checkbox>
-            </div>
             <md-card flex="50" layout="column">
                 <div layout="row" class="md-title md-margin">
                     <span flex>Categories</span>
@@ -134,6 +128,36 @@
                             ng-repeat="item in categories.data"
                             ng-checked="categories.exists(item.name, categories.selected)"
                             ng-click="categories.toggle(item.name, categories.selected)">
+                            {{ item.name }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </md-card>
+            <md-card flex="50" layout="column">
+                <div layout="row" class="md-title md-margin">
+                    <span flex>Brands</span>
+                    <md-button
+                        ng-if="brands.selected.length > 0"
+                        flex="nogrow"
+                        aria-label="Reset"
+                        ng-click="brands.clear()"
+                        class="md-icon-button">
+                        <md-icon md-svg-src="img/icons/ic_highlight_off_black_24px.svg" aria-label="Reset">
+                      </md-icon>
+                    </md-button>
+                </div>
+                <md-input-container md-no-float>
+                    <input ng-model="brands.search"
+                        ng-change="brands.load(brands.search)"
+                        type="text"
+                        placeholder="Search here...">
+                </md-input-container>
+                <div layout="column" style="overflow-x: scroll">
+                    <div class="md-margin" layout="column">
+                        <md-checkbox
+                            ng-repeat="item in brands.data"
+                            ng-checked="brands.exists(item.name, brands.selected)"
+                            ng-click="brands.toggle(item.name, brands.selected)">
                             {{ item.name }}
                         </md-checkbox>
                     </div>

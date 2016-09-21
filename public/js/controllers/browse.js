@@ -63,6 +63,7 @@ angular
             return filter;
         };
         $scope.categories = filterController('categories');
+        $scope.brands = filterController('brands');
 
         $scope.load = function() {
             $http
@@ -82,13 +83,6 @@ angular
 
         $scope.$watch('skip', $scope.load);
         $scope.load();
-
-        $http.get('/api/products/brands/', {
-        })
-        .then(function(response) {
-            $scope.brands = response.data;
-        })
-        ;
     },
 ])
 
