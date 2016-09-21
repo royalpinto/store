@@ -16,13 +16,6 @@ angular
         $scope.skip = 0;
         $scope.limit = 30;
 
-        var getParams = function() {
-            return {
-                skip: $scope.skip,
-                limit: $scope.limit,
-            };
-        };
-
         var filterController = function(name) {
             var filter = {
                 selected: [],
@@ -48,6 +41,7 @@ angular
                 } else {
                     list.push(item);
                 }
+                $scope.load();
             };
 
             filter.exists = function(item, list) {
@@ -68,7 +62,12 @@ angular
         $scope.load = function() {
             $http
             .get('/api/products/', {
-                params: getParams(),
+                params: {
+                    skip: $scope.skip,
+                    limit: $scope.limit,
+                    category: $scope.categories.selected,
+                    brand: $scope.brands.selected,
+                },
             })
             .then(function(response) {
                 $scope.products = response.data;
