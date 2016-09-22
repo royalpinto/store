@@ -16,7 +16,7 @@ angular
             templateUrl: 'views/browse.html',
             controller: 'browseController',
         })
-        .when('/product', {
+        .when('/product/:_id/', {
             templateUrl: 'views/product.html',
             controller: 'productController',
         })
