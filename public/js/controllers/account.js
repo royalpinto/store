@@ -19,7 +19,7 @@ angular
             $scope.close();
         };
 
-        $scope.user = Session;
+        $scope.user = Session.user;
 
         $scope.login = {
             do: function(data) {

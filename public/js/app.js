@@ -32,18 +32,19 @@ angular
 
 
 .service('Session', [
-    function() {
+    '$window',
+    function($window) {
+        var userdata = $window.localStorage.getItem('user');
+        this.user = JSON.parse(userdata);
+
         this.create = function(data) {
-            this._id = data._id;
-            this.username = data.username;
-            this.name = data.name;
-            this.email = data.email;
+            $window.localStorage.setItem('user', JSON.stringify(data));
+            this.user = data;
         };
+
         this.destroy = function() {
-            this.id = null;
-            this.username = null;
-            this.name = null;
-            this.roleIds = null;
+            $window.localStorage.removeItem('user');
+            this.user = null;
         };
     },
 ])
