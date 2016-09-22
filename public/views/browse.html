@@ -49,21 +49,21 @@
                             </md-button>
                             <md-menu-content width="4">
                                 <md-menu-item>
-                                    <md-button>
+                                    <md-button ng-click="orderChange('price')">
                                         <div layout="row" flex>
                                             <p flex>Price: Low to High</p>
                                         </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item>
-                                    <md-button>
+                                    <md-button ng-click="orderChange('~price')">
                                         <div layout="row" flex>
                                             <p flex>Price: High to Low</p>
                                         </div>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item>
-                                    <md-button>
+                                    <md-button ng-click="orderChange('~id')">
                                         <div layout="row" flex>
                                             <p flex>Newest Arriavals</p>
                                         </div>

@@ -93,6 +93,7 @@ angular
                     category: $scope.categories.selected,
                     brand: $scope.brands.selected,
                     search: $scope.search.text,
+                    order: $scope.order,
                 },
             })
             .then(function(response) {
@@ -104,6 +105,12 @@ angular
         $scope.last = function() {
             var limit = $scope.limit;
             $scope.skip = parseInt($scope.products.count / limit, 10) * limit;
+        };
+
+        $scope.order = 'price';
+        $scope.orderChange = function(order) {
+            $scope.order = order;
+            $scope.load();
         };
 
         $scope.$watch('skip', $scope.load);
