@@ -15,6 +15,7 @@ angular
         };
 
         $scope.logout = function() {
+            $http.get('/api/logout/');
             Session.destroy();
             $scope.close();
         };
