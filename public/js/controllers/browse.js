@@ -5,10 +5,11 @@ angular
 .module('app')
 
 .controller('browseController', [
+    '$rootScope',
     '$scope',
     '$http',
     '$mdSidenav',
-    function($scope, $http, $mdSidenav) {
+    function($rootScope, $scope, $http, $mdSidenav) {
         $scope.toggleLeft = function() {
             $mdSidenav('left').toggle();
         };
@@ -32,6 +33,10 @@ angular
                 $scope.load();
             },
         };
+        $rootScope.$on('search', function(event, text) {
+            $scope.search.text = text;
+            $scope.load();
+        });
 
         $scope.skip = 0;
         $scope.limit = 30;
