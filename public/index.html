@@ -20,16 +20,16 @@
                     <div hide show-gt-sm class="md-subhead">&nbsp;- A simple shopping experince</div>
                 </div>
                 <div hide show-gt-sm flex="33">
-                    <form ng-submit="searchSubmit()">
+                    <form ng-submit="search.submit()">
                         <md-autocomplete
-                            md-search-text="searchText"
-                            md-items="item in search(searchText)"
+                            md-search-text="search.text"
+                            md-items="item in search.change(search.text)"
                             md-item-text="item.name"
-                            md-selected-item-change="searchSubmit(item)"
+                            md-selected-item-change="search.submit()"
                             md-min-length="0"
                             placeholder="What you would like to shop today...">
                             <md-item-template>
-                                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+                                <span md-highlight-text="search.text" md-highlight-flags="^i">{{item.name}}</span>
                             </md-item-template>
                         </md-autocomplete>
                     </form>
