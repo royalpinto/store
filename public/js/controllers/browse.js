@@ -13,6 +13,26 @@ angular
             $mdSidenav('left').toggle();
         };
 
+        $scope.search = {
+            text: null,
+            change: function(query) {
+                return $http
+                .get('/api/products/?', {
+                    params: {
+                        search: query,
+                    },
+                })
+                .then(function(response) {
+                    return response.data.data;
+                })
+                ;
+            },
+            submit: function() {
+                console.log('submit');
+                $scope.load();
+            },
+        };
+
         $scope.skip = 0;
         $scope.limit = 30;
 
@@ -67,6 +87,7 @@ angular
                     limit: $scope.limit,
                     category: $scope.categories.selected,
                     brand: $scope.brands.selected,
+                    search: $scope.search.text,
                 },
             })
             .then(function(response) {
