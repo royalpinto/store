@@ -30,6 +30,25 @@ angular
     },
 ])
 
+
+.service('Session', [
+    function() {
+        this.create = function(data) {
+            this._id = data._id;
+            this.username = data.username;
+            this.name = data.name;
+            this.email = data.email;
+        };
+        this.destroy = function() {
+            this.id = null;
+            this.username = null;
+            this.name = null;
+            this.roleIds = null;
+        };
+    },
+])
+
+
 .controller('appController', [
     '$rootScope',
     '$scope',
