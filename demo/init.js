@@ -15,6 +15,7 @@ mongodb.MongoClient.connect(config.db.uri)
 .then(function() {
     console.log("Removing previous data...");
     return Promise.all([
+        models.Cart.collection.removeMany(),
         models.User.collection.removeMany(),
         models.Permission.collection.removeMany(),
         models.Product.collection.removeMany(),
