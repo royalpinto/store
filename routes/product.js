@@ -1,7 +1,8 @@
 var util = require('util');
 var urls = require('./../app/router');
 var router = new urls.Router();
-var controller = require('../controllers/product');
+var Controller = require('../controllers/product');
+var controller = new Controller();
 var errors = require('./../errors');
 var middlewares = require('./middlewares');
 

@@ -6,7 +6,8 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
-var controller = require('./../../controllers/product');
+var Controller = require('./../../controllers/product');
+var controller = new Controller();
 
 
 chai.should();
@@ -111,13 +112,13 @@ describe('Products:', function() {
         it('It should not get products for an internal error.', function(done) {
             var backup;
             var mock = function() {
-                backup = controller.get;
-                controller.get = function() {
+                backup = Controller.prototype.get;
+                Controller.prototype.get = function() {
                     return Promise.reject(new Error("Mocked error :)"));
                 };
             };
             var demock = function() {
-                controller.get = backup;
+                Controller.prototype.get = backup;
             };
 
             controller.create(payload)
@@ -523,13 +524,13 @@ describe('Products:', function() {
         function(done) {
             var backup;
             var mock = function() {
-                backup = controller.get;
-                controller.getCategories = function() {
+                backup = Controller.prototype.get;
+                Controller.prototype.getCategories = function() {
                     return Promise.reject(new Error('Mocked error :)'));
                 };
             };
             var demock = function() {
-                controller.getCategories = backup;
+                Controller.prototype.getCategories = backup;
             };
 
             controller.create(payload)
@@ -599,13 +600,13 @@ describe('Products:', function() {
         function(done) {
             var backup;
             var mock = function() {
-                backup = controller.get;
-                controller.getBrands = function() {
+                backup = Controller.prototype.get;
+                Controller.prototype.getBrands = function() {
                     return Promise.reject(new Error('Mocked error :)'));
                 };
             };
             var demock = function() {
-                controller.getBrands = backup;
+                Controller.prototype.getBrands = backup;
             };
 
             controller.create(payload)

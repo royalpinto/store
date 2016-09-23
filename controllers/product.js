@@ -115,4 +115,4 @@ function(query, limit, skip, order) {
 };
 
 
-module.exports = new ProductController();
+module.exports = ProductController;
