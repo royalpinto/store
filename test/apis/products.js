@@ -68,6 +68,7 @@ describe('Products:', function() {
         quantity: 12,
         category: "Clothing",
         brand: "Allen Solley",
+        description: 'Product description',
     };
 
     describe('/POST product', function() {

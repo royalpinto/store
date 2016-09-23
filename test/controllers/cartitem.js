@@ -52,6 +52,7 @@ describe('CartItem(Controller):', function() {
         quantity: 12,
         category: "Clothing",
         brand: "Allen Solley",
+        description: 'Product description',
     };
 
     it("It should get cart items", function(done) {

@@ -183,6 +183,7 @@ describe('/api/cart/items/', function() {
                     quantity: 10,
                     category: 'Clothing',
                     brand: 'Allen Solly',
+                    description: 'Product description',
                 });
                 return product.save();
             })
@@ -230,6 +231,7 @@ describe('/api/cart/items/', function() {
                     quantity: 10,
                     category: 'Clothing',
                     brand: 'Allen Solly',
+                    description: 'Product description',
                 });
                 return product.save();
             })
@@ -311,6 +313,7 @@ describe('/api/cart/items/', function() {
                     quantity: 10,
                     category: 'Clothing',
                     brand: 'Allen Solly',
+                    description: 'Product description',
                 });
                 return product.save();
             })
@@ -390,6 +393,7 @@ describe('/api/cart/items/', function() {
                     quantity: 10,
                     category: 'Clothing',
                     brand: 'Allen Solly',
+                    description: 'Product description',
                 });
                 return product.save();
             })

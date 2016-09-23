@@ -150,6 +150,7 @@ describe('Cart(Model):', function() {
             quantity: 12,
             category: "Clothing",
             brand: "Allen Solley",
+            description: 'Product description',
         };
         var user = new models.User({
             name: "Lohith Royal Pinto",

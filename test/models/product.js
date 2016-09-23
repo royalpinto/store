@@ -42,6 +42,7 @@ describe('Permission(Model):', function() {
         quantity: 12,
         category: "Clothing",
         brand: "Allen Solley",
+        description: 'Product description',
     };
 
     it("It should validate a product.", function(done) {

@@ -42,6 +42,7 @@ describe('Product(Controller):', function() {
         quantity: 12,
         category: "Clothing",
         brand: "Allen Solley",
+        description: 'Product description',
     };
 
     it("It should create a product", function(done) {
