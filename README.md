@@ -102,5 +102,3 @@ npm install aglio
 aglio -i doc/api/index.apib -o output.html
 ```
 
-##### Code Documentation
-Coming soon :)
