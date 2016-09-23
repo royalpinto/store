@@ -75,6 +75,9 @@ var schema = {
             },
         }],
     },
+    imgsrc: {
+        type: String,
+    },
 };
 
 var Product = function Product(properties) {
