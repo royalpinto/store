@@ -15,6 +15,11 @@ ProductController.prototype.create = function(data) {
     return Controller.prototype.create.call(this, data);
 };
 
+ProductController.prototype.update = function(id, data) {
+    delete data.imgsrc;
+    return Controller.prototype.update.call(this, id, data);
+};
+
 ProductController.prototype.getCategories =
 function(query, limit, skip, order) {
     var pipeline = [{
