@@ -10,6 +10,11 @@ var ProductController = function() {
 util.inherits(ProductController, Controller);
 
 
+ProductController.prototype.create = function(data) {
+    delete data.imgsrc;
+    return Controller.prototype.create.call(this, data);
+};
+
 ProductController.prototype.getCategories =
 function(query, limit, skip, order) {
     var pipeline = [{
