@@ -1,24 +1,42 @@
 #!/usr/bin/env node
 var cluster = require('cluster');
+var mongodb = require('mongodb');
+var config = require('./../config');
 
 if (cluster.isMaster) {
-    var cpuCount = require('os').cpus().length;
-    for (var i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
-
-    cluster.on('exit', function(worker) {
-        // Replace the dead worker with a new.
-        console.error('Worker %d died, forking a new one.', worker.id);
-        cluster.fork();
-    });
-} else {
-    var mongodb = require('mongodb');
-    var config = require('./../config');
     var initdata = require('./../initdata');
+    var db;
 
     console.log("Using %s environment", config.env);
 
+    // Connect to the DB, then start the server.
+    mongodb.MongoClient.connect(config.db.uri)
+    .then(function(_db) {
+        db = _db;
+        var models = require('./../models');
+        return models.init(db);
+    })
+    .then(function() {
+        return initdata();
+    })
+    .then(function() {
+        db.close();
+    })
+    .then(function() {
+        var cpuCount = require('os').cpus().length;
+        for (var i = 0; i < cpuCount; i += 1) {
+            cluster.fork();
+        }
+
+        cluster.on('exit', function(worker) {
+            // Replace the dead worker with a new.
+            console.error('Worker %d died, forking a new one.', worker.id);
+            cluster.fork();
+        });
+    })
+    .catch(console.error)
+    ;
+} else {
     /**
      * Event listener for HTTP server "listening" event.
      */
@@ -57,9 +75,6 @@ if (cluster.isMaster) {
     .then(function(db) {
         var models = require('./../models');
         return models.init(db);
-    })
-    .then(function() {
-        return initdata();
     })
     .then(function() {
         var server = require('../app');
