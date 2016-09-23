@@ -171,7 +171,7 @@
                     <div layout="row" layout-wrap>
                         <div flex="50" flex-gt-sm="20" ng-repeat="product in products.data">
                             <md-card>
-                                <img ng-src="/img/products/1.jpg" class="md-card-image">
+                                <img ng-src="{{ product.imgsrc }}" class="md-card-image">
                                 <md-card-header>
                                     <md-card-header-text>
                                         <a href="/product/{{ product._id }}/">
