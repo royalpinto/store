@@ -43,6 +43,7 @@ describe('Permission(Model):', function() {
         category: "Clothing",
         brand: "Allen Solley",
         description: 'Product description',
+        features: ['Slim Fit'],
     };
 
     it("It should validate a product.", function(done) {
@@ -77,6 +78,18 @@ describe('Permission(Model):', function() {
             chai.assert.instanceOf(error, errors.ValidationError);
             product.price = payload.price;
             product.code = null; // Required
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.code = payload.code;
+            product.features = {};
+            return product.validate();
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            product.code = payload.code;
+            product.features = ['Slim Fit', '']; // An empty feature
             return product.validate();
         })
         .catch(function(error) {
