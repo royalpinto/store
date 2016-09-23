@@ -1,0 +1,90 @@
+<md-content layout="column" flex class="md-padding">
+    <md-card flex layout="row">
+        <img flex="35" ng-src="{{ product.imgsrc }}" class="md-card-image">
+        <div flex="65" layout="column" layout-align="start stretch">
+            <div layout="row" layout-align="start center">
+                <md-card-header flex="50">
+                    <md-card-header-text>
+                        <a href="/product/{{product._id}}/">
+                            {{ product.name }}
+                        </a>
+                        <span class="md-subhead">by {{ product.brand }}</span>
+                        <p>
+                            $ {{ product.price }}
+                        </p>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-menu md-position-mode="target-right target">
+                    <md-button aria-label="Add to cart" class="md-fab md-hue-2" ng-click="$mdOpenMenu($event)">
+                        <md-icon md-svg-src="/img/icons/ic_add_shopping_cart_black_24px.svg" aria-label="Add to cart">
+                        </md-icon>
+                    </md-button>
+                    <md-menu-content width="2">
+                        <md-menu-item>
+                            <md-button disabled="disabled">
+                                Choose Quantity
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-repeat="quantity in quantities">
+                            <md-button ng-click="addToCart(quantity)">
+                                <div layout="row" flex>
+                                    <p flex>{{ quantity }}</p>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <div ng-if="product.description">
+                <md-divider></md-divider>
+                <section>
+                    <md-subheader class="md-primary">Description</md-subheader>
+                    <span class="md-subhead md-padding">{{ product.description }}</span>
+                </section>
+            </div>
+            <div ng-if="product.features">
+            <md-divider></md-divider>
+                <section layout="column">
+                    <md-subheader class="md-primary">Features</md-subheader>
+                    <md-list-item ng-repeat="feature in product.features">
+                        <p>{{ feature }}</p>
+                    </md-list-item>
+                </section>
+            </div>
+        </div>
+    </md-card>
+</md-content>
+
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="editCartItemDialog">
+        <md-dialog layout-padding>
+            <h3>Product has already been added to the cart!</h3>
+            <p>
+                Click below icon to change the quantity. {{ name }}
+            </p>
+            <md-menu md-position-mode="target-right target">
+                <md-button aria-label="Update cart" class="md-fab md-hue-2" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-svg-src="/img/icons/ic_add_shopping_cart_black_24px.svg" aria-label="Update cart">
+                    </md-icon>
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item>
+                        <md-button disabled="disabled">
+                            Edit Quantity
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-repeat="quantity in quantities">
+                        <md-button ng-click="editCartItem.update(quantity, $event)">
+                            <div layout="row" flex>
+                                <p flex>{{ quantity }}</p>
+                            </div>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-dialog-actions>
+                <md-button md-no-ink ng-click="editCartItem.close()" class="">Cancel</md-button>
+            </md-dialog-actions>
+        </md-dialog>
+    </div>
+</div>
