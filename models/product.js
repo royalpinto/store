@@ -44,6 +44,37 @@ var schema = {
             fn: validators.string(5, 1023),
         }],
     },
+    features: {
+        type: Array,
+        validations: [{
+            fn: function(data, key) {
+                var featureValidator = validators.string(5);
+                return new Promise(function(resolve, reject) {
+                    if (!data) {
+                        return resolve(null);
+                    }
+
+                    if (!(data instanceof Array)) {
+                        return reject(util.format('%s is invalid.', key));
+                    }
+
+                    var validators = [];
+                    for (var index = 0; index < data.length; index++) {
+                        var value = data[index];
+                        validators.push(featureValidator(value,
+                            util.format('%s[%d]', key, index)));
+                    }
+                    Promise.all(validators)
+                    .then(function() {
+                        return;
+                    })
+                    .then(resolve)
+                    .catch(reject)
+                    ;
+                });
+            },
+        }],
+    },
 };
 
 var Product = function Product(properties) {
