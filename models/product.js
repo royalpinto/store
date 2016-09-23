@@ -38,6 +38,12 @@ var schema = {
         type: String,
         validations: [],
     },
+    description: {
+        type: String,
+        validations: [{
+            fn: validators.string(5, 1023),
+        }],
+    },
 };
 
 var Product = function Product(properties) {
