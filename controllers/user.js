@@ -10,4 +10,4 @@ var UserController = function() {
 util.inherits(UserController, Controller);
 
 
-module.exports = new UserController();
+module.exports = UserController;

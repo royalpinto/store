@@ -4,7 +4,8 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var controller = require('./../../controllers/user');
+var Controller = require('./../../controllers/user');
+var controller = new Controller();
 
 
 describe('User(Controller):', function() {

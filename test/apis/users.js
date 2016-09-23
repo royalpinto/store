@@ -5,7 +5,8 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
-var controller = require('../../controllers/user.js');
+var Controller = require('../../controllers/user.js');
+var controller = new Controller();
 var initdata = require('../../initdata');
 
 
@@ -140,13 +141,13 @@ describe('/api/users/', function() {
         it('It should not GET users if unable to fetch.', function(done) {
             var backup;
             var mock = function() {
-                backup = controller.get;
-                controller.get = function() {
+                backup = Controller.prototype.get;
+                Controller.prototype.get = function() {
                     return Promise.reject(new Error("Mocked error :)"));
                 };
             };
             var demock = function() {
-                controller.get = backup;
+                Controller.prototype.get = backup;
             };
 
             var agent = chai.request.agent(server);
