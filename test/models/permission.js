@@ -31,12 +31,12 @@ describe('Permission(Model):', function() {
     afterEach(cleanCollection);
 
     it("it should add/set permission.", function(done) {
-        models.Permission.add('admin', 'project', 'readwrite')
+        models.Permission.add('admin', 'product', 'readwrite')
         .then(function() {
             return models.Permission.collection
             .find({
                 group: "admin",
-                noun: "project",
+                noun: "product",
                 verb: "readwrite",
             })
             .count();
@@ -50,15 +50,15 @@ describe('Permission(Model):', function() {
     });
 
     it("it should ignore adding permission, if already added.", function(done) {
-        models.Permission.add('admin', 'project', 'readwrite')
+        models.Permission.add('admin', 'product', 'readwrite')
         .then(function() {
-            return models.Permission.add('admin', 'project', 'readwrite');
+            return models.Permission.add('admin', 'product', 'readwrite');
         })
         .then(function() {
             return models.Permission.collection
             .find({
                 group: "admin",
-                noun: "project",
+                noun: "product",
                 verb: "readwrite",
             })
             .count();
@@ -72,15 +72,15 @@ describe('Permission(Model):', function() {
     });
 
     it("it should remove permission.", function(done) {
-        models.Permission.add('admin', 'project', 'readwrite')
+        models.Permission.add('admin', 'product', 'readwrite')
         .then(function() {
-            return models.Permission.remove('admin', 'project', 'readwrite');
+            return models.Permission.remove('admin', 'product', 'readwrite');
         })
         .then(function() {
             return models.Permission.collection
             .find({
                 group: "admin",
-                noun: "project",
+                noun: "product",
                 verb: "readwrite",
             })
             .count();
@@ -95,20 +95,20 @@ describe('Permission(Model):', function() {
 
     it("it should ignore removing permission, if not already added.",
         function(done) {
-            models.Permission.add('admin', 'project', 'readwrite')
+            models.Permission.add('admin', 'product', 'readwrite')
             .then(function() {
                 return models.Permission
-                .remove('admin', 'project', 'readwrite');
+                .remove('admin', 'product', 'readwrite');
             })
             .then(function() {
                 return models.Permission
-                .remove('admin', 'project', 'readwrite');
+                .remove('admin', 'product', 'readwrite');
             })
             .then(function() {
                 return models.Permission.collection
                 .find({
                     group: "admin",
-                    noun: "project",
+                    noun: "product",
                     verb: "readwrite",
                 })
                 .count();
@@ -124,19 +124,19 @@ describe('Permission(Model):', function() {
 
     it("it should check permission already added.",
         function(done) {
-            models.Permission.add('admin', 'project', 'readwrite')
+            models.Permission.add('admin', 'product', 'readwrite')
             .then(function() {
                 return models.Permission
-                .check('admin', 'project', 'readwrite');
+                .check('admin', 'product', 'readwrite');
             })
             .then(function(permit) {
                 chai.assert.strictEqual(permit, true);
                 return models.Permission
-                .remove('admin', 'project', 'readwrite');
+                .remove('admin', 'product', 'readwrite');
             })
             .then(function() {
                 return models.Permission
-                .check('admin', 'project', 'readwrite');
+                .check('admin', 'product', 'readwrite');
             })
             .then(function(permit) {
                 chai.assert.strictEqual(permit, false);

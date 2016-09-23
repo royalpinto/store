@@ -37,7 +37,7 @@ describe('Products:', function() {
             models.Permission.collection.removeMany(),
         ])
         .then(function() {
-            return models.Permission.add('admin', 'projects', 'write');
+            return models.Permission.add('admin', 'products', 'write');
         })
         .then(function() {
             done();

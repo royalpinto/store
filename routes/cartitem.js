@@ -22,7 +22,7 @@ router.get(/^\/api\/cart\/items\/$/, function(req, res) {
 
 router.post(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
-    .create(req.session.user._id, req.body.projectId, req.body.quantity)
+    .create(req.session.user._id, req.body.productId, req.body.quantity)
     .then(function() {
         res.setHeader('Location', "/api/cart/items/");
         res.status(201).json({});
@@ -35,7 +35,7 @@ router.post(/^\/api\/cart\/items\/$/, function(req, res) {
 
 router.put(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
-    .update(req.session.user._id, req.body.projectId, req.body.quantity)
+    .update(req.session.user._id, req.body.productId, req.body.quantity)
     .then(function() {
         res.status(204).end();
     })
@@ -47,7 +47,7 @@ router.put(/^\/api\/cart\/items\/$/, function(req, res) {
 
 router.delete(/^\/api\/cart\/items\/$/, function(req, res) {
     controller
-    .remove(req.session.user._id, req.query.projectId)
+    .remove(req.session.user._id, req.query.productId)
     .then(function() {
         res.status(204).end();
     })

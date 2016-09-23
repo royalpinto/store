@@ -242,7 +242,7 @@ describe('User(Model):', function() {
 
         user.save()
         .then(function() {
-            return user.hasPermission('projects', 'create');
+            return user.hasPermission('products', 'create');
         })
         .then(function(has) {
             chai.assert.isNotOk(has, "Expected hasPermission to be false.");
@@ -259,10 +259,10 @@ describe('User(Model):', function() {
 
         user.save()
         .then(function() {
-            return models.Permission.add('member', 'projects', 'create');
+            return models.Permission.add('member', 'products', 'create');
         })
         .then(function() {
-            return user.hasPermission('projects', 'create');
+            return user.hasPermission('products', 'create');
         })
         .then(function(has) {
             chai.assert.isOk(has, "Expected hasPermission to be true.");
@@ -279,17 +279,17 @@ describe('User(Model):', function() {
 
         user.save()
         .then(function() {
-            return models.Permission.add('member', 'projects', 'create');
+            return models.Permission.add('member', 'products', 'create');
         })
         .then(function() {
-            return user.hasPermission('projects', 'create');
+            return user.hasPermission('products', 'create');
         })
         .then(function(has) {
             chai.assert.isOk(has, "Expected hasPermission to be true.");
-            return models.Permission.remove('member', 'projects', 'create');
+            return models.Permission.remove('member', 'products', 'create');
         })
         .then(function() {
-            return user.hasPermission('projects', 'create');
+            return user.hasPermission('products', 'create');
         })
         .then(function(has) {
             chai.assert.isNotOk(has, "Expected hasPermission to be false.");

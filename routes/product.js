@@ -6,8 +6,8 @@ var errors = require('./../errors');
 var middlewares = require('./middlewares');
 
 
-router.post(/^\/api\/products\//, middlewares.auth('projects', 'write'));
-router.put(/^\/api\/products\//, middlewares.auth('projects', 'write'));
+router.post(/^\/api\/products\//, middlewares.auth('products', 'write'));
+router.put(/^\/api\/products\//, middlewares.auth('products', 'write'));
 
 
 router.get(/^\/api\/products\/([a-fA-F\d]{24})\/$/, function(req, res) {

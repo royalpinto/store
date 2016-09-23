@@ -6,7 +6,7 @@ module.exports = function init() {
     return Promise.all([
         // Products read is allowed for all users.
         // Write is permitted only for admins.
-        models.Permission.add("admin", "projects", "write"),
+        models.Permission.add("admin", "products", "write"),
 
         // Users is allowed only for administrators.
         models.Permission.add("admin", "users", "read"),

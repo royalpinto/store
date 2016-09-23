@@ -125,7 +125,7 @@ describe('CartItem(Controller):', function() {
         controller
         .registerUser(payload)
         .then(function(user) {
-            return controller.hasPermission(user._id, "project", "write");
+            return controller.hasPermission(user._id, "product", "write");
         })
         .then(function(permit) {
             chai.assert.strictEqual(permit, false);

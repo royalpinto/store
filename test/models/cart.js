@@ -142,8 +142,8 @@ describe('Cart(Model):', function() {
         ;
     });
 
-    it('It should get Projects from cart.', function(done) {
-        var projectPayload = {
+    it('It should get products from cart.', function(done) {
+        var productPayload = {
             name: "Allen Solly Jeans",
             code: "ALNS001",
             price: 90,
@@ -161,7 +161,7 @@ describe('Cart(Model):', function() {
         var cart;
         user.save()
         .then(function() {
-            product = new models.Product(projectPayload);
+            product = new models.Product(productPayload);
             return product.save();
         })
         .then(function() {

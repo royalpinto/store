@@ -145,7 +145,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.post('/api/cart/items/').send({
-                    projectId: new mongodb.ObjectID(),
+                    productId: new mongodb.ObjectID(),
                     quantity: 2,
                 });
             })
@@ -188,7 +188,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.post('/api/cart/items/').send({
-                    projectId: product._id,
+                    productId: product._id,
                     quantity: 2,
                 });
             })
@@ -235,13 +235,13 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.post('/api/cart/items/').send({
-                    projectId: product._id,
+                    productId: product._id,
                     quantity: 2,
                 });
             })
             .then(function() {
                 return agent.put('/api/cart/items/').send({
-                    projectId: product._id,
+                    productId: product._id,
                     quantity: 3,
                 });
             })
@@ -273,7 +273,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.put('/api/cart/items/').send({
-                    projectId: new mongodb.ObjectID(),
+                    productId: new mongodb.ObjectID(),
                     quantity: 2,
                 });
             })
@@ -316,13 +316,13 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.post('/api/cart/items/').send({
-                    projectId: product._id,
+                    productId: product._id,
                     quantity: 2,
                 });
             })
             .then(function() {
                 return agent.delete('/api/cart/items/').query({
-                    projectId: product._id.toString(),
+                    productId: product._id.toString(),
                 });
             })
             .then(function(res) {
@@ -353,7 +353,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.delete('/api/cart/items/').query({
-                    projectId: new mongodb.ObjectID().toString(),
+                    productId: new mongodb.ObjectID().toString(),
                 });
             })
             .then(function() {
@@ -395,7 +395,7 @@ describe('/api/cart/items/', function() {
             })
             .then(function() {
                 return agent.post('/api/cart/items/').send({
-                    projectId: product._id,
+                    productId: product._id,
                     quantity: 2,
                 });
             })
