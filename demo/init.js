@@ -134,6 +134,7 @@ mongodb.MongoClient.connect(config.db.uri)
                         category: category,
                         price: Math.floor(Math.random() * 100) + 1,
                         quantity: Math.floor(Math.random() * 100) + 1,
+                        description: name,
                     });
                     promises.push(product.save());
                 });
