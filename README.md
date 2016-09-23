@@ -53,6 +53,9 @@ A customized installation:
 # NOTE: Optionally pass --production to skip dev dependencies.
 npm install
 
+# Install client dependencies...
+bower install
+
 # Edit env specific config file to set the port, database and other settings.
 # Ex: config/production.json
 
