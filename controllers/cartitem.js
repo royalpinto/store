@@ -153,4 +153,4 @@ CartController.prototype.checkout = function(userId) {
 };
 
 
-module.exports = new CartController();
+module.exports = CartController;

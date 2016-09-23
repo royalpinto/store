@@ -4,7 +4,8 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var controller = require('./../../controllers/cartitem');
+var Controller = require('./../../controllers/cartitem');
+var controller = new Controller();
 var errors = require('./../../errors');
 
 

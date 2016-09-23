@@ -1,6 +1,7 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
-var controller = require('./../controllers/cartitem');
+var Controller = require('./../controllers/cartitem');
+var controller = new Controller();
 var errors = require('./../errors');
 var middlewares = require('./middlewares');
 

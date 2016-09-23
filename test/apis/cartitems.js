@@ -5,7 +5,7 @@ var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
-var controller = require('../../controllers/cartitem.js');
+var Controller = require('../../controllers/cartitem.js');
 var initdata = require('../../initdata');
 
 
@@ -93,13 +93,13 @@ describe('/api/cart/items/', function() {
         it("It shouldn't GET cart items for an internal error", function(done) {
             var backup;
             var mock = function() {
-                backup = controller.get;
-                controller.get = function() {
+                backup = Controller.prototype.get;
+                Controller.prototype.get = function() {
                     return Promise.reject(new Error("Mocked error :)"));
                 };
             };
             var demock = function() {
-                controller.get = backup;
+                Controller.prototype.get = backup;
             };
 
             var agent = chai.request.agent(server);
