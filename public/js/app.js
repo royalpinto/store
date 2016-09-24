@@ -10,7 +10,8 @@ angular
 .config([
     '$routeProvider',
     '$locationProvider',
-    function($routeProvider, $locationProvider) {
+    '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
         .when('/', {
             templateUrl: 'views/browse.html',
@@ -27,6 +28,21 @@ angular
         ;
 
         $locationProvider.html5Mode(true);
+
+        $httpProvider.interceptors.push(['$q',
+            '$rootScope',
+            function($q, $rootScope) {
+                return {
+                    responseError: function(rejection) {
+                        if (rejection.status === 401 &&
+                            !rejection.config.ignorelogin) {
+                            $rootScope.$emit('unauthicatedaccess');
+                        }
+                        return $q.reject(rejection);
+                    },
+                };
+            },
+        ]);
     },
 ])
 
