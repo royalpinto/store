@@ -43,6 +43,27 @@ angular
                 };
             },
         ]);
+
+        $httpProvider.interceptors.push([
+            '$q',
+            '$rootScope',
+            function($q, $rootScope) {
+                return {
+                    request: function(request) {
+                        $rootScope.$emit('apiloading');
+                        return request;
+                    },
+                    response: function(response) {
+                        $rootScope.$emit('apiloaded');
+                        return response;
+                    },
+                    responseError: function(rejection) {
+                        $rootScope.$emit('apiloaded');
+                        return $q.reject(rejection);
+                    },
+                };
+            },
+        ]);
     },
 ])
 
