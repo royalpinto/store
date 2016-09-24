@@ -114,6 +114,10 @@ angular
             $scope.user = null;
         });
 
+        $rootScope.$on('unauthicatedaccess', function() {
+            $scope.showAccount();
+        });
+
         $scope.search = {
             text: null,
             change: function(query) {
