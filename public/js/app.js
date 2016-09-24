@@ -118,8 +118,9 @@ angular
                 $rootScope.$emit('login', response.data);
                 return response.data;
             })
-            .catch(function() {
+            .catch(function(response) {
                 $rootScope.$emit('logout');
+                throw response;
             })
             ;
         };
