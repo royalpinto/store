@@ -5,15 +5,22 @@
                 <img flex="100" layout-fill ng-src="{{ item.product.imgsrc }}" class="md-card-image">
             </div>
             <div flex="80" layout="column" class="md-margin">
-                <div layout="column">
-                    <!-- <md-card-header>
-                        <md-card-header-text> -->
-                            <a href="/product/{{item.productId}}/">
-                                {{ item.product.name }}
-                            </a>
-                            <span class="md-subhead">by {{ item.product.brand }}</span>
-                        <!-- </md-card-header-text>
-                    </md-card-header> -->
+                <div layout="row">
+                    <div flex="100" layout="column">
+                        <a href="/product/{{item.productId}}/">
+                            {{ item.product.name }}
+                        </a>
+                        <span class="md-subhead">by {{ item.product.brand }}</span>
+                    </div>
+                    <div flex="nogrow">
+                        <md-button
+                            aria-label="Remove from cart"
+                            class="md-fab md-mini md-hue-2"
+                            ng-click="removeFromCart(item)">
+                            <md-icon md-svg-src="/img/icons/ic_remove_shopping_cart_black_24px.svg" aria-label="Remove from cart">
+                            </md-icon>
+                        </md-button>
+                    </div>
                 </div>
                 <div layout="row">
                     <md-input-container class="md-block">
