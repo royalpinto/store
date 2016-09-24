@@ -36,6 +36,17 @@ angular
             }
             return total;
         };
+
+        $scope.updateQuantity = function(item, newquantity) {
+            $http.put('/api/cart/items/', {
+                productId: item.productId,
+                quantity: newquantity,
+            })
+            .then(function() {
+                item.quantity = newquantity;
+            })
+            ;
+        };
     },
 ])
 

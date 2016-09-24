@@ -22,8 +22,8 @@
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Quantity</label>
-                        <md-select ng-model="item.quantity">
-                            <md-option ng-value="qty" ng-repeat="qty in loadQuanities(item.product.quantity)">
+                        <md-select ng-change="updateQuantity(item, item.newquantity)" ng-model="item.newquantity">
+                            <md-option ng-selected="qty === item.quantity" ng-value="qty" ng-repeat="qty in loadQuanities(item.product.quantity)">
                                 {{ qty }}
                             </md-option>
                         </md-select>
