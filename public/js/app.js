@@ -150,6 +150,14 @@ angular
     '$location',
     'Session',
     function($rootScope, $scope, $mdDialog, $http, $location, Session) {
+        $rootScope.$on('apiloading', function() {
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('apiloaded', function() {
+            $scope.loading = false;
+        });
+
         $scope.showAccount = function(ev) {
             $mdDialog.show({
                 controller: 'accountController',
