@@ -1,5 +1,5 @@
 <div layout layout-align="center start">
-    <md-card class="md-margin" flex="100" flex-gt-sm="50" layout="column">
+    <md-card ng-show="items.length" class="md-margin" flex="100" flex-gt-sm="50" layout="column">
         <div layout="row" ng-repeat="item in items">
             <div flex="20">
                 <img flex="100" layout-fill ng-src="{{ item.product.imgsrc }}" class="md-card-image">
@@ -53,4 +53,10 @@
             <md-button disabled="true" class="md-raised md-warn">Checkout</md-button>
         </div>
     </md-card>
+    <div flex ng-show="!items.length" layout="column" layout-align="center center" class="md-margin md-padding">
+        <h3>You cart is empty!</h3>
+        <md-button href="/" class="md-raised md-primary">
+            Continue browsing
+        </md-button>
+    </div>
 </div>
