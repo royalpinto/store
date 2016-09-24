@@ -74,7 +74,8 @@ angular
     '$mdDialog',
     '$http',
     '$location',
-    function($rootScope, $scope, $mdDialog, $http, $location) {
+    'Session',
+    function($rootScope, $scope, $mdDialog, $http, $location, Session) {
         $scope.showAccount = function(ev) {
             $mdDialog.show({
                 controller: 'accountController',
@@ -83,6 +84,17 @@ angular
                 targetEvent: ev,
             });
         };
+
+        // Try to login.
+        Session.getUser();
+
+        $rootScope.$on('login', function(event, user) {
+            $scope.user = user;
+        });
+
+        $rootScope.$on('logout', function() {
+            $scope.user = null;
+        });
 
         $scope.search = {
             text: null,
