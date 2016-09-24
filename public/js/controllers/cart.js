@@ -47,6 +47,18 @@ angular
             })
             ;
         };
+
+        $scope.removeFromCart = function(item) {
+            $http.delete('/api/cart/items/', {
+                params: {
+                    productId: item.productId,
+                },
+            })
+            .then(function() {
+                $scope.items.splice($scope.items.indexOf(item), 1);
+            })
+            ;
+        };
     },
 ])
 
