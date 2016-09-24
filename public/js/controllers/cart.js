@@ -39,6 +39,10 @@ angular
         };
 
         $scope.updateQuantity = function(item, newquantity) {
+            if (item.quantity === newquantity) {
+                return;
+            }
+
             $http.put('/api/cart/items/', {
                 productId: item.productId,
                 quantity: newquantity,
