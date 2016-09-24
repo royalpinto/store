@@ -34,13 +34,18 @@ angular
 .service('Session', [
     '$window',
     '$http',
-    function($window, $http) {
+    '$rootScope',
+    function($window, $http, $rootScope) {
         var userPromise;
         var initPromise = function() {
             userPromise = $http
             .get('/api/login/')
             .then(function(response) {
+                $rootScope.$emit('login', response.data);
                 return response.data;
+            })
+            .catch(function() {
+                $rootScope.$emit('logout');
             })
             ;
         };
