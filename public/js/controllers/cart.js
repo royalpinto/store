@@ -7,7 +7,8 @@ angular
 .controller('cartController', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    'Toast',
+    function($scope, $http, Toast) {
         $http.get('/api/cart/items/')
         .then(function(response) {
             $scope.items = response.data;
@@ -44,6 +45,11 @@ angular
             })
             .then(function() {
                 item.quantity = newquantity;
+                Toast.success("Quantity updated!");
+            })
+            .catch(function() {
+                Toast.error("Failed to update quantity!");
+                item.newquantity = item.quantity;
             })
             ;
         };
@@ -56,6 +62,10 @@ angular
             })
             .then(function() {
                 $scope.items.splice($scope.items.indexOf(item), 1);
+                Toast.success("Product removed from cart!");
+            })
+            .cathc(function() {
+                Toast.error("Could not remove cart item!");
             })
             ;
         };
