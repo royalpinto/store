@@ -21,6 +21,7 @@
                 <div hide show-gt-sm flex="33">
                     <form ng-submit="search.submit()">
                         <md-autocomplete
+                            md-delay="500"
                             md-search-text="search.text"
                             md-items="item in search.change(search.text)"
                             md-item-text="item.name"
