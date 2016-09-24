@@ -55,12 +55,15 @@ angular
                 productId: $routeParams._id,
                 quantity: quantity,
             })
+            .then(function() {
+                Toast.success("Product added to the cart!");
+            })
             .catch(function(response) {
                 var data = response.data;
                 if (data.error === 'productId already added.') {
                     $scope.editCartItem.show();
                 } else {
-                    Toast.error("Failed to add to cart!");
+                    Toast.error("Failed to add to the cart!");
                 }
             })
             ;
