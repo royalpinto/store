@@ -182,12 +182,21 @@ angular
         });
 
         $scope.showAccount = function(ev) {
-            $mdDialog.show({
-                controller: 'accountController',
-                templateUrl: 'views/account.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-            });
+            Session.getUser()
+            .then(function() {
+                $location.path('/profile/');
+            })
+            .catch(function(response) {
+                if (response.status === 401) {
+                    $mdDialog.show({
+                        controller: 'accountController',
+                        templateUrl: 'views/account.html',
+                        parent: angular.element(document.body),
+                        targetEvent: ev,
+                    });
+                }
+            })
+            ;
         };
 
         // Try to login.
