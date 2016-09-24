@@ -1,0 +1,80 @@
+<div layout="row" layout-align="end start" class="md-margin md-padding">
+    <md-whiteframe ng-if="!newuser" class="md-whiteframe-z1" layout="column" flex="100" flex-gt-sm="30" layout-padding>
+        <md-content>
+            <div layout="row" layout-align="end center">
+                <md-button ng-click="logout()" md-no-ink class="md-accent md-raised md-hue-2">Logout!</md-button>
+            </div>
+        </md-content>
+        <md-content class="md-padding md-margin">
+            <form ng-submit="updateuser(user)" name="userForm" layout="column">
+                <md-input-container>
+                    <label>Name</label>
+                    <input name="name" required md-no-asterisk ng-model="user.name">
+                    <div ng-messages="userForm.name.$error">
+                        <div
+                            ng-show="userForm.name.$error.required === true"
+                            ng-message="required">This is required.
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Email</label>
+                    <input type="email" name="email" md-no-asterisk required ng-model="user.email">
+                    <div ng-messages="userForm.email.$error">
+                        <div
+                            ng-show="userForm.email.$error.required === true"
+                            ng-message="required">This is required.
+                        </div>
+                        <div ng-show="userForm.email.$error.email === true"
+                            ng-message="email">Invalid email address.
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Username</label>
+                    <input disabled="disabled" md-no-asterisk name="username" ng-model="user.username">
+                </md-input-container>
+                <div layout="row" layout-align="end center">
+                    <md-button type="submit" md-no-ink class="md-primary md-raised">Update!</md-button>
+                </div>
+            </form>
+            <md-divider />
+        </md-content>
+        <md-content class="md-padding md-margin">
+            <form ng-submit="updatepassword(user)" name="passwordForm" layout="column">
+                <md-input-container>
+                    <label>Password</label>
+                    <input name="password" type="password" required md-no-asterisk ng-model="user.password">
+                    <div ng-messages="passwordForm.password.$error">
+                        <div
+                            ng-show="passwordForm.password.$error.required === true"
+                            ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Confirm Password</label>
+                    <input name="confirmpassword" type="password" required
+                        compare-to="user.password"
+                        md-no-asterisk ng-model="user.confirmpassword">
+                    <div ng-messages="passwordForm.confirmpassword.$error">
+                        <div
+                            ng-show="passwordForm.confirmpassword.$error.required === true"
+                            ng-message="required">This is required.</div>
+                        <div
+                            ng-show="passwordForm.confirmpassword.$error.compareTo === true"
+                            ng-message="compareTo">Should match with password.</div>
+                    </div>
+                </md-input-container>
+                <div layout="row" layout-align="end center">
+                    <md-button type="submit" md-no-ink class="md-primary md-raised">Change Password!</md-button>
+                </div>
+            </form>
+            <md-divider />
+        </md-content>
+        <md-content class="md-padding md-margin">
+            <div layout="row" layout-align="center center" class="md-margin md-padging">
+                <md-button flex class="md-accent md-raised md-hue-2" ng-click="removeuser($event)">Remove account!</md-button>
+            </div>
+        </md-content>
+    </md-whiteframe>
+</div>
