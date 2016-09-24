@@ -25,6 +25,10 @@ angular
             templateUrl: 'views/cart.html',
             controller: 'cartController',
         })
+        .when('/profile', {
+            templateUrl: 'views/profile.html',
+            controller: 'profileController',
+        })
         ;
 
         $locationProvider.html5Mode(true);
