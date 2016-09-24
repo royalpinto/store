@@ -33,18 +33,31 @@ angular
 
 .service('Session', [
     '$window',
-    function($window) {
-        var userdata = $window.localStorage.getItem('user');
-        this.user = JSON.parse(userdata);
+    '$http',
+    function($window, $http) {
+        var userPromise;
+        var initPromise = function() {
+            userPromise = $http
+            .get('/api/login/')
+            .then(function(response) {
+                return response.data;
+            })
+            ;
+        };
 
-        this.create = function(data) {
-            $window.localStorage.setItem('user', JSON.stringify(data));
-            this.user = data;
+        // Keep login promise ready for Session methods.
+        initPromise();
+
+        this.getUser = function() {
+            return userPromise;
+        };
+
+        this.create = function() {
+            initPromise();
         };
 
         this.destroy = function() {
-            $window.localStorage.removeItem('user');
-            this.user = null;
+            initPromise();
         };
     },
 ])

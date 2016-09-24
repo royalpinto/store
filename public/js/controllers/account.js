@@ -15,12 +15,17 @@ angular
         };
 
         $scope.logout = function() {
-            $http.get('/api/logout/');
-            Session.destroy();
-            $scope.close();
+            $http.get('/api/logout/')
+            .then(function() {
+                Session.destroy();
+                $scope.close();
+            });
         };
 
-        $scope.user = Session.user;
+        Session.getUser()
+        .then(function(user) {
+            $scope.user = user;
+        });
 
         $scope.login = {
             do: function(data) {
