@@ -9,7 +9,8 @@ angular
     '$routeParams',
     '$http',
     '$mdDialog',
-    function($scope, $routeParams, $http, $mdDialog) {
+    'Toast',
+    function($scope, $routeParams, $http, $mdDialog, Toast) {
         $http.get('/api/products/' + $routeParams._id + '/')
         .then(function(response) {
             $scope.product = response.data;
@@ -39,6 +40,12 @@ angular
                     productId: $routeParams._id,
                     quantity: quantity,
                 })
+                .then(function() {
+                    Toast.success("Updated quantity!");
+                })
+                .catch(function() {
+                    Toast.error("Failed to update quantity!");
+                })
                 ;
             },
         };
@@ -53,7 +60,7 @@ angular
                 if (data.error === 'productId already added.') {
                     $scope.editCartItem.show();
                 } else {
-                    console.error(data);
+                    Toast.error("Failed to add to cart!");
                 }
             })
             ;
