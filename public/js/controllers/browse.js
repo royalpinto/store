@@ -14,27 +14,7 @@ angular
             $mdSidenav('left').toggle();
         };
 
-        $scope.search = {
-            text: null,
-            change: function(query) {
-                return $http
-                .get('/api/products/?', {
-                    params: {
-                        search: query,
-                    },
-                })
-                .then(function(response) {
-                    return response.data.data;
-                })
-                ;
-            },
-            submit: function() {
-                console.log('submit');
-                $scope.load();
-            },
-        };
-        $rootScope.$on('search', function(event, text) {
-            $scope.search.text = text;
+        $rootScope.$on('search', function() {
             $scope.load();
         });
 
