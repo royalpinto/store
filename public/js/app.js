@@ -47,6 +47,41 @@ angular
 ])
 
 
+.config([
+    '$mdThemingProvider',
+    function($mdThemingProvider) {
+        $mdThemingProvider.theme('success-toast');
+        $mdThemingProvider.theme('error-toast');
+    },
+])
+
+
+.service('Toast', [
+    '$mdToast',
+    function($mdToast) {
+        this.success = function(message) {
+            var toast = $mdToast
+                .simple()
+                .content(message)
+                .position('top right')
+                .theme('success-toast')
+                ;
+            $mdToast.show(toast);
+        };
+
+        this.error = function(message) {
+            var toast = $mdToast
+                .simple()
+                .content(message)
+                .position('top right')
+                .theme('error-toast')
+                ;
+            $mdToast.show(toast);
+        };
+    },
+])
+
+
 .service('Session', [
     '$window',
     '$http',
