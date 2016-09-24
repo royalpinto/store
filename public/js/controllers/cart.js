@@ -1,0 +1,42 @@
+/* global angular */
+
+angular
+
+.module('app')
+
+.controller('cartController', [
+    '$scope',
+    '$http',
+    function($scope, $http) {
+        $http.get('/api/cart/items/')
+        .then(function(response) {
+            $scope.items = response.data;
+        })
+        ;
+
+        var quantitiesMap = {};
+        $scope.loadQuanities = function(quantity) {
+            var quantities = quantitiesMap[quantity];
+            if (!quantities) {
+                quantities = [];
+                for (var i = 1; i <= quantity; i++) {
+                    quantities.push(i);
+                }
+                quantitiesMap[quantity] = quantities;
+            }
+            return quantities;
+        };
+
+        $scope.getTotal = function() {
+            var total = 0;
+            var items = $scope.items;
+            for (var i = 0; i < (items || []).length; i++) {
+                var item = items[i];
+                total += (item.product.price * item.quantity);
+            }
+            return total;
+        };
+    },
+])
+
+;
