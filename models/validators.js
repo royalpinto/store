@@ -1,6 +1,9 @@
 var util = require('util');
 var mongodb = require('mongodb');
 
+// TODO: This regex needs improvements.
+var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
 module.exports = {
     objectID: function(required) {
@@ -21,7 +24,7 @@ module.exports = {
     },
     email: function(value, key) {
         return new Promise(function(resolve, reject) {
-            if (value) {
+            if (value && emailRegex.test(value)) {
                 resolve();
             }
             reject(util.format("%s is invalid.", key));
