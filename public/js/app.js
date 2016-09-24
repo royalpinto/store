@@ -55,7 +55,8 @@ angular
     '$scope',
     '$mdDialog',
     '$http',
-    function($rootScope, $scope, $mdDialog, $http) {
+    '$location',
+    function($rootScope, $scope, $mdDialog, $http, $location) {
         $scope.showAccount = function(ev) {
             $mdDialog.show({
                 controller: 'accountController',
@@ -80,7 +81,12 @@ angular
                 ;
             },
             submit: function() {
-                $rootScope.$emit('search', $scope.search.text);
+                var path = $location.path();
+                if (path === '/') {
+                    $rootScope.$emit('search', $scope.search.text);
+                } else {
+                    $location.path('/');
+                }
             },
         };
     },
