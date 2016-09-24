@@ -87,7 +87,7 @@ angular
             $scope.skip = parseInt($scope.products.count / limit, 10) * limit;
         };
 
-        $scope.order = 'price';
+        $scope.order = '~_id';
         $scope.orderChange = function(order) {
             $scope.order = order;
             $scope.load();
