@@ -55,7 +55,9 @@ angular
         var userPromise;
         var initPromise = function() {
             userPromise = $http
-            .get('/api/login/')
+            .get('/api/login/', {
+                ignorelogin: true,
+            })
             .then(function(response) {
                 $rootScope.$emit('login', response.data);
                 return response.data;
