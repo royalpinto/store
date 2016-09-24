@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <div flex="auto" layout="row" layout-align="end center">
-                    <md-button href="/cart" aria-label="Cart" class="md-icon-button">
+                    <md-button ng-if="user" href="/cart" aria-label="Cart" class="md-icon-button">
                         <md-icon md-svg-src="img/icons/ic_shopping_cart_white_24px.svg" aria-label="Cart">
                         </md-icon>
                     </md-button>
