@@ -1,0 +1,49 @@
+<div layout layout-align="center start">
+    <md-card class="md-margin" flex="100" flex-gt-sm="50" layout="column">
+        <div layout="row" ng-repeat="item in items">
+            <div flex="20">
+                <img flex="100" layout-fill ng-src="{{ item.product.imgsrc }}" class="md-card-image">
+            </div>
+            <div flex="80" layout="column" class="md-margin">
+                <div layout="column">
+                    <!-- <md-card-header>
+                        <md-card-header-text> -->
+                            <a href="/product/{{item.productId}}/">
+                                {{ item.product.name }}
+                            </a>
+                            <span class="md-subhead">by {{ item.product.brand }}</span>
+                        <!-- </md-card-header-text>
+                    </md-card-header> -->
+                </div>
+                <div layout="row">
+                    <md-input-container class="md-block">
+                        <label>Price</label>
+                        <input disabled="true" ng-model="item.product.price">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Quantity</label>
+                        <md-select ng-model="item.quantity">
+                            <md-option ng-value="qty" ng-repeat="qty in loadQuanities(item.product.quantity)">
+                                {{ qty }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Sub Total</label>
+                        <input
+                            ng-value="item.product.price * item.quantity"
+                            disabled="true">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+        <md-divider />
+        <div layout="row" layout-align="end center">
+            <div>
+                Total amount payable: $ {{ getTotal() }}/-
+            </div>
+            &nbsp;
+            <md-button disabled="true" class="md-raised md-warn">Checkout</md-button>
+        </div>
+    </md-content>
+</div>
