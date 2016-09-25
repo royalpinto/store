@@ -4,6 +4,7 @@ var middlewares = require('./middlewares');
 var Controller = require('../controllers/user');
 var controller = new Controller();
 var errors = require('./../errors');
+var auth = require('../controllers/auth');
 
 
 // This route can be accessed only logged in users.
@@ -13,7 +14,17 @@ router.get(/^\/api\/users\/$/, middlewares.auth('users', 'read'));
 
 router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
-    controller.getById(id)
+    Promise.resolve(id === req.session.user._id)
+    .then(function(permit) {
+        return permit ||
+            auth.hasPermission(req.session.user._id, 'users', 'read');
+    })
+    .then(function(permit) {
+        if (!permit) {
+            throw new errors.UnauthorizedAccess();
+        }
+        return controller.getById(id);
+    })
     .then(function(user) {
         res.json(user);
     })
