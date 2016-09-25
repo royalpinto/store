@@ -18,14 +18,20 @@
                         <label>Username</label>
                         <input required md-no-asterisk name="username" ng-model="login.data.username">
                         <div ng-messages="loginForm.username.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="loginForm.username.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Password</label>
                         <input type="password" required md-no-asterisk name="password" ng-model="login.data.password">
                         <div ng-messages="loginForm.password.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="loginForm.password.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
                         </div>
                     </md-input-container>
                     <div ng-show="login.error">
@@ -45,28 +51,43 @@
                         <label>Full name</label>
                         <input required md-no-asterisk name="name" ng-model="register.data.name">
                         <div ng-messages="registerForm.name.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="registerForm.name.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Email</label>
                         <input type="email" required md-no-asterisk name="email" ng-model="register.data.email">
                         <div ng-messages="registerForm.email.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="registerForm.email.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
+                            <div ng-show="registerForm.email.$error.email === true"
+                                ng-message="email">Invalid email address.
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Username</label>
                         <input required md-no-asterisk name="username" ng-model="register.data.username">
                         <div ng-messages="registerForm.username.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="registerForm.username.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Password</label>
                         <input type="password" required md-no-asterisk name="password" ng-model="register.data.password">
                         <div ng-messages="registerForm.password.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div
+                                ng-show="registerForm.password.$error.required === true"
+                                ng-message="required">This is required.
+                            </div>
                         </div>
                     </md-input-container>
                     <div ng-show="register.error">
