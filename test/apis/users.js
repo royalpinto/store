@@ -284,6 +284,41 @@ describe('/api/users/', function() {
     });
 
     describe('GET /users/id/', function() {
+
+    describe('GET /users/id/', function() {
+        it('It should not GET user details for unauthorized user.',
+        function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return agent
+                .post('/api/register/')
+                .send({
+                    name: "Lohith Royal Pinto",
+                    email: "royalpinto1@gmail.com",
+                    username: "royalpinto1",
+                    password: "password",
+                });
+            })
+            .then(function() {
+                return agent.get('/api/users/' + userid + '/');
+            })
+            .catch(function(err) {
+                err.should.have.status(403);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
         it('It should not GET user with invalid id.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/api/register/')
