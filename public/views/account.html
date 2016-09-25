@@ -1,15 +1,4 @@
 <md-content aria-label="Authenticate" style="width:400px">
-    <div ng-if="user.username">
-        <md-content class="md-padding">
-            <label>Name: {{user.name}}</label>
-            <label>EMail: {{user.email}}</label>
-            <label>Username: {{user.username}}</label>
-            <div layout="row">
-                <md-button md-no-ink ng-click="close()" class="">Close</md-button>
-                <md-button md-no-ink ng-click="logout()" class="md-warn md-hue-2 md-raised">Logout!</md-button>
-            </div>
-        </md-content>
-    </div>
     <md-tabs ng-if="!user.username" md-dynamic-height="">
         <md-tab label="Log in">
             <md-content class="md-padding">

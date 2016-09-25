@@ -14,14 +14,6 @@ angular
             $mdDialog.hide();
         };
 
-        $scope.logout = function() {
-            $http.get('/api/logout/')
-            .then(function() {
-                Session.destroy();
-                $scope.close();
-            });
-        };
-
         Session.getUser()
         .then(function(user) {
             $scope.user = user;
