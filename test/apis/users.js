@@ -413,6 +413,33 @@ describe('/api/users/', function() {
     });
 
     describe('DELETE /users/id/', function() {
+        it('It should DELETE user.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function() {
+                return agent.delete('/api/users/' + userid + '/');
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(204);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
+    describe('DELETE /users/id/', function() {
         it('It should fail to DELETE with invalid id.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/api/register/')
