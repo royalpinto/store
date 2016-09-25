@@ -6,11 +6,9 @@ var controller = new Controller();
 var errors = require('./../errors');
 
 
-// This route can be accessed only by admins.
-router.post(/^\/api\/users\//, middlewares.auth('users', 'write'));
-router.put(/^\/api\/users\//, middlewares.auth('users', 'write'));
-router.delete(/^\/api\/users\//, middlewares.auth('users', 'write'));
-router.get(/^\/api\/users\//, middlewares.auth('users', 'read'));
+// This route can be accessed only logged in users.
+router.use(/^\/api\/users\//, middlewares.auth());
+router.get(/^\/api\/users\/$/, middlewares.auth('users', 'read'));
 
 
 router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
