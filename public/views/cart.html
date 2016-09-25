@@ -2,7 +2,11 @@
     <md-card ng-show="items.length" class="md-margin" flex="100" flex-gt-sm="50" layout="column">
         <div layout="row" ng-repeat="item in items">
             <div flex="20">
-                <img flex="100" layout-fill ng-src="{{ item.product.imgsrc }}" class="md-card-image">
+                <div class="thumbnail">
+                    <div class="img-container">
+                        <img flex="100" layout-fill ng-src="{{ item.product.imgsrc }}" class="md-card-image">
+                    </div>
+                </div>
             </div>
             <div flex="80" layout="column" class="md-margin">
                 <div layout="row">
