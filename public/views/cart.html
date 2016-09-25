@@ -1,6 +1,6 @@
 <div layout layout-align="center start">
     <md-card ng-show="items.length" class="md-margin" flex="100" flex-gt-sm="50" layout="column">
-        <div layout="row" ng-repeat="item in items">
+        <div layout="row" ng-repeat-start="item in items">
             <div flex="20">
                 <div class="thumbnail">
                     <div class="img-container">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <md-divider />
+        <md-divider ng-repeat-end=""></md-divider>
         <div layout="row" layout-align="end center">
             <div>
                 Total amount payable: $ {{ getTotal() }}/-
