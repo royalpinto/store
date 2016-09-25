@@ -284,6 +284,31 @@ describe('/api/users/', function() {
     });
 
     describe('GET /users/id/', function() {
+        it('It should GET user details.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function() {
+                return agent.get('/api/users/' + userid + '/');
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(200);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
 
     describe('GET /users/id/', function() {
         it('It should not GET user details for unauthorized user.',
@@ -319,6 +344,8 @@ describe('/api/users/', function() {
             ;
         });
     });
+
+    describe('GET /users/id/', function() {
         it('It should not GET user with invalid id.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/api/register/')
