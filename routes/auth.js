@@ -1,7 +1,8 @@
 var urls = require('./../app/router');
 var router = new urls.Router();
 var middlewares = require('./middlewares');
-var controller = require('./../controllers/auth');
+var Controller = require('./../controllers/user');
+var controller = new Controller();
 var errors = require('./../errors');
 
 
@@ -15,7 +16,7 @@ router.post(/^\/api\/login\/$/, function(req, res) {
     }
 
     controller
-    .loginUser(req.body.username, req.body.password)
+    .login(req.body.username, req.body.password)
     .then(function(user) {
         req.session.user = user.toJSON();
         res.json(user);
@@ -31,7 +32,7 @@ router.get(/^\/api\/login\/$/, function(req, res) {
 });
 
 router.post(/^\/api\/register\/$/, function(req, res) {
-    controller.registerUser(req.body)
+    controller.create(req.body)
     .then(function(user) {
         req.session.user = user.toJSON();
         res.setHeader('Location', '/api/login/');

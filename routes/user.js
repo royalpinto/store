@@ -4,7 +4,6 @@ var middlewares = require('./middlewares');
 var Controller = require('../controllers/user');
 var controller = new Controller();
 var errors = require('./../errors');
-var auth = require('../controllers/auth');
 
 
 // This route can be accessed only logged in users.
@@ -17,7 +16,7 @@ router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     Promise.resolve(id === req.session.user._id)
     .then(function(permit) {
         return permit ||
-            auth.hasPermission(req.session.user._id, 'users', 'read');
+            controller.hasPermission(req.session.user._id, 'users', 'read');
     })
     .then(function(permit) {
         if (!permit) {
@@ -73,7 +72,7 @@ router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     Promise.resolve(id === req.session.user._id)
     .then(function(permit) {
         return permit ||
-            auth.hasPermission(req.session.user._id, 'users', 'write');
+            controller.hasPermission(req.session.user._id, 'users', 'write');
     })
     .then(function(permit) {
         if (!permit) {

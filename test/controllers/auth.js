@@ -4,7 +4,8 @@ var chai = require('chai');
 var mongodb = require('mongodb');
 var config = require('./../../config');
 var models = require('./../../models');
-var controller = require('./../../controllers/auth');
+var Controller = require('./../../controllers/user');
+var controller = new Controller();
 var errors = require('./../../errors');
 
 
@@ -44,7 +45,7 @@ describe('CartItem(Controller):', function() {
 
     it("It should register user", function(done) {
         controller
-        .registerUser(payload)
+        .create(payload)
         .then(function(user) {
             chai.assert.isOk(user);
             chai.assert.instanceOf(user, models.User);
@@ -57,7 +58,7 @@ describe('CartItem(Controller):', function() {
 
     it("It should not register without data", function(done) {
         controller
-        .registerUser()
+        .create()
         .then(function() {
             done(true);
         })
@@ -75,7 +76,7 @@ describe('CartItem(Controller):', function() {
         var localpayload = JSON.parse(JSON.stringify(payload));
         delete localpayload.password;
         controller
-        .registerUser(localpayload)
+        .create(localpayload)
         .then(function() {
             done("registration should have failed.");
         })
@@ -91,9 +92,9 @@ describe('CartItem(Controller):', function() {
 
     it("It should login user", function(done) {
         controller
-        .registerUser(payload)
+        .create(payload)
         .then(function() {
-            return controller.loginUser(payload.username, payload.password);
+            return controller.login(payload.username, payload.password);
         })
         .then(function(user) {
             chai.assert.isOk(user);
@@ -107,11 +108,12 @@ describe('CartItem(Controller):', function() {
 
     it("It should not login with invalid credentials", function(done) {
         controller
-        .registerUser(payload)
+        .create(payload)
         .then(function() {
-            return controller.loginUser(payload.username, "nonpassword");
+            return controller.login(payload.username, "nonpassword");
         })
         .catch(function(error) {
+            console.log(error);
             chai.assert.instanceOf(error, errors.ValidationError);
             chai.assert.equal(error.error,
                 "Invalid credentials.");
@@ -123,7 +125,7 @@ describe('CartItem(Controller):', function() {
 
     it("It should check permission", function(done) {
         controller
-        .registerUser(payload)
+        .create(payload)
         .then(function(user) {
             return controller.hasPermission(user._id, "product", "write");
         })

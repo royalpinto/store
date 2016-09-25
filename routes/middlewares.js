@@ -1,6 +1,7 @@
 var url = require('url');
 var querystring = require('querystring');
-var authController = require('../controllers/auth');
+var Controller = require('./../controllers/user');
+var authController = new Controller();
 var errors = require('./../errors');
 
 

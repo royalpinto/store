@@ -95,15 +95,14 @@ describe('/api/users/', function() {
     describe('GET /users/', function() {
         it('It should not GET users if unable to authorize.', function(done) {
             var backup;
-            var controller = require('../../controllers/auth.js');
             var mock = function() {
-                backup = controller.hasPermission;
-                controller.hasPermission = function() {
+                backup = Controller.prototype.hasPermission;
+                Controller.prototype.hasPermission = function() {
                     return Promise.reject(new Error("Mocked error :)"));
                 };
             };
             var demock = function() {
-                controller.hasPermission = backup;
+                Controller.prototype.hasPermission = backup;
             };
 
             var agent = chai.request.agent(server);
