@@ -29,6 +29,7 @@ angular
 
         $scope.login = {
             do: function(data) {
+                this.error = null;
                 $http.post('/api/login/', {
                     username: data.username,
                     password: data.password,
@@ -46,6 +47,7 @@ angular
 
         $scope.register = {
             do: function(data) {
+                this.error = null;
                 $http.post('/api/register/', {
                     username: data.username,
                     password: data.password,
