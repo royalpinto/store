@@ -93,6 +93,8 @@ angular
         $scope.order = '~_id';
         $scope.orderChange = function(order) {
             $scope.order = order;
+            // Reset pagination to the beginning.
+            $scope.skip = 0;
             $scope.load();
         };
 
