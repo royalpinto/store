@@ -13,7 +13,7 @@
     <md-tabs ng-if="!user.username" md-dynamic-height="">
         <md-tab label="Log in">
             <md-content class="md-padding">
-                <form ng-submit="login.do(login.data)" name="loginForm" layout="column">
+                <form class="login" ng-submit="login.do(login.data)" name="loginForm" layout="column">
                     <md-input-container>
                         <label>Username</label>
                         <input required md-no-asterisk name="username" ng-model="login.data.username">
@@ -40,7 +40,7 @@
         </md-tab>
         <md-tab label="Sign Up">
             <md-content class="md-padding">
-                <form ng-submit="register.do(register.data)" name="registerForm" layout="column">
+                <form class="register" ng-submit="register.do(register.data)" name="registerForm" layout="column">
                     <md-input-container>
                         <label>Full name</label>
                         <input required md-no-asterisk name="name" ng-model="register.data.name">
