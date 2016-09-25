@@ -6,6 +6,7 @@ var config = require('./../../config');
 var models = require('./../../models');
 var Controller = require('./../../controllers/user');
 var controller = new Controller();
+var errors = require('./../../errors');
 
 
 describe('User(Controller):', function() {
@@ -42,6 +43,100 @@ describe('User(Controller):', function() {
         password: "password",
         group: "member",
     };
+
+    it("It should register user", function(done) {
+        controller
+        .create(payload)
+        .then(function(user) {
+            chai.assert.isOk(user);
+            chai.assert.instanceOf(user, models.User);
+            chai.assert.equal(user.username, payload.username);
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should not register without data", function(done) {
+        controller
+        .create()
+        .then(function() {
+            done(true);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "password invalid.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should not register without password", function(done) {
+        var localpayload = JSON.parse(JSON.stringify(payload));
+        delete localpayload.password;
+        controller
+        .create(localpayload)
+        .then(function() {
+            done("registration should have failed.");
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "password invalid.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should login user", function(done) {
+        controller
+        .create(payload)
+        .then(function() {
+            return controller.login(payload.username, payload.password);
+        })
+        .then(function(user) {
+            chai.assert.isOk(user);
+            chai.assert.instanceOf(user, models.User);
+            chai.assert.equal(user.username, payload.username);
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should not login with invalid credentials", function(done) {
+        controller
+        .create(payload)
+        .then(function() {
+            return controller.login(payload.username, "nonpassword");
+        })
+        .catch(function(error) {
+            console.log(error);
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "Invalid credentials.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
+    it("It should check permission", function(done) {
+        controller
+        .create(payload)
+        .then(function(user) {
+            return controller.hasPermission(user._id, "product", "write");
+        })
+        .then(function(permit) {
+            chai.assert.strictEqual(permit, false);
+            done();
+        })
+        .catch(done)
+        ;
+    });
 
     it('It should fetch a User', function(done) {
         var user = new models.User(payload);
