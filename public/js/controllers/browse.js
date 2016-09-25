@@ -15,6 +15,8 @@ angular
         };
 
         $rootScope.$on('search', function() {
+            // Reset pagination to the beginning.
+            $scope.skip = 0;
             $scope.load();
         });
 
