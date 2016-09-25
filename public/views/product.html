@@ -1,6 +1,12 @@
 <md-content layout="column" flex class="md-padding">
     <md-card flex layout="row">
-        <img flex="35" ng-src="{{ product.imgsrc }}" class="md-card-image">
+        <div flex="35" class="md-card-image">
+            <div class="thumbnail">
+                <div class="img-container">
+                    <img ng-src="{{ product.imgsrc }}" class="product md-card-image">
+                </div>
+            </div>
+        </div>
         <div flex="65" layout="column" layout-align="start stretch">
             <div layout="row" layout-align="start center">
                 <md-card-header flex="50">
