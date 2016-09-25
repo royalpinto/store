@@ -57,6 +57,7 @@ angular
 
             filter.clear = function() {
                 filter.selected = [];
+                $scope.load();
             };
 
             filter.load();
