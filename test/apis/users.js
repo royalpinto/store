@@ -440,6 +440,40 @@ describe('/api/users/', function() {
     });
 
     describe('DELETE /users/id/', function() {
+        it('It should not DELETE user for unauthorized user.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return agent
+                .post('/api/register/')
+                .send({
+                    name: "Lohith Royal Pinto",
+                    email: "royalpinto1@gmail.com",
+                    username: "royalpinto1",
+                    password: "password",
+                });
+            })
+            .then(function() {
+                return agent.delete('/api/users/' + userid + '/');
+            })
+            .catch(function(err) {
+                err.should.have.status(403);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
+    describe('DELETE /users/id/', function() {
         it('It should fail to DELETE with invalid id.', function(done) {
             var agent = chai.request.agent(server);
             agent.post('/api/register/')
