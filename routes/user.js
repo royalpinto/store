@@ -50,6 +50,24 @@ router.get(/^\/api\/users\/$/, function(req, res) {
     ;
 });
 
+router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
+    var id = req.params[0];
+    Promise.resolve(id === req.session.user._id)
+    .then(function(permit) {
+        if (!permit) {
+            throw new errors.UnauthorizedAccess();
+        }
+        return controller.update(id);
+    })
+    .then(function(user) {
+        res.json(user);
+    })
+    .catch(function(error) {
+        errors.handle(req, res, error);
+    })
+    ;
+});
+
 router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
     Promise.resolve(id === req.session.user._id)
