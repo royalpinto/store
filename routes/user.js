@@ -52,8 +52,17 @@ router.get(/^\/api\/users\/$/, function(req, res) {
 
 router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     var id = req.params[0];
-    controller
-    .remove(id, req.body)
+    Promise.resolve(id === req.session.user._id)
+    .then(function(permit) {
+        return permit ||
+            auth.hasPermission(req.session.user._id, 'users', 'write');
+    })
+    .then(function(permit) {
+        if (!permit) {
+            throw new errors.UnauthorizedAccess();
+        }
+        return controller.remove(id, req.body);
+    })
     .then(function() {
         res.status(204).end();
     })
