@@ -1,6 +1,6 @@
-<md-content layout="column" flex class="md-padding">
-    <md-card flex layout="row">
-        <div flex="35" class="md-card-image">
+<md-content flex-gt-sm="100" layout-gt-sm="column" class="md-padding">
+    <md-card layout-gt-sm="row">
+        <div flex-gt-sm="35" class="md-card-image">
             <div class="thumbnail">
                 <div class="img-container">
                     <img ng-src="{{ product.imgsrc }}" class="product md-card-image">
@@ -8,9 +8,9 @@
             </div>
         </div>
         <md-divider></md-divider>
-        <div flex="65" layout="column" layout-align="start stretch">
+        <div flex-gt-sm="65" layout-gt-sm="column" layout-align="start stretch">
             <div layout="row" layout-align="start center">
-                <md-card-header flex="50">
+                <md-card-header flex="auto">
                     <md-card-header-text>
                         <a href="/product/{{product._id}}/">
                             {{ product.name }}
