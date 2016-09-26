@@ -101,20 +101,24 @@ mongodb.MongoClient.connect(config.db.uri)
         'Lee': 'LEE',
         'Lee Cooper': 'LCPR',
         'Sony': 'SONY',
-        "O'Really": 'OREALLY',
+        "Samsung": "SMSNG",
         'Fossil': 'FOSSIL',
         "Casio": "CASIO",
         "Fastrack": "FSTRCK",
+        "Titan": "TITAN",
+        "Pape": "PAPE",
     };
     var brands = {
-        'Allen Solly': ['Clothing', 'Footware'],
-        'Lee': ['Clothing', 'Footware'],
-        'Lee Cooper': ['Clothing', 'Footware'],
-        'Sony': ['Mobiles'],
-        "O'Really": ['Books'],
+        'Allen Solly': ['Shirts', 'TShirts', 'Footware'],
+        'Lee': ['Shirts', 'TShirts', 'Footware'],
+        'Lee Cooper': ['Shirts', 'TShirts', 'Footware'],
+        'Pape': ['Shirts', 'TShirts'],
+        'Sony': ['Mobiles', 'Watches'],
+        "Samsung": ["Mobiles", "Watches"],
         'Fossil': ['Watches'],
         'Casio': ['Watches'],
         "Fastrack": ["Watches"],
+        "Titan": ["Watches"],
     };
     var promises = [];
     for (var brand in brands) {
