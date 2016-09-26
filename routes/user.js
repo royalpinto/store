@@ -56,7 +56,7 @@ router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
         if (!permit) {
             throw new errors.UnauthorizedAccess();
         }
-        return controller.update(id);
+        return controller.update(id, req.body);
     })
     .then(function(user) {
         res.json(user);
