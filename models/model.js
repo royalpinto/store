@@ -15,6 +15,13 @@ var refactorError = function(error) {
 };
 
 
+/**
+ * Initialize a model with given properties.
+ * @param {Object} [properties={}] The properties to be set to the model.
+ * @class
+ * @memberof models
+ * @classdesc Instances of the Model class represent a single database document.
+ */
 var Model = function Model(properties) {
     var schema = this.constructor._schema;
     for (var key in properties) {
@@ -30,11 +37,29 @@ var Model = function Model(properties) {
     }
 };
 
+/**
+ * Set schema to be used for the Model.
+ * @param {Schema.<fieldname, config>} schema The schema to used for the Model.
+ * @param {String} fieldname The fieldname.
+ * @param {Object} config The configuration for the schema field.
+ * @param {Function} config.type The type of the schema field.
+ * @param {Boolean} config.unique A flag to consider field to be unique.
+ * @param {Array} config.validations An array of validators.
+ * Every validator object should have fn property
+ * (a function which recieves fieldname and value as input and returns `Promise`
+ * which resolves with an optional casted value if
+ * validation is success, otherwise rejects with an error message.)
+ */
 Model.setSchema = function(schema) {
     schema._id = {type: mongodb.ObjectID};
     this._schema = schema;
 };
 
+/**
+ * Init model with given db instance, set indexes and references.
+ * @param {Object} db The mongodb database instance.
+ * @return {Promise} A promise that resolves if everything goes good.
+ */
 Model.init = function(db) {
     var indexes = [];
     var key;
@@ -71,6 +96,12 @@ Model.init = function(db) {
     });
 };
 
+/**
+ * Find model by the given id.
+ * @param {ObjectID/String} _id _id of the model.
+ * @return {Promise} A promise that returns a model or null if resolved,
+ * or an Error if rejected.
+ */
 Model.findById = function(_id) {
     var ModelClass = this;
 
@@ -86,6 +117,13 @@ Model.findById = function(_id) {
     ;
 };
 
+/**
+ * Find a model by the given key and value.
+ * @param {String} key The key.
+ * @param {Object} value The value.
+ * @return {Promise} A promise that returns a model or null if resolved,
+ * or an Error if rejected.
+ */
 Model.findByKey = function(key, value) {
     var ModelClass = this;
     var query = {};
@@ -102,6 +140,12 @@ Model.findByKey = function(key, value) {
     ;
 };
 
+/**
+ * Find a model by the given query.
+ * @param {Query} query Query according to the mongodb native nodejs driver spec.
+ * @return {Promise} A promise that returns a model or null if resolved,
+ * or an Error if rejected.
+ */
 Model.findOne = function(query) {
     var ModelClass = this;
     return ModelClass.collection
@@ -112,6 +156,17 @@ Model.findOne = function(query) {
     ;
 };
 
+/**
+ * Find models and total count(without limit/skip) for the given query, limit,
+ * skip and order.
+ * @param {Query} query Query according to the mongodb native nodejs driver spec.
+ * @param {Number} limit Limit by number of  models to be fetched.
+ * @param {Number} skip Skip number of models to be fetched.
+ * @param {Order} order Order according to the mongodb native nodejs driver spec.
+ * This will be applied before applying the limit/skip parameters.
+ * @return {Promise} A promise that returns models and count if resolved,
+ * or an Error if rejected.
+ */
 Model.findAndCount = function(query, limit, skip, order) {
     var ModelClass = this;
     return new Promise(function(resolve, reject) {
@@ -139,6 +194,10 @@ Model.findAndCount = function(query, limit, skip, order) {
     });
 };
 
+/**
+ * Save model (If model._id is not set, create a new model otherwise update existing)
+ * @return {Promise} A promise that resolves if everything goes good.
+ */
 Model.prototype.save = function() {
     var model = this;
     var collection = this.constructor.collection;
@@ -167,6 +226,11 @@ Model.prototype.save = function() {
     ;
 };
 
+/**
+ * Update model with given fields.
+ * @param {Obejct} properties The properties (according to the schema) to be updated.
+ * @return {Promise} A promise that resolves if everything goes good.
+ */
 Model.prototype.update = function(properties) {
     var model = this;
     var ModelClass = this.constructor;
@@ -215,12 +279,23 @@ Model.prototype.update = function(properties) {
     ;
 };
 
+/**
+ * Remove a model.
+ * @return {Promise} A promise that resolves if everything goes good.
+ */
 Model.prototype.remove = function() {
     var model = this;
     var collection = this.constructor.collection;
     return collection.deleteOne({_id: model._id});
 };
 
+/**
+ * Validate a given field specified by a key and value.
+ * @param {String} key The key.
+ * @param {Object} value The value.
+ * @return {Promise} A promise that resolves if field passes through all the
+ * validations, otherwise rejects with a `ValidationError`.
+ */
 Model.validateFiled = function(key, value) {
     var schema = this._schema;
     var propertySchema = schema[key];
@@ -239,6 +314,11 @@ Model.validateFiled = function(key, value) {
     });
 };
 
+/**
+ * Validate model.
+ * @return {Promise} A promise that resolves if model passes through all the
+ * validations, otherwise rejects with a `ValidationError`.
+ */
 Model.prototype.validate = function() {
     var model = this;
     var ModelClass = this.constructor;
@@ -270,6 +350,10 @@ Model.prototype.validate = function() {
     });
 };
 
+/**
+ * Convert Model class instance to a plain JavaScript Object.
+ * @return {Object} A plain JavaScript object.
+ */
 Model.prototype.toObject = function() {
     var object = {};
     var model = this;
@@ -283,6 +367,11 @@ Model.prototype.toObject = function() {
     return object;
 };
 
+/**
+ * Convert Model class instance to a plain JavaScript Object.
+ * This method will be invoked by the serializers like JSON.stringify etc.
+ * @return {Object} A plain JavaScript object.
+ */
 Model.prototype.toJSON = function() {
     var model = this.toObject();
     return model;
