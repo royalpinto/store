@@ -82,6 +82,11 @@ var brandCodes = {
     "Fastrack": "FSTRCK",
     "Titan": "TITAN",
     "Pape": "PAPE",
+    "RIG": "RIG",
+    "Peter England": "PENG",
+    "Levis": "LEVIS",
+    "Franco Leone": "FLNE",
+    "Huawei": "HUWE",
 };
 var brands = {
     'Allen Solly': ['Shirts', 'T Shirts', 'Footware'],
@@ -94,6 +99,11 @@ var brands = {
     'Casio': ['Watches'],
     "Fastrack": ["Watches"],
     "Titan": ["Watches"],
+    'Rig': ['T Shirts'],
+    'Peter England': ['Shirts', 'T Shirts'],
+    'Levis': ['Shirts', 'T Shirts'],
+    'Franco Leone': ['Footware'],
+    'Huawei': ['Mobiles', 'Watches'],
 };
 
 
