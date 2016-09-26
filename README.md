@@ -56,6 +56,10 @@ npm install
 # Install client dependencies...
 bower install
 
+# Run JS and CSS pre processor.
+npm run compile
+# `npm run compile -- --development`, to skip minification.
+
 # Edit env specific config file to set the port, database and other settings.
 # Ex: config/production.json
 
