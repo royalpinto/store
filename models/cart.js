@@ -46,6 +46,16 @@ var schema = {
     },
 };
 
+/**
+ * Initialize a cart with given properties.
+ * @param {Object} [properties={}] The properties to be set to the cart.
+ * @param {String/ObjectId} [properties.userId] The unique user id.
+ * @param {Array} [properties.items] An array of CartItem instances.
+ * @class
+ * @extends models.Model
+ * @memberof models
+ * @classdesc Instances of the Cart class represent a single user cart document.
+ */
 var Cart = function Cart(properties) {
     Model.call(this, properties);
 };
@@ -55,6 +65,11 @@ Object.assign(Cart, Model);
 
 Cart.setSchema(schema);
 
+/**
+ * Fetch products from the cart items.
+ * @return {Promise} A promise which resolves with list of `Product`s upon success
+ * and rejects with an error upon failure.
+ */
 Cart.prototype.getProducts = function() {
     var productIds = this.items.map(function(item) {
         return item.productId;
