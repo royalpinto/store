@@ -20,6 +20,13 @@ var hashPassword = function(password, salt) {
 };
 
 
+/**
+ * Initialize a user controller.
+ * @extends controllers.Controller
+ * @memberof controllers
+ * @class
+ * @classdesc A user controller with methods to manage users.
+ */
 var UserController = function() {
     Controller.call(this, models.User);
 };
@@ -27,6 +34,11 @@ var UserController = function() {
 util.inherits(UserController, Controller);
 
 
+/**
+ * Create a user from the given data.
+ * @param {Object} data The data to be set to the user.
+ * @return {Promise} A promise which resolves upon creation.
+ */
 UserController.prototype.create = function(data) {
     // Set/override the group as member.
     data = data || {};
@@ -48,6 +60,12 @@ UserController.prototype.create = function(data) {
     ;
 };
 
+/**
+ * Update a user with given data.
+ * @param {String/ObjectID} id The model id.
+ * @param {Object} data The data to be updated.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 UserController.prototype.update = function(id, data) {
     var model;
     return this.Model
@@ -73,6 +91,13 @@ UserController.prototype.update = function(id, data) {
     ;
 };
 
+/**
+ * Login/Validate username password.
+ * @param {String} username The username.
+ * @param {String} password The password.
+ * @return {Promise} A promise which resolves with user model upon successful
+ * login, otherwsie rejects with an error. NOTE: This does not handle sessions.
+ */
 UserController.prototype.login = function(username, password) {
     // Set/override the group as member.
     var user = null;
@@ -94,6 +119,14 @@ UserController.prototype.login = function(username, password) {
     ;
 };
 
+/**
+ * Check if user has permission for the verb(task) on a given noun(module).
+ * @param {String} userid The user id for which permission to be checked.
+ * @param {String} noun The noun or module on which permission to be checked.
+ * @param {String} verb The verb or task.
+ * @return {Promise} A promise which resolves with a flag indicating the
+ * permission.
+ */
 UserController.prototype.hasPermission = function(userid, noun, verb) {
     return models.User
     .findById(userid)
