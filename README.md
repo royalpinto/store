@@ -112,5 +112,5 @@ One example of generating doc is given below:
 ```bash
 # Install `jsdoc-to-markdown`
 jsdoc2md models/*.js controllers/*.js app/*.js errors.js > doc/SourceCode.md
-Open doc/SourceCode.md using your favorite mark down viewer.
+# Open doc/SourceCode.md using your favorite mark down viewer.
 ```
