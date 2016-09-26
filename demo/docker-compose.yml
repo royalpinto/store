@@ -23,6 +23,7 @@ services:
             - "3000:3000"
         depends_on:
             - migration
+            - db
         links:
             - db
         environment:
