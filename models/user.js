@@ -44,6 +44,20 @@ var schema = {
     },
 };
 
+/**
+ * Initialize a user with given properties.
+ * @param {Object} [properties={}] The properties to be set to the user.
+ * @param {String} [properties.name] Name of the user.
+ * @param {String} [properties.email] Email Id of the user.
+ * @param {String} [properties.username] The unique username.
+ * @param {String} [properties.group] The group for which user belongs to.
+ * @param {String} [properties.hash] Hash generated from the password.
+ * @param {String} [properties.salt] Salt used to generate the hash.
+ * @class
+ * @extends models.Model
+ * @memberof models
+ * @classdesc Instances of the User class represent a single user db document.
+ */
 var User = function User(properties) {
     Model.call(this, properties);
 };
@@ -53,10 +67,22 @@ Object.assign(User, Model);
 
 User.setSchema(schema);
 
+/**
+ * Check if user permission for the verb(task) on a given noun(module).
+ * @param {String} noun The noun or module on which permission to be checked.
+ * @param {String} verb The verb or task.
+ * @return {Promise} A promise which resolves with a flag indicating the
+ * permission.
+ */
 User.prototype.hasPermission = function(noun, verb) {
     return Permission.check(this.group, noun, verb);
 };
 
+/**
+ * Convert user object to a plain JavaScript object. This is overriden method to
+ * skip password specific properties.
+ * @return {Object} A converted plain JavaScript Object.
+ */
 User.prototype.toJSON = function() {
     var user = this.toObject();
     delete user.salt;
