@@ -321,7 +321,9 @@ Delete a product by id.
 
 # Group Users
 
-These APIs are only for admins/supervisors for managing users. supervisors are allowed to browse users and delete them but they are not allowed to create/modify user.
+These APIs can be used by two types of users:
+- Supervisors are allowed to browse users and delete them but they are not allowed to modify users.
+- Regular users are allowed to manage thier own user details but they are not allowed to manage other users details.
 
 ## Users [/api/users/{?search,limit,skip}]
 
