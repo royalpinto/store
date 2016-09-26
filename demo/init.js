@@ -56,26 +56,31 @@ mongodb.MongoClient.connect(config.db.uri)
 .then(function() {
     console.log();
     var categories = {
-        Clothing: [
-            "Men's Slim fit Shirt",
-            "Men's cotton shirt",
-            "Cotton Lounge Pant",
-            "Women's Top",
-            "Mid Rise Skinny Jeans",
-            "Shirt Navy Blue Solid",
-            "Cotton Formal Shirt",
-            "Casual Cotton Shirt",
+        TShirts: [
+            "Men's Slim fit T-Shirt",
+            "Men's cotton T-Shirt",
+            "Mid Rise Skinny T-Shirt",
+            "Cotton Causual T-Shirt",
+            "Casual Cotton T-Shirt",
             "Tri Colour Full Sleeve T-Shirt",
             "Multicolor T-Shirt Set of 5",
         ],
-        Books: [
-            "Algorithms in a Nutshell",
-            "Algorithms In A Nutshell 2nd Edition",
-            "Learning Data Structures and Algorithms",
-            "Data Structures and Algorithms with JavaScript",
-            "Head First Design Patterns",
+        Shirts: [
+            "Men's Slim fit Shirt",
+            "Men's cotton Shirt",
+            "Mid Rise Skinny Shirt",
+            "Cotton Causual Shirt",
+            "Casual Cotton Shirt",
+            "Tri Colour Full Sleeve Shirt",
+            "Multicolor Shirt Set of 5",
         ],
-        Mobiles: ["3G Smart Phone.", "Smart Phone 1GB Ram 8 GB Rom"],
+        Mobiles: [
+            "3G Smart Phone.",
+            "Smart Phone 1GB Ram 8 GB Rom",
+            "2G Samrt Phone",
+            "Black 3G Smart Phone 32GB",
+            "Red 2G Smart Phone 16GB",
+        ],
         Watches: [
             "Analog Black Dial Men's Watch",
             "Analog Round Casual Wear Watches for Men",
@@ -88,7 +93,7 @@ mongodb.MongoClient.connect(config.db.uri)
             "Men's Floaters",
             "Men's Mesh Running Shoes",
             "Men's Leather Boat Shoes",
-            "Women's Triathlon Running Shoes",
+            "Men's Triathlon Running Shoes",
         ],
     };
     var brandCodes = {
