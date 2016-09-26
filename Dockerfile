@@ -23,6 +23,8 @@ USER store
 
 # Install dependencies.
 RUN cd /home/store/store/ && git clean -fdx && npm install --production && bower install
+RUN cd /home/store/store/ && npm install gulp gulp-uglify pump gulp-concat gulp-less
+RUN cd /home/store/store/ && npm run compile
 
 
 # Setup workign directory.
