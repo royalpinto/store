@@ -55,7 +55,8 @@ docker-compose up --build
 
 A customized installation:
 ```bash
-# NOTE: Optionally pass --production to skip dev dependencies.
+# NOTE: Optionally pass --production to skip dev dependencies, however packages
+# `gulp gulp-uglify pump gulp-concat gulp-less` have to be available for minification on production.
 npm install
 
 # Install client dependencies...
