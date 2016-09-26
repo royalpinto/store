@@ -319,6 +319,36 @@ Delete a product by id.
 
             "Unauthorized access."
 
+## Categories [/api/products/categories/{?search,limit,skip}]
+
+### Get Categories [GET]
+
+Browse for categories.
+
++ Parameters
+    + search (string, optional) - Search categories by given keyword.
+    + limit (number, optional) - Limit by number of categories to be fetched. Max limit allowed is 50.
+        + Default: 10
+    + skip (number, optional) - Skip number of categories before applying the limit.
+        + Default: 0
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "count": 23,
+                "data": [{
+                    "Clothing",
+                    "Books",
+                    "Mobiles",
+                }
+                .
+                .
+                .
+                ]
+            }
+
 # Group Users
 
 These APIs can be used by two types of users:
