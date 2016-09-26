@@ -1,3 +1,8 @@
+/**
+ * @module models.validators
+ * @namespace models.validators
+ */
+
 var util = require('util');
 var mongodb = require('mongodb');
 
@@ -6,6 +11,14 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
 module.exports = {
+    /**
+     * A validator to check if given value is a valid `ObjectID`.
+     * @param {Boolean} required A flag to set if value is required.
+     * @memberof models.validators
+     * @return {Function} A validator function which returns a `Promise`
+     * (which resolves with a casted value if validation passes through,
+     * otherwise rejects with a ValidationError).
+     */
     objectID: function(required) {
         return function(value, key) {
             return new Promise(function(resolve, reject) {
@@ -22,6 +35,14 @@ module.exports = {
             });
         };
     },
+    /**
+     * A validator to check if given value is a valid email.
+     * @param {Boolean} required A flag to set if value is required.
+     * @memberof models.validators
+     * @return {Function} A validator function which returns a `Promise`
+     * (which resolves with a casted value if validation passes through,
+     * otherwise rejects with a ValidationError).
+     */
     email: function(required) {
         return function(value, key) {
             return new Promise(function(resolve, reject) {
@@ -35,6 +56,15 @@ module.exports = {
             });
         };
     },
+    /**
+     * A validator to check if given value is a valid string.
+     * @param {Number} [min] String should not be lesser than given min value.
+     * @param {Number} [max] String should not be greater than given max value.
+     * @memberof models.validators
+     * @return {Function} A validator function which returns a `Promise`
+     * (which resolves with a casted value if validation passes through,
+     * otherwise rejects with a ValidationError).
+     */
     string: function(min, max) {
         return function(value, key) {
             return new Promise(function(resolve, reject) {
@@ -53,6 +83,15 @@ module.exports = {
             });
         };
     },
+    /**
+     * A validator to check if given value is a valid number.
+     * @param {Number} [min] Value should not be lesser than min value.
+     * @param {Number} [max] Value should not be greater than max value.
+     * @memberof models.validators
+     * @return {Function} A validator function which returns a `Promise`
+     * (which resolves with a casted value if validation passes through,
+     * otherwise rejects with a ValidationError).
+     */
     number: function(min, max) {
         return function(value, key) {
             return new Promise(function(resolve, reject) {
