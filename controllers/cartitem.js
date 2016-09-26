@@ -34,6 +34,13 @@ CartController.prototype.get = function(userId) {
     ;
 };
 
+/**
+ * Add product to the cart.
+ * @param {String} userId The user id.
+ * @param {String} productId The id of the product to be added to the cart.
+ * @param {Number} quantity The quantity to be added to the cart.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 CartController.prototype.create = function(userId, productId, quantity) {
     var cart;
     return models.Cart
@@ -74,6 +81,13 @@ CartController.prototype.create = function(userId, productId, quantity) {
     ;
 };
 
+/**
+ * Update cart quantity.
+ * @param {String} userId The user id.
+ * @param {String} productId The id of the product for which quantity to be updatd.
+ * @param {Number} quantity The quantity to be updated in the cart.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 CartController.prototype.update = function(userId, productId, quantity) {
     var cart;
     var cartItem = null;
@@ -109,6 +123,12 @@ CartController.prototype.update = function(userId, productId, quantity) {
     ;
 };
 
+/**
+ * Remove cart item.
+ * @param {String} userId The user id.
+ * @param {String} productId The id of the product which has to be removed.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 CartController.prototype.remove = function(userId, productId) {
     var cart;
     var cartItem = null;
@@ -137,6 +157,11 @@ CartController.prototype.remove = function(userId, productId) {
     ;
 };
 
+/**
+ * Checkout cart.
+ * @param {String} userId The user id.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 CartController.prototype.checkout = function(userId) {
     return models.Cart
     .findByKey('userId', userId)
