@@ -106,7 +106,7 @@ aglio -i doc/api/index.apib -o output.html
 Source Code documented using JSDoc specification. Use your favorite JSDoc renderer tool to render source code documentation to the desired output.
 
 A MarkDown format of source code is available here.
-[doc/SourceCode.md](https://github.com/royalpinto/store/blob/dev/doc/doc/SourceCode.md).
+[doc/SourceCode.md](https://github.com/royalpinto/store/blob/dev/doc/SourceCode.md).
 
 One example of generating doc is given below:
 ```bash
