@@ -10,7 +10,7 @@ console.log("Using %s env...", config.env);
 
 
 var categories = {
-    TShirts: [
+    'T Shirts': [
         "Men's Slim fit T-Shirt",
         "Men's cotton T-Shirt",
         "Mid Rise Skinny T-Shirt",
@@ -19,7 +19,7 @@ var categories = {
         "Tri Colour Full Sleeve T-Shirt",
         "Multicolor T-Shirt Set of 5",
     ],
-    Shirts: [
+    'Shirts': [
         "Men's Slim fit Shirt",
         "Men's cotton Shirt",
         "Mid Rise Skinny Shirt",
@@ -28,21 +28,21 @@ var categories = {
         "Tri Colour Full Sleeve Shirt",
         "Multicolor Shirt Set of 5",
     ],
-    Mobiles: [
+    'Mobiles': [
         "3G Smart Phone.",
         "Smart Phone 1GB Ram 8 GB Rom",
         "2G Samrt Phone",
         "Black 3G Smart Phone 32GB",
         "Red 2G Smart Phone 16GB",
     ],
-    Watches: [
+    'Watches': [
         "Analog Black Dial Men's Watch",
         "Analog Round Casual Wear Watches for Men",
         "Analog Off-White Dial Women's Watch",
         "Black Dial Men's LED Watch",
         "Aircraft Model Digital Display Wrist Watch",
     ],
-    Footware: [
+    'Footware': [
         "Men's Sandals",
         "Men's Floaters",
         "Men's Mesh Running Shoes",
@@ -63,10 +63,10 @@ var brandCodes = {
     "Pape": "PAPE",
 };
 var brands = {
-    'Allen Solly': ['Shirts', 'TShirts', 'Footware'],
-    'Lee': ['Shirts', 'TShirts', 'Footware'],
-    'Lee Cooper': ['Shirts', 'TShirts', 'Footware'],
-    'Pape': ['Shirts', 'TShirts'],
+    'Allen Solly': ['Shirts', 'T Shirts', 'Footware'],
+    'Lee': ['Shirts', 'T Shirts', 'Footware'],
+    'Lee Cooper': ['Shirts', 'T Shirts', 'Footware'],
+    'Pape': ['Shirts', 'T Shirts'],
     'Sony': ['Mobiles', 'Watches'],
     "Samsung": ["Mobiles", "Watches"],
     'Fossil': ['Watches'],
