@@ -122,6 +122,35 @@ mongodb.MongoClient.connect(config.db.uri)
 
 .then(function() {
     var promises = [];
+    for (var category in categories) {
+        if (!categories.hasOwnProperty(category)) {
+            continue;
+        }
+
+        (function(category) {
+            promises
+            .push(new Promise(function(resolve, reject) {
+                fs
+                .readdir(path.join(__dirname, 'img', category),
+                    function(err, items) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            images[category] = items.filter(function(item) {
+                                return item.endsWith('.jpg');
+                            });
+                            resolve();
+                        }
+                    }
+                );
+            }));
+        })(category);
+    }
+    return Promise.all(promises);
+})
+
+.then(function() {
+    var promises = [];
     for (var brand in brands) {
         if (!(brands.hasOwnProperty(brand))) {
             continue;
