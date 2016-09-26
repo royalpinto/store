@@ -349,6 +349,36 @@ Browse for categories.
                 ]
             }
 
+## Brands [/api/products/brands/{?search,limit,skip}]
+
+### Get Brands [GET]
+
+Browse for brands.
+
++ Parameters
+    + search (string, optional) - Search brands by given keyword.
+    + limit (number, optional) - Limit by number of brands to be fetched. Max limit allowed is 50.
+        + Default: 10
+    + skip (number, optional) - Skip number of brands before applying the limit.
+        + Default: 0
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "count": 23,
+                "data": [{
+                    "Allen Solly",
+                    "Pape",
+                    "Sony",
+                }
+                .
+                .
+                .
+                ]
+            }
+
 # Group Users
 
 These APIs can be used by two types of users:
