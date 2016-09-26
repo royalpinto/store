@@ -81,6 +81,9 @@ router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
         return controller.remove(id, req.body);
     })
     .then(function() {
+        if (id === req.session.user._id) {
+            req.session.destroy();
+        }
         res.status(204).end();
     })
     .catch(function(error) {
