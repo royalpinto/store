@@ -338,6 +338,41 @@ describe('/api/users/', function() {
         });
     });
 
+    describe('PUT /users/id/', function() {
+        it('It should update user details.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function() {
+                return agent.put('/api/users/' + userid + '/')
+                .send({
+                    name: "Royal Pinto",
+                })
+                ;
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(204);
+                return models.User.findById(userid);
+            })
+            .then(function(user) {
+                chai.assert.strictEqual(user.name, 'Royal Pinto');
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
     describe('GET /users/id/', function() {
         it('It should not GET user details for unauthorized user.',
         function(done) {
