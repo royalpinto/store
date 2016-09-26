@@ -13,7 +13,7 @@ var schema = {
     email: {
         type: String,
         validations: [{
-            fn: validators.email,
+            fn: validators.email(true),
         }],
     },
     username: {
