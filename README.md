@@ -102,3 +102,15 @@ npm install aglio
 aglio -i doc/api/index.apib -o output.html
 ```
 
+##### Code Documentation
+Source Code documented using JSDoc specification. Use your favorite JSDoc renderer tool to render source code documentation to the desired output.
+
+A MarkDown format of source code is available here.
+[doc/SourceCode.md](https://github.com/royalpinto/store/blob/dev/doc/doc/SourceCode.md).
+
+One example of generating doc is given below:
+```bash
+# Install `jsdoc-to-markdown`
+jsdoc2md models/*.js controllers/*.js app/*.js errors.js > doc/SourceCode.md
+Open doc/SourceCode.md using your favorite mark down viewer.
+```
