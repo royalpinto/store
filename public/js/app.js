@@ -93,6 +93,9 @@ angular
 .config([
     '$mdThemingProvider',
     function($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+        .primaryPalette('teal')
+        ;
         $mdThemingProvider.theme('success-toast');
         $mdThemingProvider.theme('error-toast');
     },
