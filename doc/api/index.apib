@@ -409,6 +409,43 @@ Get a user by id.
 
             "Unauthorized access."
 
+### Update User [PUT]
+Update user details. User is retricted to modify own details.
+
++ Parameters
+    + id - The user id.
+
++ Request (application/json)
+
+        {
+            "name": "Royal Pinto",
+            "email": "royalpinto@gmail.com",
+            "password": "password",
+        }
+
++ Response 204
+
++ Response 400 (application/json)
+    If there is an invalid input.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "resource not found."
+            }
+
++ Response 401 (text/plain)
+    If user is not logged in.
+    + Body
+
+            "Unauthenticated access."
+
++ Response 403 (text/plain)
+    If user does not have permission.
+    + Body
+
+            "Unauthorized access."
+
 ### Delete User [DELETE]
 
 Delete a user by id.
