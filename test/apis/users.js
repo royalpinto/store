@@ -309,6 +309,35 @@ describe('/api/users/', function() {
         });
     });
 
+    describe('PUT /users/id/', function() {
+        it('It should not update user details.', function(done) {
+            var agent = chai.request.agent(server);
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function() {
+                return agent
+                .put('/api/users/' + (new mongodb.ObjectID()).toString() + '/')
+                .send({
+                    name: "Royal Pinto",
+                });
+            })
+            .then(function(res) {
+                done(res || true);
+            })
+            .catch(function(err) {
+                chai.expect(err).to.have.status(403);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
     describe('GET /users/id/', function() {
         it('It should not GET user details for unauthorized user.',
         function(done) {
