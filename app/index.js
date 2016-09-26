@@ -5,7 +5,6 @@
 
 var http = require('http');
 var staticServer = require('node-static');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -21,7 +20,6 @@ approuter.use(logging.middleware);
 
 approuter.use(bodyParser.json());
 approuter.use(bodyParser.urlencoded({extended: false}));
-approuter.use(cookieParser());
 approuter.use(session({
     secret: 'sdasdsda',
     saveUninitialized: false,
