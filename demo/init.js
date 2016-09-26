@@ -9,6 +9,73 @@ var userController = new UserController();
 console.log("Using %s env...", config.env);
 
 
+var categories = {
+    TShirts: [
+        "Men's Slim fit T-Shirt",
+        "Men's cotton T-Shirt",
+        "Mid Rise Skinny T-Shirt",
+        "Cotton Causual T-Shirt",
+        "Casual Cotton T-Shirt",
+        "Tri Colour Full Sleeve T-Shirt",
+        "Multicolor T-Shirt Set of 5",
+    ],
+    Shirts: [
+        "Men's Slim fit Shirt",
+        "Men's cotton Shirt",
+        "Mid Rise Skinny Shirt",
+        "Cotton Causual Shirt",
+        "Casual Cotton Shirt",
+        "Tri Colour Full Sleeve Shirt",
+        "Multicolor Shirt Set of 5",
+    ],
+    Mobiles: [
+        "3G Smart Phone.",
+        "Smart Phone 1GB Ram 8 GB Rom",
+        "2G Samrt Phone",
+        "Black 3G Smart Phone 32GB",
+        "Red 2G Smart Phone 16GB",
+    ],
+    Watches: [
+        "Analog Black Dial Men's Watch",
+        "Analog Round Casual Wear Watches for Men",
+        "Analog Off-White Dial Women's Watch",
+        "Black Dial Men's LED Watch",
+        "Aircraft Model Digital Display Wrist Watch",
+    ],
+    Footware: [
+        "Men's Sandals",
+        "Men's Floaters",
+        "Men's Mesh Running Shoes",
+        "Men's Leather Boat Shoes",
+        "Men's Triathlon Running Shoes",
+    ],
+};
+var brandCodes = {
+    'Allen Solly': 'ALNSL',
+    'Lee': 'LEE',
+    'Lee Cooper': 'LCPR',
+    'Sony': 'SONY',
+    "Samsung": "SMSNG",
+    'Fossil': 'FOSSIL',
+    "Casio": "CASIO",
+    "Fastrack": "FSTRCK",
+    "Titan": "TITAN",
+    "Pape": "PAPE",
+};
+var brands = {
+    'Allen Solly': ['Shirts', 'TShirts', 'Footware'],
+    'Lee': ['Shirts', 'TShirts', 'Footware'],
+    'Lee Cooper': ['Shirts', 'TShirts', 'Footware'],
+    'Pape': ['Shirts', 'TShirts'],
+    'Sony': ['Mobiles', 'Watches'],
+    "Samsung": ["Mobiles", "Watches"],
+    'Fossil': ['Watches'],
+    'Casio': ['Watches'],
+    "Fastrack": ["Watches"],
+    "Titan": ["Watches"],
+};
+
+
 mongodb.MongoClient.connect(config.db.uri)
 .then(function(db) {
     return models.init(db);
@@ -54,72 +121,6 @@ mongodb.MongoClient.connect(config.db.uri)
 })
 
 .then(function() {
-    console.log();
-    var categories = {
-        TShirts: [
-            "Men's Slim fit T-Shirt",
-            "Men's cotton T-Shirt",
-            "Mid Rise Skinny T-Shirt",
-            "Cotton Causual T-Shirt",
-            "Casual Cotton T-Shirt",
-            "Tri Colour Full Sleeve T-Shirt",
-            "Multicolor T-Shirt Set of 5",
-        ],
-        Shirts: [
-            "Men's Slim fit Shirt",
-            "Men's cotton Shirt",
-            "Mid Rise Skinny Shirt",
-            "Cotton Causual Shirt",
-            "Casual Cotton Shirt",
-            "Tri Colour Full Sleeve Shirt",
-            "Multicolor Shirt Set of 5",
-        ],
-        Mobiles: [
-            "3G Smart Phone.",
-            "Smart Phone 1GB Ram 8 GB Rom",
-            "2G Samrt Phone",
-            "Black 3G Smart Phone 32GB",
-            "Red 2G Smart Phone 16GB",
-        ],
-        Watches: [
-            "Analog Black Dial Men's Watch",
-            "Analog Round Casual Wear Watches for Men",
-            "Analog Off-White Dial Women's Watch",
-            "Black Dial Men's LED Watch",
-            "Aircraft Model Digital Display Wrist Watch",
-        ],
-        Footware: [
-            "Men's Sandals",
-            "Men's Floaters",
-            "Men's Mesh Running Shoes",
-            "Men's Leather Boat Shoes",
-            "Men's Triathlon Running Shoes",
-        ],
-    };
-    var brandCodes = {
-        'Allen Solly': 'ALNSL',
-        'Lee': 'LEE',
-        'Lee Cooper': 'LCPR',
-        'Sony': 'SONY',
-        "Samsung": "SMSNG",
-        'Fossil': 'FOSSIL',
-        "Casio": "CASIO",
-        "Fastrack": "FSTRCK",
-        "Titan": "TITAN",
-        "Pape": "PAPE",
-    };
-    var brands = {
-        'Allen Solly': ['Shirts', 'TShirts', 'Footware'],
-        'Lee': ['Shirts', 'TShirts', 'Footware'],
-        'Lee Cooper': ['Shirts', 'TShirts', 'Footware'],
-        'Pape': ['Shirts', 'TShirts'],
-        'Sony': ['Mobiles', 'Watches'],
-        "Samsung": ["Mobiles", "Watches"],
-        'Fossil': ['Watches'],
-        'Casio': ['Watches'],
-        "Fastrack": ["Watches"],
-        "Titan": ["Watches"],
-    };
     var promises = [];
     for (var brand in brands) {
         if (!(brands.hasOwnProperty(brand))) {
