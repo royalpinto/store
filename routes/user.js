@@ -58,8 +58,8 @@ router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
         }
         return controller.update(id, req.body);
     })
-    .then(function(user) {
-        res.json(user);
+    .then(function() {
+        res.status(204).end();
     })
     .catch(function(error) {
         errors.handle(req, res, error);
