@@ -6,7 +6,6 @@ var config = require('./../../config');
 var models = require('./../../models');
 var server = require('../../app');
 var Controller = require('../../controllers/user.js');
-var controller = new Controller();
 var initdata = require('../../initdata');
 
 
