@@ -48,6 +48,7 @@ angular
                 } else {
                     list.push(item);
                 }
+                $scope.skip = 0;
                 $scope.load();
             };
 
@@ -57,6 +58,7 @@ angular
 
             filter.clear = function() {
                 filter.selected = [];
+                $scope.skip = 0;
                 $scope.load();
             };
 
