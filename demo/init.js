@@ -196,7 +196,7 @@ mongodb.MongoClient.connect(config.db.uri)
             var items = categories[category];
             (function(items, brand, code, category, ci, promises) {
                 items.forEach(function(item, index) {
-                    var name = util.format("%s %s - %s0%d%d", brand,
+                    var name = util.format("%s - %s0%d%d",
                         item, code, ci, index + 1);
 
                     var imageindex = Math
@@ -210,7 +210,7 @@ mongodb.MongoClient.connect(config.db.uri)
                         category: category,
                         price: Math.floor(Math.random() * 100) + 1,
                         quantity: Math.floor(Math.random() * 100) + 1,
-                        description: name,
+                        description: util.format("%s %s", code, name),
                         imgsrc: 'img/products/' + images[category][imageindex],
                     });
                     var src = path.join(
