@@ -1,3 +1,8 @@
+'use strict';
+
+
+var fs = require('fs');
+var path = require('path');
 var util = require('util');
 var mongodb = require('mongodb');
 var config = require('./../config');
@@ -9,6 +14,22 @@ var userController = new UserController();
 console.log("Using %s env...", config.env);
 
 
+var copyFile = function(source, target) {
+    return new Promise(function(resolve, reject) {
+        var rd = fs.createReadStream(source);
+        var wr = fs.createWriteStream(target);
+        wr.on("close", function(ex) {
+            if (ex) {
+                return reject(ex);
+            }
+            resolve();
+        });
+        rd.pipe(wr);
+    });
+};
+
+
+var images = {};
 var categories = {
     'T Shirts': [
         "Men's Slim fit T-Shirt",
@@ -167,7 +188,11 @@ mongodb.MongoClient.connect(config.db.uri)
                 items.forEach(function(item, index) {
                     var name = util.format("%s %s - %s0%d%d", brand,
                         item, code, ci, index + 1);
-                    console.log(name);
+
+                    var imageindex = Math
+                        .floor(Math.random() * images[category].length - 1) + 1;
+                    var dest = path.join("img/products",
+                        images[category][imageindex]);
                     var product = new models.Product({
                         code: util.format("%s0%d%d", code, ci, index + 1),
                         name: name,
@@ -176,13 +201,20 @@ mongodb.MongoClient.connect(config.db.uri)
                         price: Math.floor(Math.random() * 100) + 1,
                         quantity: Math.floor(Math.random() * 100) + 1,
                         description: name,
+                        imgsrc: 'img/products/' + images[category][imageindex],
                     });
+                    var src = path.join(
+                        'demo/img/',
+                        category,
+                        images[category][imageindex]
+                    );
+                    dest = path.join('public', dest);
+                    promises.push(copyFile(src, dest));
                     promises.push(product.save());
                 });
             })(items, brand, code, category, categoryindex, promises);
         }
     }
-    console.log();
 
     return Promise.all(promises);
 })
