@@ -3,7 +3,8 @@ var mongodb = require('mongodb');
 var config = require('./../config');
 var models = require('./../models');
 var initdata = require('./../initdata');
-var authController = require('./../controllers/auth');
+var UserController = require('./../controllers/user');
+var userController = new UserController();
 
 console.log("Using %s env...", config.env);
 
@@ -28,7 +29,7 @@ mongodb.MongoClient.connect(config.db.uri)
 
 .then(function() {
     console.log("Creating admin user, username `admin`: password: `admin`...");
-    return authController.registerUser({
+    return userController.create({
         name: "Admin",
         username: "admin",
         email: "admin@store.com",
@@ -44,7 +45,7 @@ mongodb.MongoClient.connect(config.db.uri)
 .then(function() {
     console.log(
         "Creating a user, username: `demouser`, password: `demouser`...");
-    return authController.registerUser({
+    return userController.create({
         name: "Demo User",
         username: "demouser",
         email: "demouser@store.com",
