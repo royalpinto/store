@@ -48,6 +48,31 @@ UserController.prototype.create = function(data) {
     ;
 };
 
+UserController.prototype.update = function(id, data) {
+    var model;
+    return this.Model
+    .findById(id)
+    .then(function(_model) {
+        if (!_model) {
+            throw new errors.ValidationError(
+                "resource not found.");
+        }
+        model = _model;
+        if (data.password) {
+            return hashPassword(data.password)
+            .then(function(result) {
+                data.salt = result[0];
+                data.hash = result[1];
+            })
+            ;
+        }
+    })
+    .then(function() {
+        return model.update(data);
+    })
+    ;
+};
+
 UserController.prototype.login = function(username, password) {
     // Set/override the group as member.
     var user = null;
