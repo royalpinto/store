@@ -5,6 +5,12 @@
 
 Demo data can be refreshed/inserted by the following command.
 
+#### Quick demo setup
+```bash
+docker-compose -f demo/docker-compose.yml up --build
+```
+
+#### Demo setup on local.
 !!This will remove old data and then inserts new.
 ``` bash
 # NOTE: development env will be used if env is not set explicitly.
