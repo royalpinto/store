@@ -373,6 +373,59 @@ describe('/api/users/', function() {
         });
     });
 
+    describe('PUT /users/id/', function() {
+        it('It should update user password.', function(done) {
+            var agent = chai.request.agent(server);
+            var userid = null;
+            agent.post('/api/register/')
+            .send({
+                name: "Lohith Royal Pinto",
+                email: "royalpinto@gmail.com",
+                username: "royalpinto",
+                password: "password",
+            })
+            .then(function(res) {
+                userid = res.body._id;
+                return models.User.findById(res.body._id);
+            })
+            .then(function() {
+                return agent.put('/api/users/' + userid + '/')
+                .send({
+                    password: "passphrase",
+                })
+                ;
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(204);
+                // Old password should fail.
+                return chai.request.agent(server)
+                .post('/api/login/')
+                .send({
+                    username: "royalpinto",
+                    password: "password",
+                })
+                ;
+            })
+            .catch(function(err) {
+                chai.expect(err).to.have.status(400);
+                // New password should pass.
+                return chai.request.agent(server)
+                .post('/api/login/')
+                .send({
+                    username: "royalpinto",
+                    password: "passphrase",
+                })
+                ;
+            })
+            .then(function(res) {
+                chai.expect(res).to.have.status(200);
+                done();
+            })
+            .catch(done)
+            ;
+        });
+    });
+
     describe('GET /users/id/', function() {
         it('It should not GET user details for unauthorized user.',
         function(done) {
