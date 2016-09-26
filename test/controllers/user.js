@@ -155,6 +155,27 @@ describe('User(Controller):', function() {
         ;
     });
 
+    it('It should fetch a User', function(done) {
+        var user = new models.User(payload);
+
+        user.save()
+        .then(function() {
+            return controller.update(new mongodb.ObjectID(), {
+            });
+        })
+        .then(function() {
+            done(true);
+        })
+        .catch(function(error) {
+            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.equal(error.error,
+                "resource not found.");
+            done();
+        })
+        .catch(done)
+        ;
+    });
+
     it('It should remove a User', function(done) {
         var user = new models.User(payload);
 
