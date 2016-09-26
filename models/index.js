@@ -1,3 +1,8 @@
+/**
+ * @module models
+ * @namespace models
+ */
+
 var fs = require('fs');
 var path = require('path');
 var models = {};
@@ -16,6 +21,14 @@ for (var i = 0; i < files.length; i++) {
 }
 
 
+/**
+ * Initialize the models.
+ * This has to be called before making queries using model classes.
+ * @param {Object} db The mongodb database connection instance.
+ * @return {Promise} A promise which resolves upon initialization and rejects
+ * upon failure.
+ * @memberof models
+ */
 models.init = function(db) {
     for (var i = 0; i < dbDefereds.length; i++) {
         var resolve = dbDefereds[i];
@@ -38,6 +51,13 @@ models.init = function(db) {
 };
 
 
+/**
+ * Get the db connection instance.
+ * This is usefull for modules which requires db promises.
+ * @return {Promise} A promise which resolves with db connection instance
+ * (Promise will be resolved only after models.init is invoked).
+ * @memberof models
+ */
 models.getDB = function() {
     return new Promise(function(resolve) {
         if (models.db) {
