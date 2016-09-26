@@ -9,6 +9,7 @@
     "coverage": "export NODE_ENV=test && istanbul cover _mocha -- --recursive test",
     "lint": "eslint --ignore-path .gitignore .",
     "start": "node ./bin/www",
+    "compile": "gulp",
     "doc": "apidoc -e node_modules/"
   },
   "repository": {
