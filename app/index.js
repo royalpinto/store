@@ -1,3 +1,8 @@
+/**
+ * @module app
+ * @namespace app
+ */
+
 var http = require('http');
 var staticServer = require('node-static');
 var cookieParser = require('cookie-parser');
