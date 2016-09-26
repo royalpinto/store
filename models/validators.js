@@ -22,13 +22,18 @@ module.exports = {
             });
         };
     },
-    email: function(value, key) {
-        return new Promise(function(resolve, reject) {
-            if (value && emailRegex.test(value)) {
-                resolve();
-            }
-            reject(util.format("%s is invalid.", key));
-        });
+    email: function(required) {
+        return function(value, key) {
+            return new Promise(function(resolve, reject) {
+                if (required && !value) {
+                    return reject(util.format("%s is required.", key));
+                }
+                if (emailRegex.test(value)) {
+                    return resolve();
+                }
+                reject(util.format("%s is invalid.", key));
+            });
+        };
     },
     string: function(min, max) {
         return function(value, key) {
