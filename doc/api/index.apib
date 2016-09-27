@@ -352,7 +352,7 @@ Browse for categories.
                 ]
             }
 
-## Brands [/api/products/brands/{?search,limit,skip}]
+## Brands [/api/products/brands/{?search,limit,skip,order}]
 
 ### Get Brands [GET]
 
@@ -364,6 +364,7 @@ Browse for brands.
         + Default: 10
     + skip (number, optional) - Skip number of brands before applying the limit.
         + Default: 0
+    + order (optional) - Order by name field(default). Prefix field with a tild character (`~`) for a reverse order.
 
 + Response 200 (application/json)
 
