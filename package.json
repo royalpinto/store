@@ -10,6 +10,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "start": "node ./bin/www",
     "compile": "gulp",
+    "demo": "node demo/init.js && node ./bin/www",
     "doc": "apidoc -e node_modules/"
   },
   "repository": {
