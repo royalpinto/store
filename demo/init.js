@@ -212,6 +212,11 @@ mongodb.MongoClient.connect(config.db.uri)
                         quantity: Math.floor(Math.random() * 100) + 1,
                         description: util.format("%s %s", code, name),
                         imgsrc: 'img/products/' + images[category][imageindex],
+                        features: [
+                            'Slim Fit',
+                            'Strechable',
+                            'Rough use',
+                        ],
                     });
                     var src = path.join(
                         'demo/img/',
