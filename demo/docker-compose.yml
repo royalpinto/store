@@ -7,6 +7,9 @@ services:
     migration:
         build: ..
         image: app
+        volumes:
+            - ..:/home/store/store
+            - node_modules:/home/store/store/node_modules
         depends_on:
             - db
         links:
@@ -19,6 +22,8 @@ services:
     web:
         build: ..
         image: app
+        volumes_from:
+            - migration
         ports:
             - "3000:3000"
         depends_on:
@@ -30,3 +35,7 @@ services:
             NODE_ENV: docker
         command:
             npm start
+
+volumes:
+    migration:
+    node_modules:
