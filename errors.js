@@ -84,9 +84,9 @@ util.inherits(UnauthenticatedAccess, AppError);
 
 
 /**
- * A error handler middlware
- * which checks if error is throw from App or from an internal library.
- * And return a customized error message to the client with appropriate status.
+ * A error handler middlware: checks if error is thrown from the App or from an
+ * internal library, then returns a customized error message to the client with
+ * an appropriate status.
  * @param {Request} req A http(s) request object.
  * @param {Response} res A http(s) response object.
  * @param {Error} error Error to be handled.
