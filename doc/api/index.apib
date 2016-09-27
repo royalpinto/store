@@ -193,7 +193,7 @@ NOTE: The images upload will be a seperate API which is not ready yet.
 
             "Unauthorized access."
 
-## Products [/api/products/{?search,limit,skip}]
+## Products [/api/products/{?search,limit,skip,order}]
 
 ### Get Products [GET]
 
@@ -205,6 +205,7 @@ Browse for products.
         + Default: 10
     + skip (optional) - Skip number of products before applying the limit.
         + Default: 0
+    + order (optional) - Order by one or more product fields. Prefix field with a tild character (`~`) for a reverse order.
 
 + Response 200 (application/json)
 
