@@ -3,39 +3,15 @@ services:
     db:
         image: mongo
         command: "--smallfiles --logpath=/dev/null"
-
-    migration:
-        build: ..
-        image: app
-        volumes:
-            - ..:/home/store/store
-            - node_modules:/home/store/store/node_modules
-        depends_on:
-            - db
-        links:
-            - db
-        environment:
-            NODE_ENV: docker
-        command:
-            node demo/init.js
-
     web:
         build: ..
-        image: app
-        volumes_from:
-            - migration
         ports:
             - "3000:3000"
         depends_on:
-            - migration
             - db
         links:
             - db
         environment:
             NODE_ENV: docker
         command:
-            npm start
-
-volumes:
-    migration:
-    node_modules:
+            npm run demo
