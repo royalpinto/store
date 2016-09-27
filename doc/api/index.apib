@@ -322,7 +322,7 @@ Delete a product by id.
 
             "Unauthorized access."
 
-## Categories [/api/products/categories/{?search,limit,skip}]
+## Categories [/api/products/categories/{?search,limit,skip,order}]
 
 ### Get Categories [GET]
 
@@ -334,6 +334,7 @@ Browse for categories.
         + Default: 10
     + skip (number, optional) - Skip number of categories before applying the limit.
         + Default: 0
+    + order (optional) - Order by name field(default). Prefix field with a tild character (`~`) for a reverse order.
 
 + Response 200 (application/json)
 
