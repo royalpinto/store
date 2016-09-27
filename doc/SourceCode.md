@@ -15,9 +15,9 @@
 
 <dl>
 <dt><a href="#handle">handle(req, res, error)</a> ⇒ <code>null</code></dt>
-<dd><p>A error handler middlware
-which checks if error is throw from App or from an internal library.
-And return a customized error message to the client with appropriate status.</p>
+<dd><p>A error handler middlware: checks if error is thrown from the App or from an
+internal library, then returns a customized error message to the client with
+an appropriate status.</p>
 </dd>
 </dl>
 
@@ -1465,9 +1465,9 @@ Convert instance to plain JavaScript object.
 <a name="handle"></a>
 
 ## handle(req, res, error) ⇒ <code>null</code>
-A error handler middlware
-which checks if error is throw from App or from an internal library.
-And return a customized error message to the client with appropriate status.
+A error handler middlware: checks if error is thrown from the App or from an
+internal library, then returns a customized error message to the client with
+an appropriate status.
 
 **Kind**: global function  
 **Returns**: <code>null</code> - null  
