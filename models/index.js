@@ -1,20 +1,23 @@
+'use strict';
+
+
 /**
  * @module models
  * @namespace models
  */
 
-var fs = require('fs');
-var path = require('path');
-var models = {};
-var modelList = [];
-var dbDefereds = [];
+const fs = require('fs');
+const path = require('path');
+const models = {};
+const modelList = [];
+const dbDefereds = [];
 
 
-var files = fs.readdirSync(__dirname);
-for (var i = 0; i < files.length; i++) {
-    var file = files[i];
+const files = fs.readdirSync(__dirname);
+for (let i = 0; i < files.length; i++) {
+    let file = files[i];
     if (/^(?!(model|index|validators))\w+.js$/i.test(file)) {
-        var model = require(path.join(__dirname, file));
+        let model = require(path.join(__dirname, file));
         models[model.name] = model;
         modelList.push(model);
     }
@@ -29,17 +32,17 @@ for (var i = 0; i < files.length; i++) {
  * upon failure.
  * @memberof models
  */
-models.init = function(db) {
-    for (var i = 0; i < dbDefereds.length; i++) {
-        var resolve = dbDefereds[i];
+models.init = db => {
+    for (let i = 0; i < dbDefereds.length; i++) {
+        let resolve = dbDefereds[i];
         resolve(db);
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         models.db = db;
-        var initPromises = [];
-        for (var i = 0; i < modelList.length; i++) {
-            var model = modelList[i];
+        let initPromises = [];
+        for (let i = 0; i < modelList.length; i++) {
+            let model = modelList[i];
             initPromises.push(model.init(db));
         }
 
@@ -58,8 +61,8 @@ models.init = function(db) {
  * (Promise will be resolved only after models.init is invoked).
  * @memberof models
  */
-models.getDB = function() {
-    return new Promise(function(resolve) {
+models.getDB = () => {
+    return new Promise(resolve => {
         if (models.db) {
             return resolve(models.db);
         }
