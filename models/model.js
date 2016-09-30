@@ -7,7 +7,7 @@ var refactorError = function(error) {
     if (error.code === 11000) {
         var regex = /index:\s*(?:.+?\.\$)?(.*?)\s*dup/;
         var exec = regex.exec(error.message);
-        error = new errors.ValidationError(
+        error = new errors.Conflict(
             util.format("%s already present.", exec[1])
         );
     }
