@@ -60,7 +60,7 @@ CartController.prototype.create = function(userId, productId, quantity) {
         if (cart.items.filter(function(item) {
             return item.productId.equals(productId);
         }).length > 0) {
-            throw new errors.ValidationError("productId already added.");
+            throw new errors.Conflict("productId already added.");
         }
         return models.Product.findById(productId);
     })
