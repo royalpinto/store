@@ -1,9 +1,11 @@
-var util = require('util');
-var Model = require('./model');
-var validators = require('./validators');
+'use strict';
 
 
-var schema = {
+const Model = require('./model');
+const validators = require('./validators');
+
+
+const schema = {
     group: {
         type: String,
         validations: [{
@@ -36,77 +38,74 @@ var schema = {
  * @classdesc Instances of the Permission class represent a single permission
  * document.
  */
-var Permission = function Permission(properties) {
-    Model.call(this, properties);
-};
+class Permission extends Model {
 
+    /**
+     * Add/Set permission.
+     * @param {String} group A group.
+     * @param {String} noun A noun.
+     * @param {String} verb A verb.
+     * @return {Promise} A promise which resolves upon success and rejects with an
+     * error upon failure.
+     */
+    static add(group, noun, verb) {
+        let payload = {group: group, noun: noun, verb: verb};
+        return Permission
+        .findOne(payload)
+        .then(permission => {
+            // If permission is already set, do nothing.
+            if (permission) {
+                return;
+            }
 
-util.inherits(Permission, Model);
-Object.assign(Permission, Model);
+            permission = new Permission(payload);
+            return permission.save();
+        })
+        ;
+    }
 
-/**
- * Add/Set permission.
- * @param {String} group A group.
- * @param {String} noun A noun.
- * @param {String} verb A verb.
- * @return {Promise} A promise which resolves upon success and rejects with an
- * error upon failure.
- */
-Permission.add = function(group, noun, verb) {
-    var payload = {group: group, noun: noun, verb: verb};
-    return Permission
-    .findOne(payload)
-    .then(function(permission) {
-        // If permission is already set, do nothing.
-        if (permission) {
-            return;
-        }
+    /**
+     * Remove/Unset permission.
+     * @param {String} group A group.
+     * @param {String} noun A noun.
+     * @param {String} verb A verb.
+     * @return {Promise} A promise which resolves upon success and rejects with an
+     * error upon failure.
+     */
+    static remove(group, noun, verb) {
+        let payload = {group: group, noun: noun, verb: verb};
+        return Permission
+        .findOne(payload)
+        .then(permission => {
+            // If permission is not set, do nothing.
+            if (!permission) {
+                return;
+            }
+            return permission.remove();
+        })
+        ;
+    }
 
-        permission = new Permission(payload);
-        return permission.save();
-    })
-    ;
-};
+    /**
+     * Check permission.
+     * @param {String} group A group.
+     * @param {String} noun A noun.
+     * @param {String} verb A verb.
+     * @return {Promise} A promise which resolves upon success and rejects with an
+     * error upon failure.
+     */
+    static check(group, noun, verb) {
+        let payload = {group: group, noun: noun, verb: verb};
+        return Permission
+        .findOne(payload)
+        .then(permission => {
+            return permission !== null;
+        })
+        ;
+    }
 
-/**
- * Remove/Unset permission.
- * @param {String} group A group.
- * @param {String} noun A noun.
- * @param {String} verb A verb.
- * @return {Promise} A promise which resolves upon success and rejects with an
- * error upon failure.
- */
-Permission.remove = function(group, noun, verb) {
-    var payload = {group: group, noun: noun, verb: verb};
-    return Permission
-    .findOne(payload)
-    .then(function(permission) {
-        // If permission is not set, do nothing.
-        if (!permission) {
-            return;
-        }
-        return permission.remove();
-    })
-    ;
-};
+}
 
-/**
- * Check permission.
- * @param {String} group A group.
- * @param {String} noun A noun.
- * @param {String} verb A verb.
- * @return {Promise} A promise which resolves upon success and rejects with an
- * error upon failure.
- */
-Permission.check = function(group, noun, verb) {
-    var payload = {group: group, noun: noun, verb: verb};
-    return Permission
-    .findOne(payload)
-    .then(function(permission) {
-        return permission !== null;
-    })
-    ;
-};
 
 Permission.setSchema(schema);
 
