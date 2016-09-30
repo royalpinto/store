@@ -1,20 +1,23 @@
+'use strict';
+
+
 /**
  * @module app
  * @namespace app
  */
 
-var http = require('http');
-var staticServer = require('node-static');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var router = require('./router');
-var models = require('./../models');
-var logging = require('./../logging');
+const http = require('http');
+const staticServer = require('node-static');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const router = require('./router');
+const models = require('./../models');
+const logging = require('./../logging');
 
-var approuter = new router.Router();
+const approuter = new router.Router();
 
-var apirouter = require('./../routes');
+const apirouter = require('./../routes');
 
 approuter.use(logging.middleware);
 
@@ -32,12 +35,12 @@ approuter.use(session({
 approuter.use(/^\/api\//, apirouter);
 
 
-var publicServer = new staticServer.Server('./public');
-var bowerServer = new staticServer.Server('./bower_components');
+const publicServer = new staticServer.Server('./public');
+const bowerServer = new staticServer.Server('./bower_components');
 
-approuter.use(function(req, res, next) {
+approuter.use((req, res, next) => {
     publicServer.serve(req, res)
-    .on('error', function(err) {
+    .on('error', err => {
         if (err.status === 404) {
             next();
         }
@@ -45,9 +48,9 @@ approuter.use(function(req, res, next) {
     ;
 });
 
-approuter.use(function(req, res, next) {
+approuter.use((req, res, next) => {
     bowerServer.serve(req, res)
-    .on('error', function(err) {
+    .on('error', err => {
         if (err.status === 404) {
             next();
         }
@@ -58,11 +61,11 @@ approuter.use(function(req, res, next) {
 
 // Finally if non of the routes have matched or responded.
 // Send index file to support HTML5 mode.
-approuter.use(function(req, res) {
+approuter.use((req, res) => {
     publicServer.serveFile('index.html', 200, {}, req, res);
 });
 
-var server = http.createServer(function(req, res) {
+const server = http.createServer((req, res) => {
     approuter.dispatch(req, res);
 });
 
