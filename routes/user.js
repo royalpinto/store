@@ -1,9 +1,12 @@
-var urls = require('./../app/router');
-var router = new urls.Router();
-var middlewares = require('./middlewares');
-var Controller = require('../controllers/user');
-var controller = new Controller();
-var errors = require('./../errors');
+'use strict';
+
+
+const urls = require('./../app/router');
+const router = new urls.Router();
+const middlewares = require('./middlewares');
+const Controller = require('../controllers/user');
+const controller = new Controller();
+const errors = require('./../errors');
 
 
 // This route can be accessed only logged in users.
@@ -11,82 +14,82 @@ router.use(/^\/api\/users\//, middlewares.auth());
 router.get(/^\/api\/users\/$/, middlewares.auth('users', 'read'));
 
 
-router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
-    var id = req.params[0];
+router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, (req, res) => {
+    let id = req.params[0];
     Promise.resolve(id === req.session.user._id)
-    .then(function(permit) {
+    .then(permit => {
         return permit ||
             controller.hasPermission(req.session.user._id, 'users', 'read');
     })
-    .then(function(permit) {
+    .then(permit => {
         if (!permit) {
             throw new errors.UnauthorizedAccess();
         }
         return controller.getById(id);
     })
-    .then(function(user) {
+    .then(user => {
         res.json(user);
     })
-    .catch(function(error) {
+    .catch(error => {
         errors.handle(req, res, error);
     })
     ;
 });
 
-router.get(/^\/api\/users\/$/, function(req, res) {
-    var filter = req.query.filter;
+router.get(/^\/api\/users\/$/, (req, res) => {
+    let filter = req.query.filter;
     if (req.query.search) {
         filter.name = req.query.search;
     }
     controller
     .get(filter, req.query.limit, req.query.skip, req.query.order)
-    .then(function(user) {
+    .then(user => {
         res.json(user);
     })
-    .catch(function(error) {
+    .catch(error => {
         errors.handle(req, res, error);
     })
     ;
 });
 
-router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
-    var id = req.params[0];
+router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, (req, res) => {
+    let id = req.params[0];
     Promise.resolve(id === req.session.user._id)
-    .then(function(permit) {
+    .then(permit => {
         if (!permit) {
             throw new errors.UnauthorizedAccess();
         }
         return controller.update(id, req.body);
     })
-    .then(function() {
+    .then(() => {
         res.status(204).end();
     })
-    .catch(function(error) {
+    .catch(error => {
         errors.handle(req, res, error);
     })
     ;
 });
 
-router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
-    var id = req.params[0];
+router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, (req, res) => {
+    let id = req.params[0];
     Promise.resolve(id === req.session.user._id)
-    .then(function(permit) {
+    .then(permit => {
         return permit ||
             controller.hasPermission(req.session.user._id, 'users', 'write');
     })
-    .then(function(permit) {
+    .then(permit => {
         if (!permit) {
             throw new errors.UnauthorizedAccess();
         }
         return controller.remove(id, req.body);
     })
-    .then(function() {
+    .then(() => {
         if (id === req.session.user._id) {
             req.session.destroy();
         }
         res.status(204).end();
     })
-    .catch(function(error) {
+    .catch(error => {
         errors.handle(req, res, error);
     })
     ;
