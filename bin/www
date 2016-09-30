@@ -2,9 +2,11 @@
 var cluster = require('cluster');
 var mongodb = require('mongodb');
 var config = require('./../config');
+var models = require('./../models');
 
 if (cluster.isMaster) {
     var initdata = require('./../initdata');
+    var os = require('os');
     var db;
 
     console.log("Using %s environment", config.env);
@@ -13,7 +15,6 @@ if (cluster.isMaster) {
     mongodb.MongoClient.connect(config.db.uri)
     .then(function(_db) {
         db = _db;
-        var models = require('./../models');
         return models.init(db);
     })
     .then(function() {
@@ -23,7 +24,7 @@ if (cluster.isMaster) {
         db.close();
     })
     .then(function() {
-        var cpuCount = require('os').cpus().length;
+        var cpuCount = os.cpus().length;
         for (var i = 0; i < cpuCount; i += 1) {
             cluster.fork();
         }
@@ -37,6 +38,7 @@ if (cluster.isMaster) {
     .catch(console.error)
     ;
 } else {
+    var server = require('../app');
     /**
      * Event listener for HTTP server "listening" event.
      */
@@ -73,12 +75,9 @@ if (cluster.isMaster) {
     // Connect to the DB, then start the server.
     mongodb.MongoClient.connect(config.db.uri)
     .then(function(db) {
-        var models = require('./../models');
         return models.init(db);
     })
     .then(function() {
-        var server = require('../app');
-
         var close = function() {
             // Worker recieved a SIG KILL/TERM/INT signal.
             // Close the server
