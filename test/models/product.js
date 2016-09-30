@@ -145,7 +145,7 @@ describe('Permission(Model):', function() {
             done("Validation should have failed.");
         })
         .catch(function(error) {
-            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.instanceOf(error, errors.Conflict);
             done();
         })
         ;
