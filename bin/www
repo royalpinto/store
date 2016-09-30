@@ -1,34 +1,38 @@
 #!/usr/bin/env node
-var cluster = require('cluster');
-var mongodb = require('mongodb');
-var config = require('./../config');
+
+'use strict';
+
+
+const cluster = require('cluster');
+const mongodb = require('mongodb');
+const config = require('./../config');
 
 if (cluster.isMaster) {
-    var initdata = require('./../initdata');
-    var db;
+    const initdata = require('./../initdata');
+    let db;
 
     console.log("Using %s environment", config.env);
 
     // Connect to the DB, then start the server.
     mongodb.MongoClient.connect(config.db.uri)
-    .then(function(_db) {
+    .then(_db => {
         db = _db;
-        var models = require('./../models');
+        const models = require('./../models');
         return models.init(db);
     })
-    .then(function() {
+    .then(() => {
         return initdata();
     })
-    .then(function() {
+    .then(() => {
         db.close();
     })
-    .then(function() {
-        var cpuCount = require('os').cpus().length;
-        for (var i = 0; i < cpuCount; i += 1) {
+    .then(() => {
+        let cpuCount = require('os').cpus().length;
+        for (let i = 0; i < cpuCount; i += 1) {
             cluster.fork();
         }
 
-        cluster.on('exit', function(worker) {
+        cluster.on('exit', worker => {
             // Replace the dead worker with a new.
             console.error('Worker %d died, forking a new one.', worker.id);
             cluster.fork();
@@ -37,23 +41,25 @@ if (cluster.isMaster) {
     .catch(console.error)
     ;
 } else {
+    const server = require('../app');
+
     /**
      * Event listener for HTTP server "listening" event.
      */
-    var onListening = function() {
-        var addr = this.address();
-        var bind = (typeof addr === 'string' ? 'pipe ' + addr :
+    const onListening = () => {
+        let addr = server.address();
+        let bind = (typeof addr === 'string' ? 'pipe ' + addr :
             'port ' + addr.port);
         console.log('Worker %d listening on ' + bind, cluster.worker.id);
     };
 
-    var onError = function(error) {
+    const onError = error => {
         if (error.syscall !== 'listen') {
             throw error;
         }
 
-        var port = config.server.port;
-        var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+        let port = config.server.port;
+        let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
         // handle specific listen errors with friendly messages
         switch (error.code) {
@@ -72,14 +78,12 @@ if (cluster.isMaster) {
 
     // Connect to the DB, then start the server.
     mongodb.MongoClient.connect(config.db.uri)
-    .then(function(db) {
-        var models = require('./../models');
+    .then(db => {
+        const models = require('./../models');
         return models.init(db);
     })
-    .then(function() {
-        var server = require('../app');
-
-        var close = function() {
+    .then(() => {
+        let close = () => {
             // Worker recieved a SIG KILL/TERM/INT signal.
             // Close the server
             server.close();
