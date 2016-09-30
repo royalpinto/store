@@ -6,6 +6,8 @@ Simple shopping experience.
 
 A project developed using `node` to provide simple shopping experience.
 
+#### [Click here for ES6 Branch](https://github.com/royalpinto/store/tree/ES6)
+
 #### Features:
  * REST APIs with complete documentation according to `API Blueprint` spec.
  * Quick setup using `docker` and `npm`.
