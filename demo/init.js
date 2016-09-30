@@ -1,24 +1,24 @@
 'use strict';
 
 
-var fs = require('fs');
-var path = require('path');
-var util = require('util');
-var mongodb = require('mongodb');
-var config = require('./../config');
-var models = require('./../models');
-var initdata = require('./../initdata');
-var UserController = require('./../controllers/user');
-var userController = new UserController();
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const mongodb = require('mongodb');
+const config = require('./../config');
+const models = require('./../models');
+const initdata = require('./../initdata');
+const UserController = require('./../controllers/user');
+const userController = new UserController();
 
 console.log("Using %s env...", config.env);
 
 
-var copyFile = function(source, target) {
-    return new Promise(function(resolve, reject) {
-        var rd = fs.createReadStream(source);
-        var wr = fs.createWriteStream(target);
-        wr.on("close", function(ex) {
+const copyFile = (source, target) => {
+    return new Promise((resolve, reject) => {
+        let rd = fs.createReadStream(source);
+        let wr = fs.createWriteStream(target);
+        wr.on("close", ex => {
             if (ex) {
                 return reject(ex);
             }
@@ -29,8 +29,8 @@ var copyFile = function(source, target) {
 };
 
 
-var images = {};
-var categories = {
+const images = {};
+const categories = {
     'T Shirts': [
         "Men's Slim fit T-Shirt",
         "Men's cotton T-Shirt",
@@ -71,7 +71,7 @@ var categories = {
         "Men's Triathlon Running Shoes",
     ],
 };
-var brandCodes = {
+const brandCodes = {
     'Allen Solly': 'ALNSL',
     'Lee': 'LEE',
     'Lee Cooper': 'LCPR',
@@ -88,7 +88,7 @@ var brandCodes = {
     "Franco Leone": "FLNE",
     "Huawei": "HUWE",
 };
-var brands = {
+const brands = {
     'Allen Solly': ['Shirts', 'T Shirts', 'Footware'],
     'Lee': ['Shirts', 'T Shirts', 'Footware'],
     'Lee Cooper': ['Shirts', 'T Shirts', 'Footware'],
@@ -108,10 +108,10 @@ var brands = {
 
 
 mongodb.MongoClient.connect(config.db.uri)
-.then(function(db) {
+.then(db => {
     return models.init(db);
 })
-.then(function() {
+.then(() => {
     console.log("Removing previous data...");
     return Promise.all([
         models.Cart.collection.removeMany(),
@@ -121,11 +121,11 @@ mongodb.MongoClient.connect(config.db.uri)
     ]);
 })
 
-.then(function() {
+.then(() => {
     return initdata();
 })
 
-.then(function() {
+.then(() => {
     console.log("Creating admin user, username `admin`: password: `admin`...");
     return userController.create({
         name: "Admin",
@@ -134,13 +134,13 @@ mongodb.MongoClient.connect(config.db.uri)
         password: "admin",
     });
 })
-.then(function(user) {
+.then(user => {
     console.log("Assigning admin user to the admin group...");
     user.member = 'admin';
     return user.save();
 })
 
-.then(function() {
+.then(() => {
     console.log(
         "Creating a user, username: `demouser`, password: `demouser`...");
     return userController.create({
@@ -151,59 +151,54 @@ mongodb.MongoClient.connect(config.db.uri)
     });
 })
 
-.then(function() {
-    var promises = [];
-    for (var category in categories) {
+.then(() => {
+    let promises = [];
+    for (let category in categories) {
         if (!categories.hasOwnProperty(category)) {
             continue;
         }
 
-        (function(category) {
-            promises
-            .push(new Promise(function(resolve, reject) {
-                fs
-                .readdir(path.join(__dirname, 'img', category),
-                    function(err, items) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            images[category] = items.filter(function(item) {
-                                return item.endsWith('.jpg');
-                            });
-                            resolve();
-                        }
-                    }
-                );
-            }));
-        })(category);
+        promises
+        .push(new Promise((resolve, reject) => {
+            fs.readdir(path.join(__dirname, 'img', category), (err, items) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    images[category] = items.filter(item => {
+                        return item.endsWith('.jpg');
+                    });
+                    resolve();
+                }
+            });
+        }));
     }
     return Promise.all(promises);
 })
 
-.then(function() {
-    var promises = [];
-    for (var brand in brands) {
+.then(() => {
+    let promises = [];
+    for (let brand in brands) {
         if (!(brands.hasOwnProperty(brand))) {
             continue;
         }
-        var code = brandCodes[brand];
-        var brandcategories = brands[brand];
-        for (var categoryindex in brandcategories) {
+        let code = brandCodes[brand];
+        let brandcategories = brands[brand];
+        for (let categoryindex in brandcategories) {
             if (!(brandcategories.hasOwnProperty(categoryindex))) {
                 continue;
             }
-            var category = brandcategories[categoryindex];
-            var items = categories[category];
-            (function(items, brand, code, category, ci, promises) {
-                items.forEach(function(item, index) {
-                    var name = util.format("%s - %s0%d%d",
+            let category = brandcategories[categoryindex];
+            let items = categories[category];
+            ((items, brand, code, category, ci, promises) => {
+                items.forEach((item, index) => {
+                    let name = util.format("%s - %s0%d%d",
                         item, code, ci, index + 1);
 
-                    var imageindex = Math
+                    let imageindex = Math
                         .floor(Math.random() * images[category].length - 1) + 1;
-                    var dest = path.join("img/products",
+                    let dest = path.join("img/products",
                         images[category][imageindex]);
-                    var product = new models.Product({
+                    let product = new models.Product({
                         code: util.format("%s0%d%d", code, ci, index + 1),
                         name: name,
                         brand: brand,
@@ -218,7 +213,7 @@ mongodb.MongoClient.connect(config.db.uri)
                             'Rough use',
                         ],
                     });
-                    var src = path.join(
+                    let src = path.join(
                         'demo/img/',
                         category,
                         images[category][imageindex]
@@ -234,11 +229,11 @@ mongodb.MongoClient.connect(config.db.uri)
     return Promise.all(promises);
 })
 
-.then(function() {
+.then(() => {
     models.db.close();
     console.log("Demo data is ready.");
 })
-.catch(function(error) {
+.catch(error => {
     console.log("\nError!!!");
     console.error(error);
     console.error(error.stack);
