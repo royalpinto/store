@@ -1,13 +1,16 @@
+'use strict';
+
+
 /**
  * @module models.validators
  * @namespace models.validators
  */
 
-var util = require('util');
-var mongodb = require('mongodb');
+const util = require('util');
+const mongodb = require('mongodb');
 
 // TODO: This regex needs improvements.
-var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
 module.exports = {
@@ -19,9 +22,9 @@ module.exports = {
      * (which resolves with a casted value if validation passes through,
      * otherwise rejects with a ValidationError).
      */
-    objectID: function(required) {
-        return function(value, key) {
-            return new Promise(function(resolve, reject) {
+    objectID: required => {
+        return (value, key) => {
+            return new Promise((resolve, reject) => {
                 if (required && !value) {
                     return reject(util.format("%s is required.", key));
                 }
@@ -43,9 +46,9 @@ module.exports = {
      * (which resolves with a casted value if validation passes through,
      * otherwise rejects with a ValidationError).
      */
-    email: function(required) {
-        return function(value, key) {
-            return new Promise(function(resolve, reject) {
+    email: required => {
+        return (value, key) => {
+            return new Promise((resolve, reject) => {
                 if (required && !value) {
                     return reject(util.format("%s is required.", key));
                 }
@@ -65,9 +68,9 @@ module.exports = {
      * (which resolves with a casted value if validation passes through,
      * otherwise rejects with a ValidationError).
      */
-    string: function(min, max) {
-        return function(value, key) {
-            return new Promise(function(resolve, reject) {
+    string: (min, max) => {
+        return (value, key) => {
+            return new Promise((resolve, reject) => {
                 if (!value) {
                     return reject(util.format("%s is required.", key));
                 }
@@ -92,9 +95,9 @@ module.exports = {
      * (which resolves with a casted value if validation passes through,
      * otherwise rejects with a ValidationError).
      */
-    number: function(min, max) {
-        return function(value, key) {
-            return new Promise(function(resolve, reject) {
+    number: (min, max) => {
+        return (value, key) => {
+            return new Promise((resolve, reject) => {
                 if (isNaN(value)) {
                     return reject(util.format("%s is invalid.", key));
                 }
