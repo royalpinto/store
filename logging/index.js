@@ -1,6 +1,9 @@
-var winston = require('winston');
+'use strict';
 
-var logger = new (winston.Logger)({
+
+const winston = require('winston');
+
+const logger = new (winston.Logger)({
     transports: [
         new (winston.transports.File)({
             name: 'info',
@@ -19,9 +22,9 @@ var logger = new (winston.Logger)({
 });
 
 
-logger.middleware = function(req, res, next) {
-    res.on('finish', function() {
-        var username = null;
+logger.middleware = (req, res, next) => {
+    res.on('finish', () => {
+        let username = null;
         if (req.session && req.session.user) {
             username = req.session.user.username;
         }
