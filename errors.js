@@ -83,6 +83,14 @@ var UnauthenticatedAccess = function UnauthenticatedAccess(error) {
 util.inherits(UnauthenticatedAccess, AppError);
 
 
+var Conflict = function Conflict(error) {
+    AppError.call(this, "Duplicate resource.", error);
+    this.status = 409;
+}
+
+util.inherits(Conflict, AppError);
+
+
 /**
  * A error handler middlware: checks if error is thrown from the App or from an
  * internal library, then returns a customized error message to the client with
@@ -109,6 +117,7 @@ module.exports = {
     ValidationError: ValidationError,
     UnauthorizedAccess: UnauthorizedAccess,
     UnauthenticatedAccess: UnauthenticatedAccess,
+    Conflict: Conflict,
     AppError: AppError,
     handle: handle,
 };
