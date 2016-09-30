@@ -15,10 +15,12 @@ A project developed using `node` to provide simple shopping experience.
  * Minimal production dependencies with hardly 50-60 internal dependencies: `npm list --production | wc -l`
  * Dependencies are mainly used to parse cookies and body, database driver. The core design is completely based on `node` core modules.
  * Standard design patterns like `middlewares` for easy integration with other modules.
+ * Well tested on `node` stable LTS versions `4.*.*`
  * UI
   - Material design.
   - Pre processing of CSS and JS minification using `gulp`.
   - Minimal CSS for easier theme migrations.
+  - Cross browser support (works on all recent versions of `Chrome`, `Firefox` and `Safari`).
   - Response design supports almost all devices.
 
 #### Configuration
