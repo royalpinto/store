@@ -1,9 +1,11 @@
-var util = require('util');
-var Model = require('./model');
-var Permission = require('./permission');
-var validators = require('./validators');
+'use strict';
 
-var schema = {
+
+const Model = require('./model');
+const Permission = require('./permission');
+const validators = require('./validators');
+
+const schema = {
     name: {
         type: String,
         validations: [{
@@ -58,37 +60,35 @@ var schema = {
  * @memberof models
  * @classdesc Instances of the User class represent a single user db document.
  */
-var User = function User(properties) {
-    Model.call(this, properties);
-};
+class User extends Model {
 
-util.inherits(User, Model);
-Object.assign(User, Model);
+    /**
+     * Check if user permission for the verb(task) on a given noun(module).
+     * @param {String} noun The noun or module on which permission to be checked.
+     * @param {String} verb The verb or task.
+     * @return {Promise} A promise which resolves with a flag indicating the
+     * permission.
+     */
+    hasPermission(noun, verb) {
+        return Permission.check(this.group, noun, verb);
+    }
+
+    /**
+     * Convert user object to a plain JavaScript object. This is overriden method to
+     * skip password specific properties.
+     * @return {Object} A converted plain JavaScript Object.
+     */
+    toJSON() {
+        let user = this.toObject();
+        delete user.salt;
+        delete user.hash;
+        return user;
+    }
+
+}
+
 
 User.setSchema(schema);
-
-/**
- * Check if user permission for the verb(task) on a given noun(module).
- * @param {String} noun The noun or module on which permission to be checked.
- * @param {String} verb The verb or task.
- * @return {Promise} A promise which resolves with a flag indicating the
- * permission.
- */
-User.prototype.hasPermission = function(noun, verb) {
-    return Permission.check(this.group, noun, verb);
-};
-
-/**
- * Convert user object to a plain JavaScript object. This is overriden method to
- * skip password specific properties.
- * @return {Object} A converted plain JavaScript Object.
- */
-User.prototype.toJSON = function() {
-    var user = this.toObject();
-    delete user.salt;
-    delete user.hash;
-    return user;
-};
 
 
 module.exports = User;
