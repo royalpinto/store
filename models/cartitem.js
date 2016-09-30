@@ -1,10 +1,12 @@
-var util = require('util');
-var mongodb = require('mongodb');
-var Model = require('./model');
-var validators = require('./validators');
+'use strict';
 
 
-var schema = {
+const mongodb = require('mongodb');
+const Model = require('./model');
+const validators = require('./validators');
+
+
+const schema = {
     productId: {
         type: mongodb.ObjectID,
         validations: [{
@@ -30,12 +32,10 @@ var schema = {
  * @classdesc Instances of the CartItem class represent a single cart item.
  * This should be used as a sub document of Cart class and not as a main document.
  */
-var CartItem = function CartItem(properties) {
-    Model.call(this, properties);
-};
+class CartItem extends Model {
 
-util.inherits(CartItem, Model);
-Object.assign(CartItem, Model);
+}
+
 
 CartItem.setSchema(schema);
 
