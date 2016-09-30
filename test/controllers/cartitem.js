@@ -164,7 +164,7 @@ describe('CartItem(Controller):', function() {
             return controller.create(user._id, product._id, 10);
         })
         .catch(function(error) {
-            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.instanceOf(error, errors.Conflict);
             chai.assert.equal(error.error, "productId already added.");
             done();
         })
