@@ -1,14 +1,17 @@
-var url = require('url');
-var querystring = require('querystring');
-var Controller = require('./../controllers/user');
-var authController = new Controller();
-var errors = require('./../errors');
+'use strict';
 
 
-var auth = function(noun, verb) {
-    return function(req, res, next) {
+const url = require('url');
+const querystring = require('querystring');
+const Controller = require('./../controllers/user');
+const authController = new Controller();
+const errors = require('./../errors');
+
+
+const auth = (noun, verb) => {
+    return (req, res, next) => {
         if (!req.session.user) {
-            var error = new errors.UnauthenticatedAccess();
+            let error = new errors.UnauthenticatedAccess();
             return errors.handle(req, res, error);
         }
 
@@ -18,15 +21,15 @@ var auth = function(noun, verb) {
 
         authController
         .hasPermission(req.session.user._id, noun, verb)
-        .then(function(permit) {
+        .then(permit => {
             if (permit) {
                 next();
             } else {
-                var error = new errors.UnauthorizedAccess();
+                let error = new errors.UnauthorizedAccess();
                 errors.handle(req, res, error);
             }
         })
-        .catch(function(error) {
+        .catch(error => {
             errors.handle(req, res, error);
         })
         ;
@@ -34,13 +37,13 @@ var auth = function(noun, verb) {
 };
 
 
-var easyResponse = function(req, res, next) {
-    res.json = function(data) {
+const easyResponse = (req, res, next) => {
+    res.json = data => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(data));
     };
 
-    res.status = function(status) {
+    res.status = status => {
         res.statusCode = status;
         return res;
     };
@@ -48,13 +51,13 @@ var easyResponse = function(req, res, next) {
     next();
 };
 
-var querystringParser = function(req, res, next) {
+const querystringParser = (req, res, next) => {
     req.query = querystring.parse(url.parse(req.url).query);
     next();
 };
 
 
-var _parseNumber = function(value, defaultValue, max) {
+const _parseNumber = (value, defaultValue, max) => {
     if (value instanceof Array) {
         value = value[0];
     }
@@ -67,8 +70,8 @@ var _parseNumber = function(value, defaultValue, max) {
     return value;
 };
 
-var paginate = function(deafultLimit, maxLimit) {
-    return function(req, res, next) {
+const paginate = (deafultLimit, maxLimit) => {
+    return (req, res, next) => {
         req.query.limit = _parseNumber(req.query.limit, deafultLimit, maxLimit);
         req.query.skip = _parseNumber(req.query.skip, 0);
         next();
@@ -76,18 +79,18 @@ var paginate = function(deafultLimit, maxLimit) {
 };
 
 
-var orderParser = function(req, res, next) {
-    var order = {};
-    var _order = req.query.order;
+const orderParser = (req, res, next) => {
+    let order = {};
+    let _order = req.query.order;
 
     if (!(_order instanceof Array)) {
         _order = [_order];
     }
 
-    for (var i = 0; i < _order.length; i++) {
-        var orderItem = _order[i];
-        var field;
-        var direction;
+    for (let i = 0; i < _order.length; i++) {
+        let orderItem = _order[i];
+        let field;
+        let direction;
         if (orderItem && orderItem.indexOf('~') === 0) {
             field = orderItem.slice(1);
             direction = -1;
@@ -105,13 +108,13 @@ var orderParser = function(req, res, next) {
 };
 
 
-var searchParser = function(req, res, next) {
-    var _search = req.query.search;
+const searchParser = (req, res, next) => {
+    let _search = req.query.search;
     if (!(_search instanceof Array)) {
         _search = [_search];
     }
-    var search = [];
-    _search.forEach(function(i) {
+    let search = [];
+    _search.forEach(i => {
         if (i) {
             search.push(new RegExp(i, 'i'));
         }
@@ -127,16 +130,16 @@ var searchParser = function(req, res, next) {
 };
 
 
-var filter = function(req, res, next) {
-    var filter = {};
-    for (var key in req.query) {
+const filter = (req, res, next) => {
+    let filter = {};
+    for (let key in req.query) {
         if (!key) {
             continue;
         }
         if (['search', 'limit', 'skip', 'order'].indexOf(key) > -1) {
             continue;
         }
-        var value = req.query[key];
+        let value = req.query[key];
         if (value instanceof Array) {
             filter[key] = {
                 $in: value,
