@@ -86,7 +86,7 @@ util.inherits(UnauthenticatedAccess, AppError);
 var Conflict = function Conflict(error) {
     AppError.call(this, "Duplicate resource.", error);
     this.status = 409;
-}
+};
 
 util.inherits(Conflict, AppError);
 
