@@ -1,12 +1,12 @@
-var urls = require('./../app/router');
-var router = new urls.Router();
-var middlewares = require('./middlewares');
+const urls = require('./../app/router');
+const router = new urls.Router();
+const middlewares = require('./middlewares');
 
 
-var auth = require('./auth');
-var users = require('./user');
-var products = require('./product');
-var cartitem = require('./cartitem');
+const auth = require('./auth');
+const users = require('./user');
+const products = require('./product');
+const cartitem = require('./cartitem');
 
 
 router.use(middlewares.easyResponse);
@@ -23,7 +23,7 @@ router.use(products);
 router.use(cartitem);
 
 // Finally if non of the routes have matched or responded.
-router.use(function(req, res) {
+router.use((req, res) => {
     res.writeHead(404, {'Content-Type': 'text/plain'});
     res.end('Not Found');
 });
