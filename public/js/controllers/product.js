@@ -59,8 +59,7 @@ angular
                 Toast.success("Product added to the cart!");
             })
             .catch(function(response) {
-                var data = response.data;
-                if (data.error === 'productId already added.') {
+                if (response.status === 409) {
                     $scope.editCartItem.show();
                 } else {
                     Toast.error("Failed to add to the cart!");
