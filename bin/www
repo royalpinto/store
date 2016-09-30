@@ -6,9 +6,11 @@
 const cluster = require('cluster');
 const mongodb = require('mongodb');
 const config = require('./../config');
+const models = require('./../models');
 
 if (cluster.isMaster) {
     const initdata = require('./../initdata');
+    const os = require('os');
     let db;
 
     console.log("Using %s environment", config.env);
@@ -17,7 +19,6 @@ if (cluster.isMaster) {
     mongodb.MongoClient.connect(config.db.uri)
     .then(_db => {
         db = _db;
-        const models = require('./../models');
         return models.init(db);
     })
     .then(() => {
@@ -27,7 +28,7 @@ if (cluster.isMaster) {
         db.close();
     })
     .then(() => {
-        let cpuCount = require('os').cpus().length;
+        let cpuCount = os.cpus().length;
         for (let i = 0; i < cpuCount; i += 1) {
             cluster.fork();
         }
@@ -79,7 +80,6 @@ if (cluster.isMaster) {
     // Connect to the DB, then start the server.
     mongodb.MongoClient.connect(config.db.uri)
     .then(db => {
-        const models = require('./../models');
         return models.init(db);
     })
     .then(() => {
