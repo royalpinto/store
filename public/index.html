@@ -50,9 +50,9 @@
                 ng-style="{'visibility': loading ? 'visible' : 'hidden'}"
                 md-mode="indeterminate">
             </md-progress-linear>
-            <md-content layout="column" flex="flex">
-                <ng-view layout="column"></ng-view>
-            </md-content>
+            <div layout="row" flex>
+                <ng-view flex layout="column"></ng-view>
+            </div>
         </div>
 
         <script src="/angular/angular.min.js"></script>
