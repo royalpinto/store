@@ -188,7 +188,7 @@ describe('Permission(Model):', function() {
             });
         })
         .catch(function(error) {
-            chai.assert.instanceOf(error, errors.ValidationError);
+            chai.assert.instanceOf(error, errors.Conflict);
             done();
         })
         .catch(done)
