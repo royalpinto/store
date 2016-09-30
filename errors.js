@@ -1,94 +1,114 @@
+'use strict';
+
+
 /**
  * @module errors
  * @namespace errors
  */
 
-var util = require('util');
-var logging = require('./logging');
+const logging = require('./logging');
 
 
 /**
- * Initialize a AppError.
- * @param {String} message The beutified error message.
- * @param {String} error The internal error.
  * @class
  * @memberof errors
  * @classdesc A base class for all custom errors which app can throw.
  */
-var AppError = function AppError(message, error) {
-    Error.call(this, message);
-    this.message = message;
-    this.error = error;
-};
+class AppError extends Error {
 
-util.inherits(AppError, Error);
+    /**
+     * Initialize AppError.
+     * @param {String} message The beutified error message.
+     * @param {String} error The internal error.
+     */
+    constructor(message, error) {
+        super(message);
+        this.message = message;
+        this.error = error;
+    }
+
+    /**
+     * Convert instance to plain JavaScript object.
+     * @return {Object} A plain JavaScript object.
+     */
+    toJSON() {
+        return {
+            message: this.message,
+            error: this.error,
+        };
+    }
+
+}
+
 
 /**
- * Convert instance to plain JavaScript object.
- * @return {Object} A plain JavaScript object.
- */
-AppError.prototype.toJSON = function() {
-    return {
-        message: this.message,
-        error: this.error,
-    };
-};
-
-
-/**
- * Initialize a ValidationError.
- * @param {String} error The internal error.
  * @class
  * @extends errors.AppError
  * @memberof errors
  * @classdesc A class for validations errors which app can throw.
  */
-var ValidationError = function ValidationError(error) {
-    AppError.call(this, "Invalid input.", error);
-    this.status = 400;
-};
+class ValidationError extends AppError {
 
-util.inherits(ValidationError, AppError);
+    /**
+     * Initialize a ValidationError.
+     * @param {String} error The internal error.
+     */
+    constructor(error) {
+        super("Invalid input.", error);
+        this.status = 400;
+    }
+
+}
 
 
 /**
- * Initialize a unauthorized access error.
- * @param {String} error The internal error.
  * @class
  * @extends errors.AppError
  * @memberof errors
  * @classdesc A error class app can throw for unauthorized access .
  */
-var UnauthorizedAccess = function UnauthorizedAccess(error) {
-    AppError.call(this, "Unauthorized access.", error);
-    this.status = 403;
-};
+class UnauthorizedAccess extends AppError {
 
-util.inherits(UnauthorizedAccess, AppError);
+    /**
+     * Initialize a unauthorized access error.
+     * @param {String} error The internal error.
+     */
+    constructor(error) {
+        super("Unauthorized access.", error);
+        this.status = 403;
+    }
+
+}
 
 
 /**
- * Initialize a unauthenticated access error.
- * @param {String} error The internal error.
  * @class
  * @extends errors.AppError
  * @memberof errors
  * @classdesc A error class app can throw for unauthenticated access .
  */
-var UnauthenticatedAccess = function UnauthenticatedAccess(error) {
-    AppError.call(this, "Unauthenticated access.", error);
-    this.status = 401;
-};
+class UnauthenticatedAccess extends AppError {
 
-util.inherits(UnauthenticatedAccess, AppError);
+    /**
+     * Initialize a unauthenticated access error.
+     * @param {String} error The internal error.
+     */
+    constructor(error) {
+        super("Unauthenticated access.", error);
+        this.status = 401;
+    }
+
+}
 
 
-var Conflict = function Conflict(error) {
-    AppError.call(this, "Duplicate resource.", error);
-    this.status = 409;
-};
+class Conflict extends AppError {
 
-util.inherits(Conflict, AppError);
+    constructor(error) {
+        super("Duplicate resource.", error);
+        this.status = 409;
+    }
+
+}
 
 
 /**
@@ -100,8 +120,8 @@ util.inherits(Conflict, AppError);
  * @param {Error} error Error to be handled.
  * @return {null} null
  */
-var handle = function(req, res, error) {
-    var username = null;
+const handle = (req, res, error) => {
+    let username = null;
     if (req.session && req.session.user) {
         username = req.session.user.username;
     }
