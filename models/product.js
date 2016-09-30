@@ -1,8 +1,11 @@
-var util = require('util');
-var Model = require('./model');
-var validators = require('./validators');
+'use strict';
 
-var schema = {
+
+const util = require('util');
+const Model = require('./model');
+const validators = require('./validators');
+
+const schema = {
     name: {
         type: String,
         validations: [{
@@ -47,9 +50,9 @@ var schema = {
     features: {
         type: Array,
         validations: [{
-            fn: function(data, key) {
-                var featureValidator = validators.string(5);
-                return new Promise(function(resolve, reject) {
+            fn: (data, key) => {
+                let featureValidator = validators.string(5);
+                return new Promise((resolve, reject) => {
                     if (!data) {
                         return resolve(null);
                     }
@@ -58,14 +61,14 @@ var schema = {
                         return reject(util.format('%s is invalid.', key));
                     }
 
-                    var validators = [];
-                    for (var index = 0; index < data.length; index++) {
-                        var value = data[index];
+                    let validators = [];
+                    for (let index = 0; index < data.length; index++) {
+                        let value = data[index];
                         validators.push(featureValidator(value,
                             util.format('%s[%d]', key, index)));
                     }
                     Promise.all(validators)
-                    .then(function() {
+                    .then(() => {
                         return;
                     })
                     .then(resolve)
@@ -97,13 +100,10 @@ var schema = {
  * @memberof models
  * @classdesc Instances of the Product class represent a single product db document.
  */
-var Product = function Product(properties) {
-    Model.call(this, properties);
-};
+class Product extends Model {
 
+}
 
-util.inherits(Product, Model);
-Object.assign(Product, Model);
 
 Product.setSchema(schema);
 
