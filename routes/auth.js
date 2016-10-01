@@ -24,9 +24,7 @@ router.post(/^\/api\/login\/$/, (req, res) => {
         req.session.user = user.toJSON();
         res.json(user);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -41,16 +39,14 @@ router.post(/^\/api\/register\/$/, (req, res) => {
         res.setHeader('Location', '/api/login/');
         res.status(201).json(user);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
 router.get(/^\/api\/logout\/$/, (req, res) => {
     req.session.destroy(error => {
         if (error) {
-            errors.handle(req, res, error);
+            errors.handler(req, res)(error);
         } else {
             res.status(204).end();
         }

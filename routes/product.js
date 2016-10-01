@@ -20,9 +20,7 @@ router.get(/^\/api\/products\/([a-fA-F\d]{24})\/$/, (req, res) => {
     .then(product => {
         res.json(product);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -36,9 +34,7 @@ router.get(/^\/api\/products\/$/, (req, res) => {
     .then(product => {
         res.json(product);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -50,9 +46,7 @@ router.post(/^\/api\/products\/$/, (req, res) => {
             util.format("/api/products/%s/", product._id));
         res.status(201).json(product);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -63,9 +57,7 @@ router.put(/^\/api\/products\/([a-fA-F\d]{24})\/$/, (req, res) => {
     .then(() => {
         res.status(204).end();
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -76,9 +68,7 @@ router.delete(/^\/api\/products\/([a-fA-F\d]{24})\/$/, (req, res) => {
     .then(() => {
         res.status(204).end();
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -92,9 +82,7 @@ router.get(/^\/api\/products\/categories\//, (req, res) => {
     .then(data => {
         res.json(data);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -108,9 +96,7 @@ router.get(/^\/api\/products\/brands\//, (req, res) => {
     .then(data => {
         res.json(data);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 

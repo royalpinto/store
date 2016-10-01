@@ -12,7 +12,7 @@ const auth = (noun, verb) => {
     return (req, res, next) => {
         if (!req.session.user) {
             let error = new errors.UnauthenticatedAccess();
-            return errors.handle(req, res, error);
+            return errors.handler(req, res)(error);
         }
 
         if (!(noun && verb)) {
@@ -26,11 +26,11 @@ const auth = (noun, verb) => {
                 next();
             } else {
                 let error = new errors.UnauthorizedAccess();
-                errors.handle(req, res, error);
+                errors.handler(req, res)(error);
             }
         })
         .catch(error => {
-            errors.handle(req, res, error);
+            errors.handler(req, res)(error);
         })
         ;
     };

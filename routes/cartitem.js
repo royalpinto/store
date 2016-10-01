@@ -18,9 +18,7 @@ router.get(/^\/api\/cart\/items\/$/, (req, res) => {
     .then(cart => {
         res.json(cart);
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -31,9 +29,7 @@ router.post(/^\/api\/cart\/items\/$/, (req, res) => {
         res.setHeader('Location', "/api/cart/items/");
         res.status(201).json({});
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -43,9 +39,7 @@ router.put(/^\/api\/cart\/items\/$/, (req, res) => {
     .then(() => {
         res.status(204).end();
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -55,9 +49,7 @@ router.delete(/^\/api\/cart\/items\/$/, (req, res) => {
     .then(() => {
         res.status(204).end();
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -67,9 +59,7 @@ router.post(/^\/api\/cart\/checkout\/$/, (req, res) => {
     .then(() => {
         res.status(204).end();
     })
-    .catch(error => {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
