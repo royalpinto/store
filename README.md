@@ -6,6 +6,8 @@ Simple shopping experience.
 
 A project developed using `node` to provide simple shopping experience.
 
+`NOTE`: `ES5` is still being used for test cases(yet to migrated) and client side code(to support older browser versions too).
+
 #### [Click here for dev (ES5) Branch](https://github.com/royalpinto/store/tree/dev)
 
 #### Features:
