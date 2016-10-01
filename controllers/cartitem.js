@@ -4,6 +4,13 @@ var errors = require('./../errors');
 var Controller = require('./controller');
 
 
+/**
+ * Initialize a cart controller.
+ * @extends controllers.Controller
+ * @memberof controllers
+ * @class
+ * @classdesc A cart controller with methods to manage cart.
+ */
 var CartController = function() {
     Controller.call(this, models.Cart);
 };
