@@ -27,9 +27,7 @@ router.get(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     .then(function(user) {
         res.json(user);
     })
-    .catch(function(error) {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -43,9 +41,7 @@ router.get(/^\/api\/users\/$/, function(req, res) {
     .then(function(user) {
         res.json(user);
     })
-    .catch(function(error) {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -61,9 +57,7 @@ router.put(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
     .then(function() {
         res.status(204).end();
     })
-    .catch(function(error) {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
@@ -86,9 +80,7 @@ router.delete(/^\/api\/users\/([a-fA-F\d]{24})\/$/, function(req, res) {
         }
         res.status(204).end();
     })
-    .catch(function(error) {
-        errors.handle(req, res, error);
-    })
+    .catch(errors.handler(req, res))
     ;
 });
 
