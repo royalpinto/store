@@ -21,6 +21,11 @@ class CartController extends Controller {
         super(models.Cart);
     }
 
+    /**
+     * Get cart items.
+     * @param {String} userId The user id.
+     * @return {Promise} A promise which resolves upon completion.
+     */
     get(userId) {
         let items;
         return models.Cart
