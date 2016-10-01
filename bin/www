@@ -39,37 +39,17 @@ if (cluster.isMaster) {
     ;
 } else {
     var server = require('../app');
-    /**
-     * Event listener for HTTP server "listening" event.
-     */
+
     var onListening = function() {
-        var addr = this.address();
-        var bind = (typeof addr === 'string' ? 'pipe ' + addr :
-            'port ' + addr.port);
-        console.log('Worker %d listening on ' + bind, cluster.worker.id);
+        console.log(`Worker %d listening on %s:%d`,
+            cluster.worker.id,
+            config.server.interface || ':',
+            config.server.port);
     };
 
     var onError = function(error) {
-        if (error.syscall !== 'listen') {
-            throw error;
-        }
-
-        var port = config.server.port;
-        var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-            case 'EACCES':
-                console.error(bind + ' requires elevated privileges');
-                process.exit(1);
-                break;
-            case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
-                process.exit(1);
-                break;
-            default:
-                throw error;
-        }
+        console.error("Failed to start the server with following error:\n",
+            error);
     };
 
     // Connect to the DB, then start the server.
