@@ -118,6 +118,7 @@ class Conflict extends AppError {
  * @param {Request} req A http(s) request object.
  * @param {Response} res A http(s) response object.
  * @param {Error} error Error to be handled.
+ * @memberof errors
  * @return {null} null
  */
 const handle = (req, res, error) => {
