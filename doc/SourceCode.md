@@ -11,16 +11,6 @@
 <dd></dd>
 </dl>
 
-## Functions
-
-<dl>
-<dt><a href="#handle">handle(req, res, error)</a> ⇒ <code>null</code></dt>
-<dd><p>A error handler middlware: checks if error is thrown from the App or from an
-internal library, then returns a customized error message to the client with
-an appropriate status.</p>
-</dd>
-</dl>
-
 <a name="models"></a>
 
 ## models : <code>object</code>
@@ -859,6 +849,14 @@ This is usefull for modules which requires db promises.
 **Kind**: global namespace  
 
 * [controllers](#controllers) : <code>object</code>
+    * [.CartController](#controllers.CartController) ⇐ <code>[Controller](#controllers.Controller)</code>
+        * [new CartController()](#new_controllers.CartController_new)
+        * [.get(userId)](#controllers.CartController+get) ⇒ <code>Promise</code>
+        * [.create(userId, productId, quantity)](#controllers.CartController+create) ⇒ <code>Promise</code>
+        * [.update(userId, productId, quantity)](#controllers.CartController+update) ⇒ <code>Promise</code>
+        * [.remove(userId, productId)](#controllers.CartController+remove) ⇒ <code>Promise</code>
+        * [.checkout(userId)](#controllers.CartController+checkout) ⇒ <code>Promise</code>
+        * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
     * [.Controller](#controllers.Controller)
         * [new Controller(Model)](#new_controllers.Controller_new)
         * [.create(data)](#controllers.Controller+create) ⇒ <code>Promise</code>
@@ -884,6 +882,109 @@ This is usefull for modules which requires db promises.
         * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
         * [.get(query, limit, skip, order)](#controllers.Controller+get) ⇒ <code>Promise</code>
         * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
+
+<a name="controllers.CartController"></a>
+
+### controllers.CartController ⇐ <code>[Controller](#controllers.Controller)</code>
+A cart controller with methods to manage cart.
+
+**Kind**: static class of <code>[controllers](#controllers)</code>  
+**Extends:** <code>[Controller](#controllers.Controller)</code>  
+
+* [.CartController](#controllers.CartController) ⇐ <code>[Controller](#controllers.Controller)</code>
+    * [new CartController()](#new_controllers.CartController_new)
+    * [.get(userId)](#controllers.CartController+get) ⇒ <code>Promise</code>
+    * [.create(userId, productId, quantity)](#controllers.CartController+create) ⇒ <code>Promise</code>
+    * [.update(userId, productId, quantity)](#controllers.CartController+update) ⇒ <code>Promise</code>
+    * [.remove(userId, productId)](#controllers.CartController+remove) ⇒ <code>Promise</code>
+    * [.checkout(userId)](#controllers.CartController+checkout) ⇒ <code>Promise</code>
+    * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
+
+<a name="new_controllers.CartController_new"></a>
+
+#### new CartController()
+Initialize a cart controller.
+
+<a name="controllers.CartController+get"></a>
+
+#### cartController.get(userId) ⇒ <code>Promise</code>
+Get cart items.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[get](#controllers.Controller+get)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+
+<a name="controllers.CartController+create"></a>
+
+#### cartController.create(userId, productId, quantity) ⇒ <code>Promise</code>
+Add product to the cart.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[create](#controllers.Controller+create)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product to be added to the cart. |
+| quantity | <code>Number</code> | The quantity to be added to the cart. |
+
+<a name="controllers.CartController+update"></a>
+
+#### cartController.update(userId, productId, quantity) ⇒ <code>Promise</code>
+Update cart quantity.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[update](#controllers.Controller+update)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product for which quantity to be updatd. |
+| quantity | <code>Number</code> | The quantity to be updated in the cart. |
+
+<a name="controllers.CartController+remove"></a>
+
+#### cartController.remove(userId, productId) ⇒ <code>Promise</code>
+Remove cart item.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[remove](#controllers.Controller+remove)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product which has to be removed. |
+
+<a name="controllers.CartController+checkout"></a>
+
+#### cartController.checkout(userId) ⇒ <code>Promise</code>
+Checkout cart.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+
+<a name="controllers.Controller+getById"></a>
+
+#### cartController.getById(id) ⇒ <code>Promise</code>
+Fetch a model for the given id.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves with the retrived model.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String/ObjectID</code> | The model id. |
 
 <a name="controllers.Controller"></a>
 
@@ -1345,6 +1446,7 @@ continue with the next set of routes.
     * [.UnauthenticatedAccess](#errors.UnauthenticatedAccess) ⇐ <code>[AppError](#errors.AppError)</code>
         * [new UnauthenticatedAccess(error)](#new_errors.UnauthenticatedAccess_new)
         * [.toJSON()](#errors.AppError+toJSON) ⇒ <code>Object</code>
+    * [.handler(req, res)](#errors.handler) ⇒ <code>function</code>
 
 <a name="errors.AppError"></a>
 
@@ -1462,19 +1564,18 @@ Convert instance to plain JavaScript object.
 
 **Kind**: instance method of <code>[UnauthenticatedAccess](#errors.UnauthenticatedAccess)</code>  
 **Returns**: <code>Object</code> - A plain JavaScript object.  
-<a name="handle"></a>
+<a name="errors.handler"></a>
 
-## handle(req, res, error) ⇒ <code>null</code>
-A error handler middlware: checks if error is thrown from the App or from an
-internal library, then returns a customized error message to the client with
-an appropriate status.
+### errors.handler(req, res) ⇒ <code>function</code>
+An error handler middleware: returns a curried `handle` function, which can
+be called with an error to be handled and send appropriate response to
+the client.
 
-**Kind**: global function  
-**Returns**: <code>null</code> - null  
+**Kind**: static method of <code>[errors](#errors)</code>  
+**Returns**: <code>function</code> - Curried handle function which can be called with an error.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | req | <code>Request</code> | A http(s) request object. |
 | res | <code>Response</code> | A http(s) response object. |
-| error | <code>Error</code> | Error to be handled. |
 
