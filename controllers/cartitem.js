@@ -17,6 +17,11 @@ var CartController = function() {
 
 util.inherits(CartController, Controller);
 
+/**
+ * Get cart items.
+ * @param {String} userId The user id.
+ * @return {Promise} A promise which resolves upon completion.
+ */
 CartController.prototype.get = function(userId) {
     var items;
     return models.Cart
