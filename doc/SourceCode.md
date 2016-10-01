@@ -11,16 +11,6 @@
 <dd></dd>
 </dl>
 
-## Functions
-
-<dl>
-<dt><a href="#handle">handle(req, res, error)</a> ⇒ <code>null</code></dt>
-<dd><p>A error handler middlware: checks if error is thrown from the App or from an
-internal library, then returns a customized error message to the client with
-an appropriate status.</p>
-</dd>
-</dl>
-
 <a name="models"></a>
 
 ## models : <code>object</code>
@@ -120,8 +110,6 @@ Instances of the Cart class represent a single user cart document.
 <a name="new_models.Cart_new"></a>
 
 #### new Cart([properties])
-Initialize a cart with given properties.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -207,8 +195,6 @@ This should be used as a sub document of Cart class and not as a main document.
 <a name="new_models.CartItem_new"></a>
 
 #### new CartItem([properties])
-Initialize a single cart item.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -293,8 +279,6 @@ Instances of the Model class represent a single database document.
 <a name="new_models.Model_new"></a>
 
 #### new Model([properties])
-Initialize a model with given properties.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -474,8 +458,6 @@ document.
 <a name="new_models.Permission_new"></a>
 
 #### new Permission([properties])
-Initialize a permission model with given properties.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -598,8 +580,6 @@ Instances of the Product class represent a single product db document.
 <a name="new_models.Product_new"></a>
 
 #### new Product([properties])
-Initialize a product with given properties.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -684,8 +664,6 @@ Instances of the User class represent a single user db document.
 <a name="new_models.User_new"></a>
 
 #### new User([properties])
-Initialize a user with given properties.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -859,6 +837,14 @@ This is usefull for modules which requires db promises.
 **Kind**: global namespace  
 
 * [controllers](#controllers) : <code>object</code>
+    * [.CartController](#controllers.CartController) ⇐ <code>[Controller](#controllers.Controller)</code>
+        * [new CartController()](#new_controllers.CartController_new)
+        * [.get(userId)](#controllers.CartController+get) ⇒ <code>Promise</code>
+        * [.create(userId, productId, quantity)](#controllers.CartController+create) ⇒ <code>Promise</code>
+        * [.update(userId, productId, quantity)](#controllers.CartController+update) ⇒ <code>Promise</code>
+        * [.remove(userId, productId)](#controllers.CartController+remove) ⇒ <code>Promise</code>
+        * [.checkout(userId)](#controllers.CartController+checkout) ⇒ <code>Promise</code>
+        * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
     * [.Controller](#controllers.Controller)
         * [new Controller(Model)](#new_controllers.Controller_new)
         * [.create(data)](#controllers.Controller+create) ⇒ <code>Promise</code>
@@ -867,7 +853,6 @@ This is usefull for modules which requires db promises.
         * [.update(id, data)](#controllers.Controller+update) ⇒ <code>Promise</code>
         * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
     * [.ProductController](#controllers.ProductController) ⇐ <code>[Controller](#controllers.Controller)</code>
-        * [new ProductController()](#new_controllers.ProductController_new)
         * [.create(data)](#controllers.ProductController+create) ⇒ <code>Promise</code>
         * [.update(id, data)](#controllers.ProductController+update) ⇒ <code>Promise</code>
         * [.getCategories(query, limit, skip, order)](#controllers.ProductController+getCategories) ⇒ <code>Promise</code>
@@ -876,7 +861,6 @@ This is usefull for modules which requires db promises.
         * [.get(query, limit, skip, order)](#controllers.Controller+get) ⇒ <code>Promise</code>
         * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
     * [.UserController](#controllers.UserController) ⇐ <code>[Controller](#controllers.Controller)</code>
-        * [new UserController()](#new_controllers.UserController_new)
         * [.create(data)](#controllers.UserController+create) ⇒ <code>Promise</code>
         * [.update(id, data)](#controllers.UserController+update) ⇒ <code>Promise</code>
         * [.login(username, password)](#controllers.UserController+login) ⇒ <code>Promise</code>
@@ -884,6 +868,109 @@ This is usefull for modules which requires db promises.
         * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
         * [.get(query, limit, skip, order)](#controllers.Controller+get) ⇒ <code>Promise</code>
         * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
+
+<a name="controllers.CartController"></a>
+
+### controllers.CartController ⇐ <code>[Controller](#controllers.Controller)</code>
+A cart controller with methods to manage cart.
+
+**Kind**: static class of <code>[controllers](#controllers)</code>  
+**Extends:** <code>[Controller](#controllers.Controller)</code>  
+
+* [.CartController](#controllers.CartController) ⇐ <code>[Controller](#controllers.Controller)</code>
+    * [new CartController()](#new_controllers.CartController_new)
+    * [.get(userId)](#controllers.CartController+get) ⇒ <code>Promise</code>
+    * [.create(userId, productId, quantity)](#controllers.CartController+create) ⇒ <code>Promise</code>
+    * [.update(userId, productId, quantity)](#controllers.CartController+update) ⇒ <code>Promise</code>
+    * [.remove(userId, productId)](#controllers.CartController+remove) ⇒ <code>Promise</code>
+    * [.checkout(userId)](#controllers.CartController+checkout) ⇒ <code>Promise</code>
+    * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
+
+<a name="new_controllers.CartController_new"></a>
+
+#### new CartController()
+Initialize a cart controller.
+
+<a name="controllers.CartController+get"></a>
+
+#### cartController.get(userId) ⇒ <code>Promise</code>
+Get cart items.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[get](#controllers.Controller+get)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+
+<a name="controllers.CartController+create"></a>
+
+#### cartController.create(userId, productId, quantity) ⇒ <code>Promise</code>
+Add product to the cart.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[create](#controllers.Controller+create)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product to be added to the cart. |
+| quantity | <code>Number</code> | The quantity to be added to the cart. |
+
+<a name="controllers.CartController+update"></a>
+
+#### cartController.update(userId, productId, quantity) ⇒ <code>Promise</code>
+Update cart quantity.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[update](#controllers.Controller+update)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product for which quantity to be updatd. |
+| quantity | <code>Number</code> | The quantity to be updated in the cart. |
+
+<a name="controllers.CartController+remove"></a>
+
+#### cartController.remove(userId, productId) ⇒ <code>Promise</code>
+Remove cart item.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Overrides:** <code>[remove](#controllers.Controller+remove)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+| productId | <code>String</code> | The id of the product which has to be removed. |
+
+<a name="controllers.CartController+checkout"></a>
+
+#### cartController.checkout(userId) ⇒ <code>Promise</code>
+Checkout cart.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves upon completion.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userId | <code>String</code> | The user id. |
+
+<a name="controllers.Controller+getById"></a>
+
+#### cartController.getById(id) ⇒ <code>Promise</code>
+Fetch a model for the given id.
+
+**Kind**: instance method of <code>[CartController](#controllers.CartController)</code>  
+**Returns**: <code>Promise</code> - A promise which resolves with the retrived model.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String/ObjectID</code> | The model id. |
 
 <a name="controllers.Controller"></a>
 
@@ -983,7 +1070,6 @@ A product controller with methods to manage products.
 **Extends:** <code>[Controller](#controllers.Controller)</code>  
 
 * [.ProductController](#controllers.ProductController) ⇐ <code>[Controller](#controllers.Controller)</code>
-    * [new ProductController()](#new_controllers.ProductController_new)
     * [.create(data)](#controllers.ProductController+create) ⇒ <code>Promise</code>
     * [.update(id, data)](#controllers.ProductController+update) ⇒ <code>Promise</code>
     * [.getCategories(query, limit, skip, order)](#controllers.ProductController+getCategories) ⇒ <code>Promise</code>
@@ -991,11 +1077,6 @@ A product controller with methods to manage products.
     * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
     * [.get(query, limit, skip, order)](#controllers.Controller+get) ⇒ <code>Promise</code>
     * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
-
-<a name="new_controllers.ProductController_new"></a>
-
-#### new ProductController()
-Initialize a product controller.
 
 <a name="controllers.ProductController+create"></a>
 
@@ -1104,7 +1185,6 @@ A user controller with methods to manage users.
 **Extends:** <code>[Controller](#controllers.Controller)</code>  
 
 * [.UserController](#controllers.UserController) ⇐ <code>[Controller](#controllers.Controller)</code>
-    * [new UserController()](#new_controllers.UserController_new)
     * [.create(data)](#controllers.UserController+create) ⇒ <code>Promise</code>
     * [.update(id, data)](#controllers.UserController+update) ⇒ <code>Promise</code>
     * [.login(username, password)](#controllers.UserController+login) ⇒ <code>Promise</code>
@@ -1112,11 +1192,6 @@ A user controller with methods to manage users.
     * [.getById(id)](#controllers.Controller+getById) ⇒ <code>Promise</code>
     * [.get(query, limit, skip, order)](#controllers.Controller+get) ⇒ <code>Promise</code>
     * [.remove(id)](#controllers.Controller+remove) ⇒ <code>Promise</code>
-
-<a name="new_controllers.UserController_new"></a>
-
-#### new UserController()
-Initialize a user controller.
 
 <a name="controllers.UserController+create"></a>
 
@@ -1345,6 +1420,7 @@ continue with the next set of routes.
     * [.UnauthenticatedAccess](#errors.UnauthenticatedAccess) ⇐ <code>[AppError](#errors.AppError)</code>
         * [new UnauthenticatedAccess(error)](#new_errors.UnauthenticatedAccess_new)
         * [.toJSON()](#errors.AppError+toJSON) ⇒ <code>Object</code>
+    * [.handler(req, res)](#errors.handler) ⇒ <code>function</code>
 
 <a name="errors.AppError"></a>
 
@@ -1360,7 +1436,7 @@ A base class for all custom errors which app can throw.
 <a name="new_errors.AppError_new"></a>
 
 #### new AppError(message, error)
-Initialize a AppError.
+Initialize AppError.
 
 
 | Param | Type | Description |
@@ -1462,19 +1538,18 @@ Convert instance to plain JavaScript object.
 
 **Kind**: instance method of <code>[UnauthenticatedAccess](#errors.UnauthenticatedAccess)</code>  
 **Returns**: <code>Object</code> - A plain JavaScript object.  
-<a name="handle"></a>
+<a name="errors.handler"></a>
 
-## handle(req, res, error) ⇒ <code>null</code>
-A error handler middlware: checks if error is thrown from the App or from an
-internal library, then returns a customized error message to the client with
-an appropriate status.
+### errors.handler(req, res) ⇒ <code>function</code>
+An error handler middleware: returns a curried `handle` function, which can
+be called with an error to be handled and send appropriate response to
+the client.
 
-**Kind**: global function  
-**Returns**: <code>null</code> - null  
+**Kind**: static method of <code>[errors](#errors)</code>  
+**Returns**: <code>function</code> - Curried handle function which can be called with an error.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | req | <code>Request</code> | A http(s) request object. |
 | res | <code>Response</code> | A http(s) response object. |
-| error | <code>Error</code> | Error to be handled. |
 
