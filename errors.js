@@ -98,6 +98,7 @@ util.inherits(Conflict, AppError);
  * @param {Request} req A http(s) request object.
  * @param {Response} res A http(s) response object.
  * @param {Error} error Error to be handled.
+ * @memberof errors
  * @return {null} null
  */
 var handle = function(req, res, error) {
