@@ -63,6 +63,15 @@ Register a new user. By this way, user gets assigned to the default group: `memb
                 "message": "Invalid input.",
             }
 
++ Response 409 (application/json)
+    If username/email already present.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "username already present."
+            }
+
 
 ## Login [/api/login/]
 
@@ -178,7 +187,7 @@ NOTE: The images upload will be a seperate API which is not ready yet.
 
             {
                 "message": "Invalid input.",
-                "error": "code alreay present."
+                "error": "name is required."
             }
 
 + Response 401 (text/plain)
@@ -192,6 +201,15 @@ NOTE: The images upload will be a seperate API which is not ready yet.
     + Body
 
             "Unauthorized access."
+
++ Response 409 (application/json)
+    If there is a conflict(duplicate entries in product code etc).
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "code already present."
+            }
 
 ## Products [/api/products/{?search,limit,skip,order}]
 
@@ -291,6 +309,15 @@ Update a product by id. All fields mentioned in the body are optional, you could
     + Body
 
             "Unauthorized access."
+
++ Response 409 (application/json)
+    If there is a conflict(duplicate entries in product code etc).
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "code already present."
+            }
 
 ### Delete Product [DELETE]
 
@@ -511,6 +538,15 @@ Update user details. User is retricted to modify own details.
 
             "Unauthorized access."
 
++ Response 409 (application/json)
+    If there is a conflict(duplicate entries in username, email etc).
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "username already present."
+            }
+
 ### Delete User [DELETE]
 
 Delete a user by id.
@@ -580,6 +616,15 @@ Add item to the cart. All fields mentioned in the request body are mandatory.
     + Body
 
             "Unauthenticated access."
+
++ Response 409 (application/json)
+    If product is already added.
+    + Body
+
+            {
+                "message": "Invalid input.",
+                "error": "productId already added."
+            }
 
 ### Get Cart Items [GET]
 
