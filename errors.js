@@ -112,26 +112,27 @@ class Conflict extends AppError {
 
 
 /**
- * A error handler middlware: checks if error is thrown from the App or from an
- * internal library, then returns a customized error message to the client with
- * an appropriate status.
+ * An error handler middleware: returns a curried `handle` function, which can
+ * be called with an error to be handled and send appropriate response to
+ * the client.
  * @param {Request} req A http(s) request object.
  * @param {Response} res A http(s) response object.
- * @param {Error} error Error to be handled.
  * @memberof errors
- * @return {null} null
+ * @return {Function} Curried handle function which can be called with an error.
  */
-const handle = (req, res, error) => {
-    let username = null;
-    if (req.session && req.session.user) {
-        username = req.session.user.username;
-    }
-    if (error instanceof AppError) {
-        logging.warn(error, {username: username});
-        return res.status(error.status).json(error);
-    }
-    logging.error(error, {username: username});
-    res.status(error.status || 500).end("Internal server error.");
+const handler = (req, res) => {
+    return error => {
+        let username = null;
+        if (req.session && req.session.user) {
+            username = req.session.user.username;
+        }
+        if (error instanceof AppError) {
+            logging.warn(error, {username: username});
+            return res.status(error.status).json(error);
+        }
+        logging.error(error, {username: username});
+        res.status(error.status || 500).end("Internal server error.");
+    };
 };
 
 module.exports = {
@@ -140,5 +141,5 @@ module.exports = {
     UnauthenticatedAccess: UnauthenticatedAccess,
     Conflict: Conflict,
     AppError: AppError,
-    handle: handle,
+    handler: handler,
 };
