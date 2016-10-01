@@ -6,8 +6,17 @@ const errors = require('./../errors');
 const Controller = require('./controller');
 
 
+/**
+ * @extends controllers.Controller
+ * @memberof controllers
+ * @class
+ * @classdesc A cart controller with methods to manage cart.
+ */
 class CartController extends Controller {
 
+    /**
+     * Initialize a cart controller.
+     */
     constructor() {
         super(models.Cart);
     }
