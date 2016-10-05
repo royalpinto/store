@@ -130,7 +130,7 @@ const handler = (req, res) => {
             logging.warn(error, {username: username});
             return res.status(error.status).json(error);
         }
-        logging.error(error, {username: username});
+        logging.error(error, {username: username, stack: error.stack});
         res.status(error.status || 500).end("Internal server error.");
     };
 };
