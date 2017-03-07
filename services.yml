@@ -1,0 +1,8 @@
+version: '2'
+services:
+    db:
+        image: mongo
+        command: "--smallfiles --logpath=/dev/null"
+        ports:
+            - "27017:27017"
+
