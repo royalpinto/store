@@ -5,7 +5,7 @@
   "description": "A simple shopping experience.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha test --recursive",
+    "test": "export NODE_ENV=test && mocha test --recursive",
     "coverage": "export NODE_ENV=test && istanbul cover _mocha -- --recursive test",
     "lint": "eslint --ignore-path .gitignore .",
     "start": "node ./bin/www",
