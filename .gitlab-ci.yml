@@ -1,0 +1,28 @@
+image: node:boron
+
+
+before_script:
+    - npm install
+
+
+stages:
+    - build
+    - test
+    - deploy
+
+
+install:
+    stage: build
+    script:
+        - npm install
+
+lint:
+    stage: build
+    script:
+        - npm run lint
+
+test:
+    stage: test
+    script:
+        - echo hi
+
